@@ -1,0 +1,16 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+    <h2>System Admin</h2>
+    <ul>
+        <li>
+            <a href="{% url 'administrator:administrator_list' %}">Administrator List</a>
+        </li>
+        <li>
+            <a href="{% url 'administrator:administrator_create' %}">Add Administrator</a>
+        </li>
+    </ul>
+
+
+
+{% endblock %}
