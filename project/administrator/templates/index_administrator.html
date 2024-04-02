@@ -1,0 +1,21 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+    <h2>System Admin</h2>
+        <ul>
+            <li>
+                <a href="{% url 'administrator:menu_operators' %}">Operators</a>
+            </li>
+            <li>
+                <a href="{% url 'administrator:menu_customers' %}">Customers</a>
+            </li>
+            <li>
+                <a href="{% url 'administrator:menu_packages' %}">Packages</a>
+            </li>
+            <li>
+                <a href="{% url 'administrator:menu_discounts' %}">Discounts</a>
+            </li>
+        </ul>
+
+
+{% endblock %}
