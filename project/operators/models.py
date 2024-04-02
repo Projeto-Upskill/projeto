@@ -9,7 +9,7 @@ class Operators(models.Model):
 
 	class Meta:
 		db_table = 'Operators'
-  
-    def __repr__(self):
-        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+	def __repr__(self):
+		return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 	
