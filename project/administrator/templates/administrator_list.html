@@ -1,0 +1,18 @@
+{% block content %}
+  <h1>Administrator List</h1>
+  {% if administrator_list %}
+    <ul>
+      {% for admin in administrator_list %}
+        <li>
+          username: {{ admin.username }}
+          name: {{ admin.first_name }} {{ admin.last_name }};
+          email: {{ admin.email }};
+          birth date: {{ admin.birth_date }};
+          active: {{ admin.active }};
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <li>No registrations yet.</li>
+  {% endif %}
+{% endblock %}
