@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 class OperatorsCreateView(CreateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
-    success_url = reverse_lazy('menu_operators')
+    success_url = reverse_lazy('operators:operator_index')
 
     def form_valid(self, form):
         form.instance.name = form.cleaned_data["name"]
