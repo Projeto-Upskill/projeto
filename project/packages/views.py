@@ -15,6 +15,12 @@ from django.shortcuts import get_object_or_404
     #form_class = PackageForm
     #template_name = 'packages/package_form.html'
     #success_url = reverse_lazy('packages:package_list')
+    
+    #def form_valid(self, form):
+        #form.instance.name = form.cleaned_data["name"]
+        #form.instance.active = form.cleaned_data["active"]
+
+        #return super().form_valid(form)
 
 #class PackageUpdateView(UpdateView):
     #model = Package
@@ -25,6 +31,12 @@ from django.shortcuts import get_object_or_404
     #def get_object(self):
         #id_package = self.kwargs.get('id_package')
         #return get_object_or_404(Package, id_package=id_package)
+        
+    #def form_valid(self, form):
+        #form.instance.name = form.cleaned_data["name"]
+        #form.instance.active = form.cleaned_data["active"]
+
+        #return super().form_valid(form)
 
 #class PackageDeleteView(DeleteView):
     #model = Package
@@ -34,4 +46,10 @@ from django.shortcuts import get_object_or_404
     #def get_object(self):
         #id_package = self.kwargs.get('id_package')
         #return get_object_or_404(Package, id_package=id_package)
+        
+    #def get_success_url(self):
+        #return reverse_lazy('packages:package_list')
+        
+#class PackageIndex(TemplateView):
+    #template_name = 'index_package.html'
 
