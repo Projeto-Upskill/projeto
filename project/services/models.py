@@ -9,6 +9,9 @@ class ServiceType(models.Model):
     class Meta:
         db_table = 'service_type'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
 class Service(models.Model):
     id_service = models.AutoField(primary_key=True, null=False, verbose_name='id service')
     id_service_type = models.ForeignKey(ServiceType, on_delete=models.PROTECT, null=False, verbose_name='id service type')
@@ -16,6 +19,8 @@ class Service(models.Model):
     class Meta:
         db_table = 'service'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
 class ServicePromotion(models.Model):
     id_service_promotion = models.AutoField(primary_key=True, null=False, verbose_name='id service promotion')
@@ -26,6 +31,8 @@ class ServicePromotion(models.Model):
     class Meta:
         db_table = 'service_promotion'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
 # this intermediary table did not have to exist, but we took the hard road.
 class ServicePromotionService(models.Model):
@@ -36,6 +43,9 @@ class ServicePromotionService(models.Model):
     class Meta:
         db_table = 'service_promotion_service'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
 class InvoiceService(models.Model):
     id_invoice_service = models.AutoField(primary_key=True, null=False, verbose_name='id invoice service')
     #client = models.ForeignKey('clients.Client', on_delete=models.PROTECT, null=False)  # Use 'AppName.ModelName' as a string
@@ -44,3 +54,6 @@ class InvoiceService(models.Model):
 
     class Meta:
         db_table = 'invoice_service'
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
