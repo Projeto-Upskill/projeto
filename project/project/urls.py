@@ -21,11 +21,10 @@ from . import views
 app_name = 'project'
 
 urlpatterns = [
+    path("", views.index,  name='index'),
     path('admin/', admin.site.urls),
     path('services/', include('services.urls')),
-    path("", views.index,  name='index'),
     path("system_admin", views.system_administrator, name='system_admin'),
-    path('admin/', admin.site.urls),
     path('administrator/', include("administrator.urls")),
     path('customer/', include('customers.urls')),
     path('operators/', include ("operators.urls"))
