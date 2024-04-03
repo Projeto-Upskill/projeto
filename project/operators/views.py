@@ -3,6 +3,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, T
 from .forms import OperatorsForm
 from .models import Operators
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 
 class OperatorsCreateView(CreateView):
     template_name = 'operators_create.html'
