@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 class OperatorsCreateView(CreateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
-    success_url = reverse_lazy('operators:operator_index')
+    success_url = reverse_lazy('administrator:administrator_index')
 
     def form_valid(self, form):
         form.instance.name = form.cleaned_data["name"]
@@ -28,7 +28,7 @@ class OperatorsListView(ListView):
 class OperatorsUpdateView(UpdateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
-    success_url = reverse_lazy("operators_list")
+    success_url = reverse_lazy("operators:operator_list")
 
     def get_object(self):
         id_operator = self.kwargs.get('id_operator')
@@ -53,7 +53,7 @@ class OperatorsDeleteView(DeleteView):
         return get_object_or_404(Operators, id_operator=id_operator)
 
     def get_success_url(self):
-        return reverse_lazy('operators_list')
+        return reverse_lazy('operators:operator_list')
 
 
 class OperatorsIndex(TemplateView):
