@@ -93,6 +93,10 @@ class MenuDiscounts(TemplateView):
     template_name = 'menu_discounts.html'
 
 
+class MenuServices(TemplateView):
+    template_name = 'menu_services.html'
+
+
 class OperatorCreateView(CreateView):
     template_name = 'operator_create.html'
     form_class = ''

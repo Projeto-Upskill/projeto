@@ -8,7 +8,8 @@ from .views import (AdministratorCreateView,
                     MenuOperators,
                     MenuCustomers,
                     MenuPackages,
-                    MenuDiscounts)
+                    MenuDiscounts,
+                    MenuServices)
 
 app_name = 'administrator'
 
@@ -21,5 +22,6 @@ urlpatterns = [
     path("menu_operators", MenuOperators.as_view(), name='menu_operators'),
     path("menu_customers", MenuCustomers.as_view(), name='menu_customers'),
     path("menu_packages", MenuPackages.as_view(), name='menu_packages'),
-    path("menu_discounts", MenuDiscounts.as_view(), name='menu_discounts')
+    path("menu_discounts", MenuDiscounts.as_view(), name='menu_discounts'),
+    path("menu_services", MenuServices.as_view(), name='menu_services')
 ]

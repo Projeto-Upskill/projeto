@@ -103,34 +103,34 @@ class MenuDiscounts(TemplateView):
     #template_name = 'package_dicount_list.html'
     #context_object_name = 'package_discount_list'
     
-
-class AssignServiceView(UpdateView):
-    template_name = 'assign_service.html'
-    form_class = AssignServiceForm
-    model = Service
-    success_url = reverse_lazy('operators_list')
-
-    def form_valid(self, form):
-        # Atribuir um serviço a um cliente
-        return super().form_valid(form)
-
-class AssignServiceDiscountView(UpdateView):
-    template_name = 'assign_service_discount.html'
-    form_class = AssignServiceDiscountForm
-    model = Service_Discount
-    success_url = reverse_lazy('operators_list')
-
-    def form_valid(self, form):
-        # Atribuir uma promoção a um serviço
-        return super().form_valid(form)
-
-class ServiceListView(ListView):
-    model = Service
-    template_name = 'service_list.html'
-    context_object_name = 'service_list'
-
-class ServiceDiscountListView(ListView):
-    model = Service_Discount
-    template_name = 'service_discount_list.html'
-    context_object_name = 'service_discount_list'    
+#
+# class AssignServiceView(UpdateView):
+#     template_name = 'assign_service.html'
+#     form_class = AssignServiceForm
+#     model = Service
+#     success_url = reverse_lazy('operators_list')
+#
+#     def form_valid(self, form):
+#         # Atribuir um serviço a um cliente
+#         return super().form_valid(form)
+#
+# class AssignServiceDiscountView(UpdateView):
+#     template_name = 'assign_service_discount.html'
+#     form_class = AssignServiceDiscountForm
+#     model = Service_Discount
+#     success_url = reverse_lazy('operators_list')
+#
+#     def form_valid(self, form):
+#         # Atribuir uma promoção a um serviço
+#         return super().form_valid(form)
+#
+# class ServiceListView(ListView):
+#     model = Service
+#     template_name = 'service_list.html'
+#     context_object_name = 'service_list'
+#
+# class ServiceDiscountListView(ListView):
+#     model = Service_Discount
+#     template_name = 'service_discount_list.html'
+#     context_object_name = 'service_discount_list'
     
