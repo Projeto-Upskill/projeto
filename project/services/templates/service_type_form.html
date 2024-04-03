@@ -1,0 +1,11 @@
+<!-- services/templates/services/service_type_form.html -->
+{% extends 'model_page.html' %}
+
+{% block content %}
+  <h2>{% if object %}Edit{% else %}Add{% endif %} Service Type</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

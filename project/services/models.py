@@ -1,45 +1,59 @@
 from django.db import models
 
 # Create your models here.
-# No Django, por default, os campos são obrigatórios.
+# On Django, by default, all fields are obligatory
 class ServiceType(models.Model):
-    id_service_type = models.AutoField(primary_key=True, null=False)
-    service_name = models.CharField(max_length=150, null=False)
+    id_service_type = models.AutoField(primary_key=True, null=False, verbose_name='id service type')
+    service_name = models.CharField(max_length=150, null=False, verbose_name='service name')
 
     class Meta:
         db_table = 'service_type'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
 class Service(models.Model):
-    id_service = models.AutoField(primary_key=True, null=False)
-    service_name = models.CharField(max_length=150, null=False)
-    service_type = models.ForeignKey(ServiceType, on_delete=models.PROTECT, null=False)
+    id_service = models.AutoField(primary_key=True, null=False, verbose_name='id service')
+    id_service_type = models.ForeignKey(ServiceType, on_delete=models.PROTECT, null=False, verbose_name='id service type')
     active = models.BooleanField(default=True, null=False)
     class Meta:
         db_table = 'service'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
 class ServicePromotion(models.Model):
-    id_service_promotion = models.AutoField(primary_key=True, null=False)
-    discount_rate = models.DecimalField(max_digits=4, decimal_places=2, null=False)
-    active = models.BooleanField(default=True, null=False)
-    service = models.ManyToManyField(Service, through='ServicePromotionService', related_name='promotions', null=False)
+    id_service_promotion = models.AutoField(primary_key=True, null=False, verbose_name='id service promotion')
+    discount_rate = models.DecimalField(max_digits=4, decimal_places=2, null=False, verbose_name='discount rate')
+    active = models.BooleanField(default=True, null=False, verbose_name='active')
+    id_service = models.ManyToManyField(Service, through='ServicePromotionService', related_name='promotions', verbose_name='id service')
 
     class Meta:
         db_table = 'service_promotion'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+# this intermediary table did not have to exist, but we took the hard road.
 class ServicePromotionService(models.Model):
-    id_service_promotions_service = models.AutoField(primary_key=True, null=False)
-    service = models.ForeignKey(Service, on_delete=models.PROTECT, null=False)
-    service_promotion = models.ForeignKey(ServicePromotion, on_delete=models.PROTECT, null=False)
+    id_service_promotions_service = models.AutoField(primary_key=True, null=False, verbose_name='id service promotions service')
+    id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=False, verbose_name='id service')
+    id_service_promotion = models.ForeignKey(ServicePromotion, on_delete=models.PROTECT, null=False, verbose_name='id service promotion')
 
     class Meta:
         db_table = 'service_promotion_service'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
 class InvoiceService(models.Model):
-    id_invoice_service = models.AutoField(primary_key=True, null=False)
+    id_invoice_service = models.AutoField(primary_key=True, null=False, verbose_name='id invoice service')
     #client = models.ForeignKey('clients.Client', on_delete=models.PROTECT, null=False)  # Use 'AppName.ModelName' as a string
-    service = models.ForeignKey('Service', on_delete=models.PROTECT, null=False)  # Assuming Service is in the same app
-    final_service_price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    id_service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='id service')  # Assuming Service is in the same app
+    final_service_price = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name='final service price')
 
     class Meta:
         db_table = 'invoice_service'
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"

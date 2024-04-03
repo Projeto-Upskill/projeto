@@ -1,0 +1,17 @@
+{% block content %}
+  <h1>Operators List</h1>
+  {% if operators_list %}
+    <ul>
+      {% for admin in operators_list %}
+        <li>
+          name: {{ admin.name }};
+          email: {{ admin.email }};
+          birth date: {{ admin.birth_date }};
+          active: {{ admin.active }};
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <li>No registrations yet.</li>
+  {% endif %}
+{% endblock %}
