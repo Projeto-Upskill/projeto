@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import *
+from .models import ServiceType
 
-# Register your models here.
-admin.site.register(ServiceType)
+@admin.register(ServiceType)
+class ServiceTypeAdmin(admin.ModelAdmin):
+    list_display = ['id_service_type', 'service_name']
