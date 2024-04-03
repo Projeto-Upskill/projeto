@@ -1,6 +1,6 @@
 {% block content %}
   <h1>Delete Administrator</h1>
-  <p>Are you sure you want to delete "{{ object.name }}" with email "{{ object.email }}"?</p>
+  <p>Are you sure you want to delete "{{ object.first_name }} {{ object.last_name }}" with email "{{ object.email }}"?</p>
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes, Delete</button>

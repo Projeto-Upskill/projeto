@@ -3,13 +3,16 @@
   {% if administrator_list %}
     <ul>
       {% for admin in administrator_list %}
+      <a href="{% url 'administrator:administrator_update' admin.id_administrator %}">
         <li>
-          username: {{ admin.username }}
+          id: {{ admin.id_administrator }};
           name: {{ admin.first_name }} {{ admin.last_name }};
           email: {{ admin.email }};
           birth date: {{ admin.birth_date }};
-          active: {{ admin.active }};
+          active: {{ admin.active }}
         </li>
+      </a>
+      <a href="{% url 'administrator:administrator_delete' admin.id_administrator %}">Delete</a>
       {% endfor %}
     </ul>
   {% else %}

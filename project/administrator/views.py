@@ -5,7 +5,6 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 
 admin = Administrator()
 
@@ -13,7 +12,7 @@ admin = Administrator()
 class AdministratorCreateView(CreateView):
     template_name = 'administrator_create.html'
     form_class = AdministratorForm
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("project:system_admin")
 
     def form_valid(self, form):
         first_name = form.cleaned_data["first_name"]
@@ -46,14 +45,15 @@ class AdministratorListView(ListView):
 class AdministratorUpdateView(UpdateView):
     template_name = 'administrator_create.html'
     form_class = AdministratorForm
-    success_url = reverse_lazy("administrator_list")
+    success_url = reverse_lazy("administrator:administrator_list")
 
     def get_object(self):
         id_administrator = self.kwargs.get('id_administrator')
         return get_object_or_404(Administrator, id_administrator=id_administrator)
 
     def form_valid(self, form):
-        form.instance.name = form.cleaned_data["name"]
+        form.first_name = form.cleaned_data["first_name"]
+        form.last_name = form.cleaned_data["last_name"]
         form.instance.email = form.cleaned_data["email"]
         form.instance.birth_date = form.cleaned_data["birth_date"]
         form.instance.active = form.cleaned_data["active"]
@@ -70,7 +70,7 @@ class AdministratorDeleteView(DeleteView):
         return get_object_or_404(Administrator, id_administrator=id_administrator)
 
     def get_success_url(self):
-        return reverse_lazy('administrator_list')
+        return reverse_lazy('administrator:administrator_list')
 
 
 class AdministratorIndex(TemplateView):
@@ -96,17 +96,3 @@ class MenuDiscounts(TemplateView):
 class MenuServices(TemplateView):
     template_name = 'menu_services.html'
 
-
-class OperatorCreateView(CreateView):
-    template_name = 'operator_create.html'
-    form_class = ''
-    success_url = reverse_lazy('menu_operators')
-
-    def form_valid(self, form):
-        form.instance.name = form.cleaned_data["name"]
-        form.instance.email = form.cleaned_data["email"]
-        form.instance.birth_date = form.cleaned_data["birth_date"]
-        form.instance.admission_date = form.cleaned_data["admission_date"]
-        form.instance.active = form.cleaned_data["active"]
-
-        return super().form_valid(form)
