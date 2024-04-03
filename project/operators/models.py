@@ -5,6 +5,7 @@ class Operators(models.Model):
 	name = models.CharField(max_length=500)
 	email = models.EmailField(max_length=300)
 	birth_date = models.DateField()
+	admission_date = models.DateField()
 	active = models.BooleanField()
 
 	class Meta:
