@@ -38,6 +38,7 @@ class OperatorsUpdateView(UpdateView):
         form.instance.name = form.cleaned_data["name"]
         form.instance.email = form.cleaned_data["email"]
         form.instance.birth_date = form.cleaned_data["birth_date"]
+        form.instance.admission_date = form.cleaned_data["admission_date"]
         form.instance.active = form.cleaned_data["active"]
 
         return super().form_valid(form)
