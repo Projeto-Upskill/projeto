@@ -39,7 +39,7 @@ class ServicePromotionService(models.Model):
 class InvoiceService(models.Model):
     id_invoice_service = models.AutoField(primary_key=True, null=False, verbose_name='id invoice service')
     #client = models.ForeignKey('clients.Client', on_delete=models.PROTECT, null=False)  # Use 'AppName.ModelName' as a string
-    id_service = models.ForeignKey('Service', on_delete=models.PROTECT, null=False, verbose_name='id service')  # Assuming Service is in the same app
+    id_service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='id service')  # Assuming Service is in the same app
     final_service_price = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name='final service price')
 
     class Meta:
