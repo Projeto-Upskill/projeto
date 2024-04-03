@@ -9,7 +9,7 @@ from .views import (OperatorsCreateView,
                     MenuPackages,
                     MenuDiscounts)
 
-app_name = 'Operators'
+app_name = 'operators'
 
 urlpatterns = [
     path("", OperatorsIndex.as_view(), name="operator_index"),

@@ -1,0 +1,18 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+    <h2>System Admin</h2>
+        <ul>
+            <li>
+                <a href="{% url 'operators:menu_customers' %}">Customers</a>
+            </li>
+            <li>
+                <a href="{% url 'operators:menu_packages' %}">Packages</a>
+            </li>
+            <li>
+                <a href="{% url 'operators:menu_discounts' %}">Discounts</a>
+            </li>
+        </ul>
+
+
+{% endblock %}
