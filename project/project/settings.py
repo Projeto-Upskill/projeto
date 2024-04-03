@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'services',
     'administrator',
     'project',
+    'customers',
     "crispy_forms",
     "crispy_bootstrap5",
     'bootstrap5'
