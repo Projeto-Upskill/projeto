@@ -48,9 +48,10 @@ class ServiceDiscountServiceForm(forms.ModelForm):
 class InvoiceServiceForm(forms.ModelForm):
     class Meta:
         model = InvoiceService
-        fields = ['id_invoice_service', 'id_service', 'final_service_price']
+        fields = ['id_invoice_service', 'id_customer', 'id_service', 'final_service_price']
         labels = {
             'id_invoice_service': 'Invoice Service ID',
+            'id_customer': 'Customer ID',
             'id_service': 'Service ID',
             'final_service_price': 'Final Service Price',
         }
