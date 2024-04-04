@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Address, PostalCode, City
 from .forms import CustomerForm
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 
@@ -44,6 +44,18 @@ class CustomerUpdateView(UpdateView):
         form.active = form.cleaned_data["active"]
 
         return super().form_valid(form)
+
+
+class CustomerDeleteView(DeleteView):
+    model = Customer
+    template_name = 'customer_confirm_delete.html'
+
+    def get_object(self):
+        id_customer = self.kwargs.get("id_customer")
+        return get_object_or_404(Customer, id_customer=id_customer)
+
+    def get_success_url(self):
+        return reverse_lazy("administrator:menu_customers")
 
 
 def get_customer(request):

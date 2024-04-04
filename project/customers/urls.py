@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (CustomerCreateView,
                     CustomerListView,
                     CustomerUpdateView,
+                    CustomerDeleteView,
                     view_customer_package,
                     view_customer_unique_service,
                     update_customer_data)
@@ -12,6 +13,7 @@ urlpatterns = [
     path("create", CustomerCreateView.as_view(), name='create_customer'),
     path("list", CustomerListView.as_view(), name='customer_list'),
     path("<int:id_customer>/update", CustomerUpdateView.as_view(), name='customer_update'),
+    path("<int:id_customer>/delete", CustomerDeleteView.as_view(), name='customer_delete'),
     path('package/', view_customer_package, name='view_customer_package'),
     path('unique_service/', view_customer_unique_service, name='view_customer_unique_service'),
     #path('customer/promotions/', views.view_customer_promotions, name='view_customer_promotions'),
