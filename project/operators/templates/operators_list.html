@@ -3,12 +3,15 @@
   {% if operators_list %}
     <ul>
       {% for admin in operators_list %}
+      <a href="{% url 'operators:operator_update' admin.id_operator %}">
         <li>
           name: {{ admin.name }};
           email: {{ admin.email }};
           birth date: {{ admin.birth_date }};
           active: {{ admin.active }};
         </li>
+      </a>
+      <a href="{% url 'operators:operator_delete' admin.id_operator %}">Delete</a>
       {% endfor %}
     </ul>
   {% else %}
