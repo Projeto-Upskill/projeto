@@ -2,14 +2,14 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Address, PostalCode, City
 from .forms import CustomerForm
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 
 
 class CustomerCreateView(CreateView):
     template_name = 'customer_create.html'
     form_class = CustomerForm
-    success_url = reverse_lazy('administrator:administrator_index')
+    success_url = reverse_lazy('administrator:menu_customers')
 
     def form_valid(self, form):
         form.name = form.cleaned_data["name"]
@@ -25,6 +25,25 @@ class CustomerListView(ListView):
     template_name = 'customer_list.html'
     model = Customer
     context_object_name = 'customer_list'
+
+
+class CustomerUpdateView(UpdateView):
+    template_name = 'customer_create.html'
+    form_class = CustomerForm
+    success_url = reverse_lazy("administrator:menu_customers")
+
+    def get_object(self):
+        id_customer = self.kwargs.get("id_customer")
+        return get_object_or_404(Customer, id_customer=id_customer)
+
+    def form_valid(self, form):
+        form.name = form.cleaned_data["name"]
+        form.tax_number = form.cleaned_data["tax_number"]
+        form.email = form.cleaned_data["email"]
+        form.birth_date = form.cleaned_data["birth_date"]
+        form.active = form.cleaned_data["active"]
+
+        return super().form_valid(form)
 
 
 def get_customer(request):
