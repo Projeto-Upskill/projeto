@@ -78,21 +78,21 @@ class AdministratorIndex(TemplateView):
 
 
 class MenuOperators(TemplateView):
-    template_name = 'menu_operators.html'
+    template_name = 'operators.html'
 
 
 class MenuCustomers(TemplateView):
-    template_name = 'menu_customers.html'
+    template_name = 'customers.html'
 
 
 class MenuPackages(TemplateView):
-    template_name = 'menu_packages.html'
+    template_name = 'packages.html'
 
 
 class MenuDiscounts(TemplateView):
-    template_name = 'menu_discounts.html'
+    template_name = 'discounts.html'
 
 
 class MenuServices(TemplateView):
-    template_name = 'menu_services.html'
+    template_name = 'services.html'
 

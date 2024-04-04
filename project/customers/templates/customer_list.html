@@ -4,7 +4,7 @@
   {% if customer_list %}
     <ul>
       {% for i in customer_list %}
-      <a href="">
+      <a href="{% url 'customers:customer_update' i.id_customer %}">
         <li>
           id: {{ i.id_customer }};
           tax_number: {{ i.tax_number }};
@@ -14,7 +14,7 @@
           active: {{ i.active }}
         </li>
       </a>
-      <a href="">Delete</a>
+      <a href="{% url 'customers:customer_delete' i.id_customer %}">Delete</a>
       {% endfor %}
     </ul>
   {% else %}
