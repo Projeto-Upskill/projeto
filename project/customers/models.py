@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Customer(models.Model):
     id_customer = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -8,22 +9,34 @@ class Customer(models.Model):
     birth_date = models.DateField()
     active = models.BooleanField()
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = "customer"
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
 
 class PostalCode(models.Model):
     id_postal_code = models.AutoField(primary_key=True)
     postal_code = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.postal_code
+    class Meta:
+        db_table = 'postal_code'
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
 
 class City(models.Model):
     id_city = models.AutoField(primary_key=True)
     name_city = models.CharField(max_length=255)
 
-    def __str__(self):
-        return self.name_city
+    class Meta:
+        db_table = 'city'
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
 
 class Address(models.Model):
     id_address = models.AutoField(primary_key=True)
@@ -33,6 +46,8 @@ class Address(models.Model):
     postal_code = models.ForeignKey(PostalCode, on_delete=models.PROTECT)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
-    def __str__(self):
-        return f"{self.street}, {self.city}"
+    class Meta:
+        db_table = 'address'
 
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
