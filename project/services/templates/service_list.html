@@ -1,4 +1,3 @@
-<!-- services/templates/services/service_type_list.html -->
 {% extends 'model_page.html' %}
 
 {% block content %}
@@ -8,8 +7,8 @@
     {% for service in service %}
       <li>
         {{ service.id_service }}
-        <a href="{% url 'services:service_update' service.id %}">Edit</a>
-        <a href="{% url 'services:service_delete' service.id %}">Delete</a>
+        <a href="{% url 'services:service_update' id_service %}">Edit</a>
+        <a href="{% url 'services:service_delete' id_service %}">Delete</a>
       </li>
     {% endfor %}
   </ul>

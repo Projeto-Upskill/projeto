@@ -1,0 +1,16 @@
+<!-- services/templates/services/service_type_list.html -->
+{% extends 'model_page.html' %}
+
+{% block content %}
+  <h2>Service Types</h2>
+  <a href="{% url 'services:invoice_service_create' %}">Add New Invoice Service</a>
+  <ul>
+    {% for invoice_service in invoice_service %}
+      <li>
+        {{ invoice_service.id_invoice_service }}
+        <a href="{% url 'services:invoice_service_update' id_invoice_service %}">Edit</a>
+        <a href="{% url 'services:nvoice_service_delete' id_invoice_service %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

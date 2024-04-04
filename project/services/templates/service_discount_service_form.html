@@ -1,7 +1,7 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>{% if object %}Edit{% else %}Add{% endif %} Service</h2>
+  <h2>{% if object %}Edit{% else %}Add{% endif %} Service Discount Service</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
