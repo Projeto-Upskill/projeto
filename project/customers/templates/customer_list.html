@@ -1,0 +1,23 @@
+{% extends 'model_page.html' %}
+{% block content %}
+  <h1>Customers List</h1>
+  {% if customer_list %}
+    <ul>
+      {% for i in customer_list %}
+      <a href="">
+        <li>
+          id: {{ i.id_customer }};
+          tax_number: {{ i.tax_number }};
+          name: {{ i.name }};
+          email: {{ i.email }};
+          birth date: {{ i.birth_date }};
+          active: {{ i.active }}
+        </li>
+      </a>
+      <a href="">Delete</a>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <li>No registrations yet.</li>
+  {% endif %}
+{% endblock %}

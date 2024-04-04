@@ -2,20 +2,14 @@
 
 {% block content %}
 
-<h2>Manage Clients</h2>
+<h2>Manage Customers</h2>
 
 <ul>
     <li>
-        <a href="">Add Customer</a>
+        <a href="{% url 'customers:create_customer' %}">Add Customer</a>
     </li>
     <li>
-        <a href="">List Customers</a>
-    </li>
-    <li>
-        <a href="">Update Customer</a>
-    </li>
-    <li>
-        <a href="">Delete Customer</a>
+        <a href="{% url 'customers:customer_list' %}">List Customers</a>
     </li>
 </ul>
 
