@@ -22,3 +22,27 @@ class PackageDiscount(models.Model):
 
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+ 
+
+class PackageDiscountPackage(models.Model):
+    id_package_discount_package = models.AutoField(primary_key=True, null=False, verbose_name='id_package_discount_package')
+    id_package = models.ForeignKey(Package, on_delete=models.PROTECT, null=False, verbose_name='id_package')
+    id_package_discount = models.ForeignKey(PackageDiscount, on_delete=models.PROTECT, null=False, verbose_name='id_package_discount')
+
+    class Meta:
+        db_table = 'package_discount_package'
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+class InvoicePackage(models.Model):
+    id_invoice_package = models.AutoField(primary_key=True, null=False, verbose_name='id_invoice_package')
+    id_customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT, null=True)  # This field can be null so we are hable to create an invoice before the client is registed
+    id_package = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='id_package')
+    final_package_price = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name='final_package_price')
+
+    class Meta:
+        db_table = 'invoice_package'
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
