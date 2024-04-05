@@ -1,0 +1,16 @@
+<!-- packages/templates/packages/packages_list.html -->
+{% extends 'model_page.html' %}
+
+{% block content %}
+  <h2>Package</h2>
+  <a href="{% url 'packages:invoice_package_create' %}">Add New Invoice Package</a>
+  <ul>
+    {% for invoice_package in invoice_package %}
+      <li>
+        {{ invoice_package.id_invoice_package }}
+        <a href="{% url 'packages:invoice_package_update' id_invoice_package %}">Edit</a>
+        <a href="{% url 'packages:nvoice_package_delete' id_invoice_package %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

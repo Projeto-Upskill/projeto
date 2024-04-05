@@ -1,0 +1,15 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+  <h2>Packages</h2>
+  <a href="{% url 'packages:package_create' %}">Add New Package</a>
+  <ul>
+    {% for package in package %}
+      <li>
+        {{ package.id_package }}
+        <a href="{% url 'packages:package_update' id_package %}">Edit</a>
+        <a href="{% url 'packages:package_delete' id_package %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
