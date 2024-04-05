@@ -132,7 +132,7 @@ class PackageDiscountPackageCreateView(CreateView):
         return super().form_valid(form)  
 
     
- class PackageDiscountPackageUpdateView(UpdateView):
+class PackageDiscountPackageUpdateView(UpdateView):
     model = PackageDiscountPackage
     form_class = PackageDiscountPackageForm
     template_name = 'package_discount_package_form.html'
@@ -140,7 +140,7 @@ class PackageDiscountPackageCreateView(CreateView):
 
     def get_object(self):
         id = self.kwargs.get('id_package_discount_package')
-        return get_object_or_404(PAckageDiscountPackage, id_package_discount_package=id)
+        return get_object_or_404(PackageDiscountPackage, id_package_discount_package=id)
     
     def form_valid(self, form):
         form.instance.id_package = form.cleaned_data["id_package"]
