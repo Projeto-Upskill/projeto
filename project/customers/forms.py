@@ -30,6 +30,32 @@ class AddressForm(forms.ModelForm):
         model = Address
         fields = ['street', 'door_number', 'city', 'postal_code']
 
+    city = forms.ModelChoiceField(queryset=City.objects.all().values())
+    postal_code = forms.ModelChoiceField(queryset=PostalCode.objects.all().values())
+    customer = forms.ModelChoiceField(queryset=Customer.objects.all().values())
+
+
+class RegistrationForm(forms.ModelForm):
+    name = forms.CharField(max_length=255)
+    tax_number = forms.IntegerField()
+    email = forms.EmailField()
+    birth_date = forms.DateField()
+    active = forms.BooleanField()
+    name_city = forms.CharField(max_length=255)
+    postal_code = forms.CharField(max_length=100)
+
+    class Meta:
+        model = Address
+        fields = ['street', 'door_number']
+
+    def clean_postal_code(self):
+        postal_code_value = self.cleaned_data['postal_code']
+        try:
+            PostalCode.objects.get(postal_code=postal_code_value)
+        except PostalCode.DoesNotExist:
+            PostalCode.objects.create(postal_code=postal_code_value)
+        return postal_code_value
+
 
 class PostalCodeForm(forms.ModelForm):
     class Meta:

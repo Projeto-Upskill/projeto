@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Address, PostalCode, City
-from .forms import CustomerForm
+from .forms import CustomerForm, AddressForm, RegistrationForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
@@ -53,6 +53,52 @@ class CustomerDeleteView(DeleteView):
     def get_object(self):
         id_customer = self.kwargs.get("id_customer")
         return get_object_or_404(Customer, id_customer=id_customer)
+
+    def get_success_url(self):
+        return reverse_lazy("administrator:menu_customers")
+
+
+class AddressCreateView(CreateView):
+    template_name = 'address_create.html'
+    form_class = AddressForm
+    success_url = reverse_lazy("administrator:menu_customers")
+
+    def form_valid(self, form):
+        form.street = form.cleaned_data["street"]
+        form.door_number = form.cleaned_data["door_number"]
+        form.instance.id_city = form.cleaned_data["city"]
+        form.instance.id_postal_code = form.cleaned_data["postal_code"]
+        form.instance.id_customer = form.cleaned_data["customer"]
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cities'] = City.objects.all()
+        context['postal_codes'] = PostalCode.objects.all()
+        context['customers'] = Customer.objects.all()
+        return context
+
+
+class RegistrationView(CreateView):
+    form_class = RegistrationForm
+    template_name = 'registration.html'
+
+    def form_valid(self, form):
+        address = form.save(commit=False)
+        customer = Customer.objects.create(
+            name=form.cleaned_data['name'],
+            tax_number=form.cleaned_data['tax_number'],
+            email=form.cleaned_data['email'],
+            birth_date=form.cleaned_data['birth_date'],
+            active=form.cleaned_data['active'],
+        )
+        city = City.objects.create(name_city=form.cleaned_data['name_city'])
+        postal_code = PostalCode.objects.create(postal_code=form.cleaned_data['postal_code'])
+        address.customer = customer
+        address.city = city
+        address.postal_code = postal_code
+        address.save()
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy("administrator:menu_customers")
