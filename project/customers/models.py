@@ -8,8 +8,11 @@ class Customer(models.Model):
     birth_date = models.DateField()
     active = models.BooleanField()
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = "customer"
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
 class PostalCode(models.Model):
     id_postal_code = models.AutoField(primary_key=True)
