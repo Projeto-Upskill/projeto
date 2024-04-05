@@ -1,0 +1,11 @@
+<!-- packages/templates/packages/package_form.html -->
+{% extends 'model_page.html' %}
+
+{% block content %}
+  <h2>{% if object %}Edit{% else %}Add{% endif %} Invoice Package</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+  <h2>Packages</h2>
+  <a href="{% url 'packages:package_discount_package_create' %}">Add New Package Discount Package</a>
+  <ul>
+    {% for package_discount_package in package_discount_package %}
+      <li>
+        {{ package_discount_package.id_package }}
+        <a href="{% url 'packages:package_discount_package_update' id_package_discount_package %}">Edit</a>
+        <a href="{% url 'packages:package_discount_package_delete' id_package_discount_package %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
