@@ -104,6 +104,12 @@ class RegistrationView(CreateView):
         return reverse_lazy("administrator:menu_customers")
 
 
+class RegistrationListView(ListView):
+    template_name = 'registration_list.html'
+    model = Address
+    context_object_name = 'register_list'
+
+
 def get_customer(request):
     return get_object_or_404(Customer, user=request.user)
 
