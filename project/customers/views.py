@@ -85,6 +85,31 @@ class AddressListView(ListView):
     context_object_name = 'address_list'
 
 
+class AddressUpdateView(UpdateView):
+    template_name = 'address_create.html'
+    form_class = AddressForm
+    success_url = reverse_lazy("customers:address_list")
+
+    def get_object(self):
+        id_address = self.kwargs.get("id_address")
+        return get_object_or_404(Address, id_address=id_address)
+
+    def form_valid(self, form):
+        form.street = form.cleaned_data["street"]
+        form.door_number = form.cleaned_data["door_number"]
+        form.instance.city = form.cleaned_data["city"]
+        form.instance.postal_code = form.cleaned_data["postal_code"]
+        form.instance.customer = form.cleaned_data["customer"]
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cities'] = City.objects.all()
+        context['postal_codes'] = PostalCode.objects.all()
+        context['customers'] = Customer.objects.all()
+        return context
+
+
 class RegistrationView(CreateView):
     form_class = RegistrationForm
     template_name = 'registration.html'
