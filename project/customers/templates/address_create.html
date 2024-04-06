@@ -20,7 +20,7 @@
   <h2>Cities</h2>
   <ul>
     {% for city in cities %}
-      <li>{{ city }}</li>
+      <li>{{ city.id_city }} - {{ city.name_city }}</li>
     {% empty %}
       <li>No cities found.</li>
     {% endfor %}
@@ -29,7 +29,7 @@
   <h2>Postal Codes</h2>
   <ul>
     {% for postal_code in postal_codes %}
-      <li>{{ postal_code }}</li>
+      <li>{{ postal_code.id_postal_code }} - {{ postal_code.postal_code }}</li>
     {% empty %}
       <li>No postal codes found.</li>
     {% endfor %}
@@ -38,7 +38,7 @@
   <h2>Customers</h2>
   <ul>
     {% for customer in customers %}
-      <li>{{ customer }}</li>
+      <li>{{ customer.id_customer }} - {{ customer.name }} - {{ customer.tax_number }}</li>
     {% empty %}
       <li>No customers found.</li>
     {% endfor %}
