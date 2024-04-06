@@ -110,6 +110,18 @@ class AddressUpdateView(UpdateView):
         return context
 
 
+class AddressDeleteView(DeleteView):
+    template_name = 'address_confirm_delete.html'
+    model = Address
+
+    def get_object(self, queryset=None):
+        id_address = self.kwargs.get("id_address")
+        return get_object_or_404(Address, id_address=id_address)
+
+    def get_success_url(self):
+        return reverse_lazy("customers:address_list")
+
+
 class RegistrationView(CreateView):
     form_class = RegistrationForm
     template_name = 'registration.html'
