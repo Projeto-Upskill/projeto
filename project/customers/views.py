@@ -66,9 +66,9 @@ class AddressCreateView(CreateView):
     def form_valid(self, form):
         form.street = form.cleaned_data["street"]
         form.door_number = form.cleaned_data["door_number"]
-        form.instance.id_city = form.cleaned_data["city"]
-        form.instance.id_postal_code = form.cleaned_data["postal_code"]
-        form.instance.id_customer = form.cleaned_data["customer"]
+        form.instance.city = form.cleaned_data["city"]
+        form.instance.postal_code = form.cleaned_data["postal_code"]
+        form.instance.customer = form.cleaned_data["customer"]
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -77,6 +77,12 @@ class AddressCreateView(CreateView):
         context['postal_codes'] = PostalCode.objects.all()
         context['customers'] = Customer.objects.all()
         return context
+
+
+class AddressListView(ListView):
+    template_name = 'address_list.html'
+    model = Address
+    context_object_name = 'address_list'
 
 
 class RegistrationView(CreateView):
@@ -108,6 +114,54 @@ class RegistrationListView(ListView):
     template_name = 'registration_list.html'
     model = Address
     context_object_name = 'register_list'
+
+
+class RegistrationUpdateView(UpdateView):
+    template_name = 'registration.html'
+    form_class = RegistrationForm
+    success_url = reverse_lazy("administrator:menu_customers")
+    pk_url_kwarg = "id_address"
+
+    def get_object_id_address(self):
+        id_address = self.kwargs.get("id_address")
+        return get_object_or_404(Address, id_address=id_address)
+
+    def get_object_id_customer(self):
+        id_customer = self.kwargs.get("id_customer")
+        return get_object_or_404(Customer, id_customer=id_customer)
+
+    def get_object_id_city(self):
+        id_city = self.kwargs.get("id_city")
+        return get_object_or_404(City, id_city=id_city)
+
+    def get_object_id_postal_code(self):
+        id_postal_code = self.kwargs.get("id_postal_code")
+        return get_object_or_404(PostalCode, id_postal_code=id_postal_code)
+
+    def get_queryset(self):
+        return Address.objects.filter(id_address=self.kwargs['id_address'],
+                                      customer=self.kwargs['id_customer'])
+
+    def form_valid(self, form):
+        address = form.save(commit=False)
+        customer = self.get_object_id_customer()
+        customer.name = form.cleaned_data['name']
+        customer.tax_number = form.cleaned_data['tax_number']
+        customer.email = form.cleaned_data['email']
+        customer.birth_date = form.cleaned_data['birth_date']
+        customer.active = form.cleaned_data['active']
+        customer.save()
+        city = self.get_object_id_city()
+        city.name_city = form.cleaned_data["name_city"]
+        city.save()
+        postal_code = self.get_object_id_postal_code()
+        postal_code.postal_code = form.cleaned_data["postal_code"]
+        postal_code.save()
+        address.customer = customer
+        address.city = city
+        address.postal_code = postal_code
+        address.save()
+        return super().form_valid(form)
 
 
 def get_customer(request):
