@@ -1,11 +1,6 @@
 /* Import Inter font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-/* Apply the Inter font globally */
-* {
-    font-family: 'Inter', sans-serif;
-    color: #FBFAF5;
-}
 
 /* Creates a modern looking bg gradient */
 .body-background {
@@ -23,19 +18,23 @@
     margin-bottom: 50px;
     border-radius: 0;
     background-color: #2F4F4F;
+    font-family: 'Inter', sans-serif;
+    color: #FBFAF5;
 }
 
 .navbar-brand {
     margin-left: 7rem;
 }
 
-/* Add a background color and some padding to the footer */
+/* Add a background colormake the footer stay at bottom without overlapping */
 footer {
     left: 0;
     bottom: 0;
     width: 100%;
     margin-top: 50px;
     background-color: #2F4F4F;
+    font-family: 'Inter', sans-serif;
+    color: #FBFAF5;
 }
 
 .main {
@@ -44,4 +43,8 @@ footer {
     justify-content: center;
     align-items: center;
     min-height: 90vh;
+    font-family: 'Inter', sans-serif;
+    color: #FBFAF5;
 }
+
+
