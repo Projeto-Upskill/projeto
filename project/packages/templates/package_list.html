@@ -6,9 +6,9 @@
   <ul>
     {% for package in package %}
       <li>
-        {{ package.id_package }}
-        <a href="{% url 'packages:package_update' id_package %}">Edit</a>
-        <a href="{% url 'packages:package_delete' id_package %}">Delete</a>
+        {{ package.id_package }} : {{ package.name }}
+        <a href="{% url 'packages:package_update' package.id_package %}">Edit</a>
+        <a href="{% url 'packages:package_delete' package.id_package %}">Delete</a>
       </li>
     {% endfor %}
   </ul>
