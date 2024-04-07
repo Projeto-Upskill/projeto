@@ -2,7 +2,11 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Are you sure you want to delete "{{ object.service_name }}"?</h2>
+  <h2>Are you sure you want to delete "id: {{ object.id_invoice_service }} -
+        customer name: {{ object.id_customer.name }}
+        tax number: {{ object.id_customer.tax_number }}
+        service: {{ object.id_service.id_service_type.service_name }}
+        price: {{ object.final_service_price }}"?</h2>
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'services:invoice_service_list' %}">Cancel</a>
