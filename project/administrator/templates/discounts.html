@@ -6,10 +6,16 @@
 
 <ul>
     <li>
-        <a href="">Add Discount</a>
+        <a href="{% url 'packages:package_discount_create' %}">Add Packages Discounts</a>
     </li>
     <li>
-        <a href="">List Discounts</a>
+        <a href="{% url 'packages:package_discount_list' %}">List Packages Discounts</a>
+    </li>
+    <li>
+        <a href="{% url 'services:service_discount_create' %}">Add Services Discounts</a>
+    </li>
+    <li>
+        <a href="{% url 'services:service_discount_list' %}">List Services Discounts</a>
     </li>
 </ul>
 

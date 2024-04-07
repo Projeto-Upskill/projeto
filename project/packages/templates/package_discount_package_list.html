@@ -6,9 +6,11 @@
   <ul>
     {% for package_discount_package in package_discount_package %}
       <li>
-        {{ package_discount_package.id_package }}
-        <a href="{% url 'packages:package_discount_package_update' id_package_discount_package %}">Edit</a>
-        <a href="{% url 'packages:package_discount_package_delete' id_package_discount_package %}">Delete</a>
+        id discount:{{ package_discount_package.id_package_discount_package }} -
+        package name: {{ package_discount_package.id_package.name }} -
+        discount rate: {{ package_discount_package.id_package_discount.discount_rate }}
+        <a href="{% url 'packages:package_discount_package_update' package_discount_package.id_package_discount_package %}">Edit</a>
+        <a href="{% url 'packages:package_discount_package_delete' package_discount_package.id_package_discount_package %}">Delete</a>
       </li>
     {% endfor %}
   </ul>

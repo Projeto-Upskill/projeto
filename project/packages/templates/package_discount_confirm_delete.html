@@ -1,7 +1,11 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Are you sure you want to delete "{{ object.package_discount_name }}"?</h2>
+  <h2>Are you sure you want to delete "id discount: {{ object.id_package_discount }} -
+        discount rate: {{ object.discount_rate }} -
+        active: {{ object.active }} -
+        related to the package: id: {{ object.id_package.id_package }} -
+        name: {{ object.id_package.name }}"?</h2>
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'packages:package_discount_list' %}">Cancel</a>

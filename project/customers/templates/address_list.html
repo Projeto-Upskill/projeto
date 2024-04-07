@@ -1,0 +1,23 @@
+{% extends 'model_page.html' %}
+{% block content %}
+  <h1>Address List</h1>
+  {% if address_list %}
+    <ul>
+      {% for i in address_list %}
+      <a href="{% url 'customers:address_update' i.id_address %}">
+        <li>
+          id: {{ i.id_address }};
+          street: {{ i.street }};
+          door number: {{ i.door_number }};
+          city: {{ i.city.name_city }};
+          postal code: {{ i.postal_code.postal_code }};
+          customer: {{ i.customer.id_customer }}; {{ i.customer.name }}
+        </li>
+      </a>
+      <a href="{% url 'customers:address_delete' i.id_address %}">Delete</a>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <li>No registrations yet.</li>
+  {% endif %}
+{% endblock %}

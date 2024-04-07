@@ -32,6 +32,6 @@ urlpatterns = [
     #for invoice-service
     path('invoice-service/', InvoiceServiceListView.as_view(), name='invoice_service_list'), #read
     path('invoice-service/new/', InvoiceServiceCreateView.as_view(), name='invoice_service_create'), #create
-    path('invoice-service/<int:id_service_discount>/edit/', InvoiceServiceUpdateView.as_view(), name='invoice_service_update'), #update
-    path('invoice-service/<int:id_service_discount>/delete/', InvoiceServiceDeleteView.as_view(), name='invoice_service_delete'), #delete
+    path('invoice-service/<int:id_invoice_service>/edit/', InvoiceServiceUpdateView.as_view(), name='invoice_service_update'), #update
+    path('invoice-service/<int:id_invoice_service>/delete/', InvoiceServiceDeleteView.as_view(), name='invoice_service_delete'), #delete
 ]

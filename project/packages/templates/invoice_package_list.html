@@ -7,9 +7,13 @@
   <ul>
     {% for invoice_package in invoice_package %}
       <li>
-        {{ invoice_package.id_invoice_package }}
-        <a href="{% url 'packages:invoice_package_update' id_invoice_package %}">Edit</a>
-        <a href="{% url 'packages:nvoice_package_delete' id_invoice_package %}">Delete</a>
+        id invoice: {{ invoice_package.id_invoice_package }} -
+        id customer: {{ invoice_package.id_customer.id_customer }} -
+        customer name: {{ invoice_package.id_customer.name }} -
+        package: {{ invoice_package.id_package.name }} -
+        final price: {{ invoice_package.final_package_price }}
+        <a href="{% url 'packages:invoice_package_update' invoice_package.id_invoice_package %}">Edit</a>
+        <a href="{% url 'packages:invoice_package_delete' invoice_package.id_invoice_package %}">Delete</a>
       </li>
     {% endfor %}
   </ul>

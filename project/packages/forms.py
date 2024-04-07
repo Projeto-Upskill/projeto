@@ -1,6 +1,6 @@
 from django import forms
 from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage
-from ..customers.models import Customer
+from customers.models import Customer
 
 class PackageForm(forms.ModelForm):
     name = forms.CharField(max_length=500)
