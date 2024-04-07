@@ -2,7 +2,11 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Are you sure you want to delete "{{ object.invoice_package_name }}"?</h2>
+  <h2>Are you sure you want to delete "id invoice: {{ object.id_invoice_package }} -
+        id customer: {{ object.id_customer.id_customer }} -
+        customer name: {{ object.id_customer.name }} -
+        package: {{ object.id_package.name }} -
+        final price: {{ object.final_package_price }}"?</h2>
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'packages:invoice_package_list' %}">Cancel</a>

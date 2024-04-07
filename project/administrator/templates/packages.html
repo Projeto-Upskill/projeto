@@ -11,6 +11,18 @@
     <li>
         <a href="{% url 'packages:package_list' %}">List Packages</a>
     </li>
+    <li>
+        <a href="{% url 'packages:package_discount_create' %}">Add Discounts</a>
+    </li>
+    <li>
+        <a href="{% url 'packages:package_discount_list' %}">List Discounts</a>
+    </li>
+    <li>
+        <a href="{% url 'packages:package_discount_package_create' %}">Add Discounts to Packages</a>
+    </li>
+    <li>
+        <a href="{% url 'packages:package_discount_package_list' %}">List Packages Discounts</a>
+    </li>
 </ul>
 
 {% endblock %}
