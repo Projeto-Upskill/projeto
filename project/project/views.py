@@ -7,3 +7,7 @@ def index(request):
 
 def system_administrator(request):
     return render(request, 'system_admin.html')
+
+
+def about(request):
+    return render(request, 'about.html')
