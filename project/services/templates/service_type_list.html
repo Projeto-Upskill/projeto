@@ -8,13 +8,8 @@
     {% for service_type in service_types %}
       <li>
         {{ service_type.service_name }}
-<<<<<<< HEAD
         <a href="{% url 'services:service_type_update' service_type.id_service_type %}">Edit</a>
         <a href="{% url 'services:service_type_delete' service_type.id_service_type %}">Delete</a>
-=======
-        <a href="{% url 'services:service_type_update' id_service_type %}">Edit</a>
-        <a href="{% url 'services:service_type_delete' id_service_type %}">Delete</a>
->>>>>>> add_other_service_models_to_superuser
       </li>
     {% endfor %}
   </ul>

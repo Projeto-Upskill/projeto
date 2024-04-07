@@ -2,13 +2,16 @@
 
 {% block content %}
   <h2>Services</h2>
-  <a href="{% url 'services:service_promotion_create' %}">Add New Service Promotion</a>
+  <a href="{% url 'services:service_discount_create' %}">Add New Service Promotion</a>
   <ul>
-    {% for service_promotion in service_promotion %}
+    {% for i in service_discount %}
       <li>
-        {{ service_promotion.id_service_promotion }}
-        <a href="{% url 'services:service_promotion_update' id_service_promotion %}">Edit</a>
-        <a href="{% url 'services:service_promotion_delete' id_service_promotion %}">Delete</a>
+        {{ i.id_service_discount }} -
+        {{ i.discount_rate }} -
+        {{ i.active }} -
+        {{ i.id_service.id_service_type.service_name }}
+        <a href="{% url 'services:service_discount_update' i.id_service_discount %}">Edit</a>
+        <a href="{% url 'services:service_discount_delete' i.id_service_discount %}">Delete</a>
       </li>
     {% endfor %}
   </ul>

@@ -5,11 +5,15 @@
   <h2>Service Types</h2>
   <a href="{% url 'services:invoice_service_create' %}">Add New Invoice Service</a>
   <ul>
-    {% for invoice_service in invoice_service %}
+    {% for i in invoice_service %}
       <li>
-        {{ invoice_service.id_invoice_service }}
-        <a href="{% url 'services:invoice_service_update' id_invoice_service %}">Edit</a>
-        <a href="{% url 'services:nvoice_service_delete' id_invoice_service %}">Delete</a>
+        id: {{ i.id_invoice_service }} -
+        customer name: {{ i.id_customer.name }}
+        tax number: {{ i.id_customer.tax_number }}
+        service: {{ i.id_service.id_service_type.service_name }}
+        price: {{ i.final_service_price }}
+        <a href="{% url 'services:invoice_service_update' i.id_invoice_service %}">Edit</a>
+        <a href="{% url 'services:invoice_service_delete' i.id_invoice_service %}">Delete</a>
       </li>
     {% endfor %}
   </ul>
