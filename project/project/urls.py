@@ -22,6 +22,7 @@ app_name = 'project'
 
 urlpatterns = [
     path("", views.index,  name='index'),
+    path('about/', views.about, name='about'),
     path('admin/', admin.site.urls),
     path('services/', include('services.urls')),
     path("system_admin", views.system_administrator, name='system_admin'),

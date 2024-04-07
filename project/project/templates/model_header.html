@@ -1,3 +1,21 @@
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-<h2>Hello, World!</h2>
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-auto py-3">
+  <a class="navbar-brand">
+    <img src="{% static 'images/logo.png' %}" alt="NEO telecom" height="100rem">
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+      <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
+      <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+      <a class="nav-item nav-link" href="{% url 'services:service_list' %}">Services</a>
+      <a class="nav-item nav-link" href="{% url 'services:service_list' %}">Packages</a>
+      <a class="nav-item nav-link" href="{% url 'services:service_list' %}">Login</a>
+    </div>
+  </div>
 </nav>

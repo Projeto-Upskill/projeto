@@ -1,17 +1,22 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
 </head>
-<body>
+<body class="body-background">
     <header>
         {% include "model_header.html" %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'global_styles.css' %}">
     </header>
 
-    <main>
-        {% block content %}
+    <main class="main">
+            {% block content %}
 
-        {% endblock %}
+            {% endblock %}
     </main>
 
     <footer>
@@ -20,3 +25,4 @@
 
 </body>
 </html>
+
