@@ -31,6 +31,13 @@ class ServiceDiscount(models.Model):
     active = models.BooleanField(default=True, null=False, verbose_name='active')
     id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=True, verbose_name='id service') #This field is null to allow for discount creation before a service id being specified...
 
+    #Saves automatically in the intermediary table so we dont have to do that manually
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super(ServiceDiscount, self).save(*args, **kwargs)
+        if is_new and self.id_service:
+            ServiceDiscountService.objects.create(id_service=self.id_service, id_service_discount=self)
+
     class Meta:
         db_table = 'service_discount'
 
