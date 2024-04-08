@@ -23,4 +23,5 @@ class ServiceDiscountServiceAdmin(admin.ModelAdmin):
 
 @admin.register(InvoiceService)
 class InvoiceServiceAdmin(admin.ModelAdmin):
+    exclude = ('final_service_price',)
     list_display = ['id_invoice_service', 'id_customer', 'id_service', 'final_service_price']
