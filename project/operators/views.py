@@ -97,12 +97,12 @@ class AssignPackageDiscountView(UpdateView):
         # Atribuir uma promoção a um pacote comercial
         return super().form_valid(form)
 
-class PackageListView(ListView):
+class OperatorsPackageListView(ListView):
     model = Package
     template_name = 'operators_package_list.html'
     context_object_name = 'package_list'
 
-class PackageDiscountListView(ListView):
+class OperatorsPackageDiscountListView(ListView):
     model = PackageDiscount
     template_name = 'operators_package_discount_list.html'
     context_object_name = 'package_discount_list'
@@ -128,12 +128,12 @@ class AssignServiceDiscountView(UpdateView):
          # Atribuir uma promoção a um serviço
         return super().form_valid(form)
 
-class ServiceListView(ListView):
+class OperatorsServiceListView(ListView):
     model = Service
     template_name = 'operators_service_list.html'
     context_object_name = 'service_list'
 
-class ServiceDiscountListView(ListView):
+class OperatorsServiceDiscountListView(ListView):
     model = ServiceDiscount
     template_name = 'operators_service_discount_list.html'
     context_object_name = 'service_discount_list'
