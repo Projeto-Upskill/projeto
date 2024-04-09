@@ -99,12 +99,12 @@ class AssignPackageDiscountView(UpdateView):
 
 class PackageListView(ListView):
     model = Package
-    template_name = 'package_list.html'
+    template_name = 'operators_package_list.html'
     context_object_name = 'package_list'
 
 class PackageDiscountListView(ListView):
     model = PackageDiscount
-    template_name = 'package_dicount_list.html'
+    template_name = 'operators_package_discount_list.html'
     context_object_name = 'package_discount_list'
     
 
@@ -130,11 +130,11 @@ class AssignServiceDiscountView(UpdateView):
 
 class ServiceListView(ListView):
     model = Service
-    template_name = 'service_list.html'
+    template_name = 'operators_service_list.html'
     context_object_name = 'service_list'
 
 class ServiceDiscountListView(ListView):
     model = ServiceDiscount
-    template_name = 'service_discount_list.html'
+    template_name = 'operators_service_discount_list.html'
     context_object_name = 'service_discount_list'
     
