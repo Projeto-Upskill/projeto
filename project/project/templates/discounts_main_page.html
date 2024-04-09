@@ -1,0 +1,11 @@
+{% extends "model_page.html" %}
+{% block content %}
+
+<body>
+    <h1>Select one to see Discounts</h1>
+    <ul>
+        <li><a href="{% url 'packages:package_list' %}">Package Discounts</a></li>
+        <li><a href="{% url 'services:service_list' %}">Services Discounts</a></li>
+    </ul>
+</body>
+{% endblock %}

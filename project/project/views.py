@@ -11,3 +11,6 @@ def system_administrator(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def discounts_main_page(request):
+    return render(request, 'discounts_main_page.html')
