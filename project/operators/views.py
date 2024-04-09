@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView, View
 from .forms import OperatorsForm
 from .models import Operators
 from django.shortcuts import get_object_or_404
@@ -77,7 +77,7 @@ class MenuDiscounts(TemplateView):
 
 #Views operators packages and services
 
-class AssignPackageView(UpdateView):
+class AssignPackageView(View):
     template_name = 'assign_package.html'
     form_class = PackageForm
     model = Package
@@ -86,8 +86,15 @@ class AssignPackageView(UpdateView):
     def form_valid(self, form):
         # Atribuir um pacote comercial a um cliente
         return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # Lógica para atribuir um pacote comercial a um cliente
+            return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
+        return render(request, self.template_name, {'form': form})
 
-class AssignPackageDiscountView(UpdateView):
+class AssignPackageDiscountView(View):
     template_name = 'assign_package_discount.html'
     form_class = PackageDiscountForm
     model = PackageDiscount
@@ -96,6 +103,13 @@ class AssignPackageDiscountView(UpdateView):
     def form_valid(self, form):
         # Atribuir uma promoção a um pacote comercial
         return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # Lógica para atribuir uma promoção a um pacote comercial
+            return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
+        return render(request, self.template_name, {'form': form})
 
 class OperatorsPackageListView(ListView):
     model = Package
@@ -108,7 +122,7 @@ class OperatorsPackageDiscountListView(ListView):
     context_object_name = 'package_discount_list'
     
 
-class AssignServiceView(UpdateView):
+class AssignServiceView(View):
     template_name = 'assign_service.html'
     form_class = ServiceForm
     model = Service
@@ -117,8 +131,15 @@ class AssignServiceView(UpdateView):
     def form_valid(self, form):
         # Atribuir um serviço a um cliente
         return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # Lógica para atribuir um serviço a um cliente
+            return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
+        return render(request, self.template_name, {'form': form})
 
-class AssignServiceDiscountView(UpdateView):
+class AssignServiceDiscountView(View):
     template_name = 'assign_service_discount.html'
     form_class = ServiceDiscountForm
     model = ServiceDiscount
@@ -127,6 +148,13 @@ class AssignServiceDiscountView(UpdateView):
     def form_valid(self, form):
          # Atribuir uma promoção a um serviço
         return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # Lógica para atribuir uma promoção a um serviço
+            return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
+        return render(request, self.template_name, {'form': form})
 
 class OperatorsServiceListView(ListView):
     model = Service
