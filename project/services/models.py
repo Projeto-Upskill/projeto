@@ -17,7 +17,6 @@ class ServiceType(models.Model):
 class Service(models.Model):
     id_service = models.AutoField(primary_key=True, null=False, verbose_name='id service')
     id_service_type = models.ForeignKey(ServiceType, on_delete=models.PROTECT, null=False, verbose_name='id service type')
-    service_initial_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     active = models.BooleanField(default=True, null=False)
     service_initial_price = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name='service initial price') #services must have a price before discount
     class Meta:
@@ -81,22 +80,13 @@ class InvoiceService(models.Model):
 
 
     def save(self, *args, **kwargs):
-        # Fetch the service initial price
         service_initial_price = self.id_service.service_initial_price if self.id_service.service_initial_price else 0
-
-        # Fetch the first active discount rate for the service
         discount_query = ServiceDiscount.objects.filter(
             id_service=self.id_service, active=True
         ).first()
-
-        # If there's an active discount, apply it; otherwise, set discount rate to 0
         discount_rate = discount_query.discount_rate if discount_query else 0
-
-        # Ensure the discount rate does not exceed 100%
         discount_rate = min(discount_rate, 100)
-
-        # Calculate the final price
         discount_amount = (service_initial_price * discount_rate) / 100
         self.final_service_price = service_initial_price - discount_amount
 
-        super().save(*args, **kwargs)  # Call the "real" save() method.
+        super().save(*args, **kwargs)
