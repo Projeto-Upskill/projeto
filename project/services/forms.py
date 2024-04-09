@@ -16,9 +16,10 @@ class ServiceTypeForm(forms.ModelForm):
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ['id_service_type', 'active']
+        fields = ['id_service_type', 'service_initial_price', 'active']
         labels = {
             'id_service_type': 'Service Type',
+            'service_initial_price': 'Service Initial Price',
             'active': 'Active',
         }
 
@@ -48,10 +49,9 @@ class ServiceDiscountServiceForm(forms.ModelForm):
 class InvoiceServiceForm(forms.ModelForm):
     class Meta:
         model = InvoiceService
-        fields = ['id_invoice_service', 'id_customer', 'id_service', 'final_service_price']
+        fields = ['id_invoice_service', 'id_customer', 'id_service']
         labels = {
             'id_invoice_service': 'Invoice Service ID',
             'id_customer': 'Customer ID',
             'id_service': 'Service ID',
-            'final_service_price': 'Final Service Price',
         }

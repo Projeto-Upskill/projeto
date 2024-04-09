@@ -29,5 +29,6 @@ urlpatterns = [
     path('administrator/', include("administrator.urls")),
     path('customer/', include('customers.urls')),
     path('operators/', include("operators.urls")),
-    path('package/', include("packages.urls"))
+    path('package/', include("packages.urls")),
+    path('discounts_main_page/', views.discounts_main_page, name='discounts_main_page')
 ]
