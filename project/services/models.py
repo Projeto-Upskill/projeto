@@ -17,6 +17,7 @@ class ServiceType(models.Model):
 class Service(models.Model):
     id_service = models.AutoField(primary_key=True, null=False, verbose_name='id service')
     id_service_type = models.ForeignKey(ServiceType, on_delete=models.PROTECT, null=False, verbose_name='id service type')
+    service_initial_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     active = models.BooleanField(default=True, null=False)
     service_initial_price = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name='service initial price') #services must have a price before discount
     class Meta:
@@ -31,6 +32,13 @@ class ServiceDiscount(models.Model):
     discount_rate = models.DecimalField(max_digits=4, decimal_places=2, null=False, verbose_name='discount rate')
     active = models.BooleanField(default=True, null=False, verbose_name='active')
     id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=True, verbose_name='id service') #This field is null to allow for discount creation before a service id being specified...
+
+    #Saves automatically in the intermediary table so we dont have to do that manually
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super(ServiceDiscount, self).save(*args, **kwargs)
+        if is_new and self.id_service:
+            ServiceDiscountService.objects.create(id_service=self.id_service, id_service_discount=self)
 
     class Meta:
         db_table = 'service_discount'
@@ -56,6 +64,14 @@ class InvoiceService(models.Model):
     id_service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='id service')
     final_service_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name='final service price')
 
+
+    def save(self, *args, **kwargs):
+        if self.id_service_id:
+            discount = ServiceDiscount.objects.filter(id_service=self.id_service, active=True).first()
+            discount_rate = discount.discount_rate if discount else 0
+            self.final_service_price = self.id_service.service_initial_price * (1 - discount_rate / 100)
+
+        super(InvoiceService, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'invoice_service'

@@ -2,8 +2,8 @@ import string
 import random
 from django.db import models
 from django.contrib.auth.models import User
-import smtplib
-from email.mime.text import MIMEText
+from django.core import mail
+from project.settings import *
 
 
 class Administrator(models.Model):
@@ -41,20 +41,25 @@ class Administrator(models.Model):
         return ''.join(random.choice(characters) for i in range(12))
 
     def send_welcome_email(self, user):
-        from_email = "projetoupskill@gmail.com"
-        password = "Upskill@20232024"
-
-        msg = MIMEText(f"Dear {user.first_name},\n\nWelcome to our website!\n\nYour username is {user.username}\nYour password is {user.password}\n\nThank you for registering.")
-        msg["Subject"] = "Welcome to Our Website!"
-        msg["From"] = "projetoupskill@gmail.com"
-        msg["To"] = user.email
-
         try:
-            server = smtplib.SMTP("smtp.example.com", 587)
-            server.starttls()
-            server.login(from_email, password)
-            server.sendmail(from_email, [user.email], msg.as_string())
-            server.quit()
+            if not user.has_usable_password():
+                user.set_unusable_password()
+                user.password = self.generate_password
+                user.save()
+            subject = 'Welcome to Our Website!'
+            message = f"Dear {user.first_name},\n\nWelcome to our website!\n\nYour username is {user.username}\nYour password is {user.password}\n\nThank you for registering."
+            email_from = EMAIL_HOST_USER
+            recipient_list = [f'{user.email}', ]
+
+            connection = mail.get_connection(username=EMAIL_HOST_USER,
+                                             password=EMAIL_HOST_PASSWORD,
+                                             host=EMAIL_HOST,
+                                             port=EMAIL_PORT,
+                                             use_tls=EMAIL_USE_TLS)
+
+            mail.send_mail(subject, message, email_from, recipient_list, connection=connection, fail_silently=False)
+            print(f"{user.email} {user.first_name}")
+            connection.close()
         except Exception as e:
             print(f"Error sending email: {e}")
 
