@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Operators Package List</h1>
+  <ul>
+    {% for package in operators_package_list %}
+      <li>{{ package }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

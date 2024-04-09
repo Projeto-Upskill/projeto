@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Operators Service List</h1>
+  <ul>
+    {% for service in operators_service_list %}
+      <li>{{ service }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

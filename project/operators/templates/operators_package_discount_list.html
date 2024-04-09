@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Operators Package Discount List</h1>
+  <ul>
+    {% for package_discount in operators_package_discount_list %}
+      <li>{{ package_discount }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
