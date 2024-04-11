@@ -4,7 +4,8 @@ from .models import Administrator
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User, Group
 
 admin = Administrator()
 
@@ -20,18 +21,18 @@ class AdministratorCreateView(CreateView):
         email = form.cleaned_data["email"]
         birth_date = form.cleaned_data["birth_date"]
         active = form.cleaned_data["active"]
-        username = f"{last_name.split()[0]}.{first_name.split()[-1]}"
-        password = admin.generate_password
+        username = form.cleaned_data["username"]
+        password = form.cleaned_data["password"]
 
-        user = User.objects.create_user(username, password)
+        user = User.objects.create_user(username=username, password=password)
         user.is_active = active
 
         user.save()
 
-        administrator = Administrator.objects.create(user=user, first_name=first_name, last_name=last_name, email=email,
-                                                     birth_date=birth_date, active=active)
+        administrator = Administrator.objects.create(user=user, first_name=first_name, last_name=last_name,
+                                                     email=email, birth_date=birth_date, active=active)
 
-        admin.send_welcome_email(user)
+        # admin.send_welcome_email(user)
 
         return redirect("system_admin")
 
@@ -73,7 +74,7 @@ class AdministratorDeleteView(DeleteView):
         return reverse_lazy('administrator:administrator_list')
 
 
-class AdministratorIndex(TemplateView):
+class AdministratorIndex(TemplateView, LoginRequiredMixin):
     template_name = 'index_administrator.html'
 
 
