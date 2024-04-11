@@ -1,9 +1,15 @@
 from django import forms
-from .models import Administrator, User
+from .models import Administrator
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 
 class DateInput(forms.DateInput):
     input_type = "date"
+
+
+class PasswordInput(forms.PasswordInput):
+    input_type = 'password'
 
 
 class AdministratorForm(forms.ModelForm):
@@ -12,15 +18,19 @@ class AdministratorForm(forms.ModelForm):
     email = forms.EmailField(max_length=300)
     birth_date = forms.DateField(widget=DateInput())
     active = forms.BooleanField()
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(widget=PasswordInput())
 
     class Meta:
-        model = Administrator
+        model = User
         fields = (
             'first_name',
             'last_name',
             'email',
             'birth_date',
             'active',
+            'username',
+            'password'
 
         )
 

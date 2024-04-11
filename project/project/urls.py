@@ -21,6 +21,8 @@ from . import views
 app_name = 'project'
 
 urlpatterns = [
+    path("login", views.login, name='login'),
+    path("login/submit", views.submit_login, name='submit_login'),
     path("", views.index,  name='index'),
     path('about/', views.about, name='about'),
     path('admin/', admin.site.urls),
