@@ -1,12 +1,12 @@
 import string
 import random
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.core import mail
 
 
 class Administrator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='user', related_name='administrator')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='user', related_name='administrators')
     id_administrator = models.AutoField(primary_key=True, verbose_name='id administrator')
     first_name = models.CharField(max_length=500, verbose_name='first name')
     last_name = models.CharField(max_length=500, verbose_name='last name')
