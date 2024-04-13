@@ -1,5 +1,7 @@
 from django import forms
 from .models import Customer, Address, PostalCode, City
+from django.contrib.auth.models import User
+
 
 
 class DateInput(forms.DateInput):
@@ -67,3 +69,46 @@ class CityForm(forms.ModelForm):
     class Meta:
         model = City
         fields = ['name_city']
+
+
+class UserCustomerRegistrationForm(forms.ModelForm):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField()
+
+    name = forms.CharField(max_length=255)
+    tax_number = forms.IntegerField()
+    birth_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    active = forms.BooleanField()
+
+    street = forms.CharField(max_length=255)
+    door_number = forms.IntegerField()
+
+    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label="Select City")
+    postal_code = forms.ModelChoiceField(queryset=PostalCode.objects.all(), empty_label="Select Postal Code")
+
+    class Meta:
+        model = Customer
+        fields = ['username', 'password', 'email', 'name', 'tax_number', 'birth_date', 'active', 'street', 'door_number', 'city', 'postal_code']
+
+    def save(self, commit=True):
+        user = User.objects.create_user(
+            self.cleaned_data['username'],
+            self.cleaned_data['email'],
+            self.cleaned_data['password']
+        )
+
+        customer = super().save(commit=False)
+        customer.user = user
+        customer.email = self.cleaned_data['email'] #this is needed to save both in native django user and our customer model
+        if commit:
+            customer.save()
+            Address.objects.create(
+                street=self.cleaned_data['street'],
+                door_number=self.cleaned_data['door_number'],
+                city=self.cleaned_data['city'],
+                postal_code=self.cleaned_data['postal_code'],
+                customer=customer
+            )
+
+        return customer

@@ -243,3 +243,17 @@ def update_customer_data(request):
 # def view_available_promotions(request):
 #     promotions = Promotion.objects.all()
 #     return render(request, 'clientes/available_promotions.html', {'promotions': promotions})
+
+from django.contrib.auth import login
+from django.shortcuts import redirect, render
+from .forms import UserCustomerRegistrationForm
+def register_customer(request):
+    if request.method == 'POST':
+        form = UserCustomerRegistrationForm(request.POST)
+        if form.is_valid():
+            customer = form.save()
+            login(request, customer.user)  # Log the user in after registration
+            return redirect('index')  # Redirect to a home page or another relevant page
+    else:
+        form = UserCustomerRegistrationForm()
+    return render(request, 'register.html', {'form': form})

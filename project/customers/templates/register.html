@@ -1,0 +1,10 @@
+{% extends 'model_page.html' %}  <!-- Extend your base layout -->
+
+{% block content %}
+<h2>Register</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Render the form fields here -->
+    <button type="submit">Register</button>
+</form>
+{% endblock %}

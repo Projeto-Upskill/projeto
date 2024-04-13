@@ -1,7 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 
 class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
     id_customer = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     tax_number = models.IntegerField()
@@ -14,6 +17,10 @@ class Customer(models.Model):
 
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+
+
+
 
 
 class PostalCode(models.Model):
