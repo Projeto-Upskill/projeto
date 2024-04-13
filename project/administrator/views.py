@@ -6,8 +6,12 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User, Group
+from braces.views import GroupRequiredMixin
+from project.views import *
+
 
 admin = Administrator()
+administrator_group_permissions = Group.objects.get(name='administrator_group')
 
 
 class AdministratorCreateView(CreateView):
@@ -31,6 +35,8 @@ class AdministratorCreateView(CreateView):
 
         administrator = Administrator.objects.create(user=user, first_name=first_name, last_name=last_name,
                                                      email=email, birth_date=birth_date, active=active)
+
+        administrator.user.groups.add(administrator_group_permissions)
 
         # admin.send_welcome_email(user)
 
@@ -74,9 +80,28 @@ class AdministratorDeleteView(DeleteView):
         return reverse_lazy('administrator:administrator_list')
 
 
-class AdministratorIndex(TemplateView, LoginRequiredMixin):
+class AdministratorIndex(TemplateView, LoginRequiredMixin, GroupRequiredMixin):
     template_name = 'index_administrator.html'
+    group_required = u'administrator_group'
 
+    def is_user_in_group(self, user_id, group_id):
+        try:
+            group = Group.objects.get(id=group_id)
+            user = group.user_set.get(id=user_id)
+            return True
+        except Group.DoesNotExist:
+            return False
+        except group.user_set.model.DoesNotExist:
+            return False
+
+    def get_login_url(self):
+        user_id = self.request.user.id
+        group_id = Group.objects.get(name='administrator_group').id
+        if self.is_user_in_group(user_id, group_id):
+            return reverse_lazy('administrator:administrator_index')
+        else:
+            return reverse_lazy('project:login')
+        
 
 class MenuOperators(TemplateView):
     template_name = 'operators.html'
