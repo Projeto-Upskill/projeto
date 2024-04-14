@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView, View
 from .forms import OperatorsForm
 from .models import Operators
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 from packages.models import Package, PackageDiscount
 from services.models import Service, ServiceDiscount
 from packages.forms import PackageForm, PackageDiscountForm
 from services.forms import ServiceForm, ServiceDiscountForm
+
 
 class OperatorsCreateView(CreateView):
     template_name = 'operators_create.html'
@@ -15,14 +17,27 @@ class OperatorsCreateView(CreateView):
     success_url = reverse_lazy('administrator:administrator_index')
 
     def form_valid(self, form):
-        form.instance.name = form.cleaned_data["name"]
-        form.instance.email = form.cleaned_data["email"]
-        form.instance.birth_date = form.cleaned_data["birth_date"]
-        form.instance.admission_date = form.cleaned_data["admission_date"]
-        form.instance.active = form.cleaned_data["active"]
+        first_name = form.cleaned_data["first_name"]
+        last_name = form.cleaned_data["last_name"]
+        email = form.cleaned_data["email"]
+        birth_date = form.cleaned_data["birth_date"]
+        admission_date = form.cleaned_data["admission_date"]
+        active = form.cleaned_data["active"]
+        username = form.cleaned_data["username"]
+        password = form.cleaned_data["password"]
 
-        return super().form_valid(form)
-    
+        user = User.objects.create_user(username=username, password=password)
+        user.is_active = active
+
+        user.save()
+
+        operator = Operators.objects.create(user=user, first_name=first_name, last_name=last_name,
+                                            email=email, birth_date=birth_date, admission_date=admission_date,
+                                            active=active)
+
+        return redirect("administrator:administrator_index")
+
+
 class OperatorsListView(ListView):
     model = Operators
     template_name = 'operators_list.html'
@@ -39,7 +54,8 @@ class OperatorsUpdateView(UpdateView):
         return get_object_or_404(Operators, id_operator=id_operator)
 
     def form_valid(self, form):
-        form.instance.name = form.cleaned_data["name"]
+        form.instance.name = form.cleaned_data["first_name"]
+        form.instance.name = form.cleaned_data["last_name"]
         form.instance.email = form.cleaned_data["email"]
         form.instance.birth_date = form.cleaned_data["birth_date"]
         form.instance.admission_date = form.cleaned_data["admission_date"]
@@ -75,7 +91,8 @@ class MenuPackages(TemplateView):
 class MenuDiscounts(TemplateView):
     template_name = 'menu_discounts.html'
 
-#Views operators packages and services
+
+# Views operators packages and services
 
 class AssignPackageView(View):
     template_name = 'assign_package.html'
@@ -86,13 +103,14 @@ class AssignPackageView(View):
     def form_valid(self, form):
         # Atribuir um pacote comercial a um cliente
         return super().form_valid(form)
-    
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             # Lógica para atribuir um pacote comercial a um cliente
             return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
         return render(request, self.template_name, {'form': form})
+
 
 class AssignPackageDiscountView(View):
     template_name = 'assign_package_discount.html'
@@ -103,7 +121,7 @@ class AssignPackageDiscountView(View):
     def form_valid(self, form):
         # Atribuir uma promoção a um pacote comercial
         return super().form_valid(form)
-    
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -111,16 +129,18 @@ class AssignPackageDiscountView(View):
             return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
         return render(request, self.template_name, {'form': form})
 
+
 class OperatorsPackageListView(ListView):
     model = Package
     template_name = 'operators_package_list.html'
     context_object_name = 'package_list'
 
+
 class OperatorsPackageDiscountListView(ListView):
     model = PackageDiscount
     template_name = 'operators_package_discount_list.html'
     context_object_name = 'package_discount_list'
-    
+
 
 class AssignServiceView(View):
     template_name = 'assign_service.html'
@@ -131,13 +151,14 @@ class AssignServiceView(View):
     def form_valid(self, form):
         # Atribuir um serviço a um cliente
         return super().form_valid(form)
-    
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             # Lógica para atribuir um serviço a um cliente
             return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
         return render(request, self.template_name, {'form': form})
+
 
 class AssignServiceDiscountView(View):
     template_name = 'assign_service_discount.html'
@@ -146,9 +167,9 @@ class AssignServiceDiscountView(View):
     success_url = reverse_lazy('operators_list')
 
     def form_valid(self, form):
-         # Atribuir uma promoção a um serviço
+        # Atribuir uma promoção a um serviço
         return super().form_valid(form)
-    
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -156,13 +177,14 @@ class AssignServiceDiscountView(View):
             return redirect('operators_list')  # Redirecionar para a página de lista de operadores após o sucesso
         return render(request, self.template_name, {'form': form})
 
+
 class OperatorsServiceListView(ListView):
     model = Service
     template_name = 'operators_service_list.html'
     context_object_name = 'service_list'
 
+
 class OperatorsServiceDiscountListView(ListView):
     model = ServiceDiscount
     template_name = 'operators_service_discount_list.html'
     context_object_name = 'service_discount_list'
-    
