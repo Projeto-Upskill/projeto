@@ -9,7 +9,6 @@ from django.contrib.auth.models import User, Group
 from braces.views import GroupRequiredMixin
 from project.views import *
 
-
 admin = Administrator()
 administrator_group_permissions = Group.objects.get(name='administrator_group')
 
@@ -101,7 +100,7 @@ class AdministratorIndex(TemplateView, LoginRequiredMixin, GroupRequiredMixin):
             return reverse_lazy('administrator:administrator_index')
         else:
             return reverse_lazy('project:login')
-        
+
 
 class MenuOperators(TemplateView):
     template_name = 'operators.html'
@@ -121,4 +120,3 @@ class MenuDiscounts(TemplateView):
 
 class MenuServices(TemplateView):
     template_name = 'services.html'
-
