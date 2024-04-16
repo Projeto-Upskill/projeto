@@ -169,8 +169,3 @@ cython_debug/
 *.docx
 .idea/
 *config.py
-migrations
-*/migrations
-*./migrations
-./migrations
-*migrations/
