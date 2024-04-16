@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage
 from .forms import PackageForm, PackageDiscountForm, PackageDiscountPackageForm, InvoicePackageForm
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 # Let's create views for Package
@@ -14,11 +15,12 @@ class PackageListView(ListView):
     context_object_name = 'package'
 
 
-class PackageCreateView(CreateView):
+class PackageCreateView(PermissionRequiredMixin, CreateView):
     model = Package
     form_class = PackageForm
     template_name = 'package_form.html'
     success_url = reverse_lazy('packages:package_list')
+    permission_required = 'packages.add_package'
 
     def form_valid(self, form):
         form.instance.name = form.cleaned_data["name"]
@@ -27,11 +29,12 @@ class PackageCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PackageUpdateView(UpdateView):
+class PackageUpdateView(PermissionRequiredMixin, UpdateView):
     model = Package
     form_class = PackageForm
     template_name = 'package_form.html'
     success_url = reverse_lazy('packages:package_list')
+    permission_required = 'packages.change_package'
 
     def get_object(self):
         id_package = self.kwargs.get('id_package')
@@ -44,10 +47,11 @@ class PackageUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class PackageDeleteView(DeleteView):
+class PackageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Package
     template_name = 'package_confirm_delete.html'
     success_url = reverse_lazy('packages:package_list')
+    permission_required = 'packages.delete_package'
 
     def get_object(self):
         id_package = self.kwargs.get('id_package')
@@ -70,11 +74,13 @@ class PackageDiscountListView(ListView):
     context_object_name = 'package_discount'
 
 
-class PackageDiscountCreateView(CreateView):
+
+class PackageDiscountCreateView(PermissionRequiredMixin, CreateView):
     model = PackageDiscount
     form_class = PackageDiscountForm
     template_name = 'package_discount_form.html'
     success_url = reverse_lazy('packages:package_discount_list')
+    permission_required = 'packages.add_packagediscount'
 
     def form_valid(self, form):
         form.instance.discount_rate = form.cleaned_data["discount_rate"]
@@ -84,11 +90,12 @@ class PackageDiscountCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PackageDiscountUpdateView(UpdateView):
+class PackageDiscountUpdateView(PermissionRequiredMixin, UpdateView):
     model = PackageDiscount
     form_class = PackageDiscountForm
     template_name = 'package_discount_form.html'
     success_url = reverse_lazy('packages:package_discount_list')
+    permission_required = 'packages.change_packagediscount'
 
     def get_object(self):
         id = self.kwargs.get('id_package_discount')
@@ -102,10 +109,11 @@ class PackageDiscountUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class PackageDiscountDeleteView(DeleteView):
+class PackageDiscountDeleteView(PermissionRequiredMixin, DeleteView):
     model = PackageDiscount
     template_name = 'package_discount_confirm_delete.html'
     success_url = reverse_lazy('packages:package_discount_list')
+    permission_required = 'packages.delete_packagediscount'
 
     def get_object(self, queryset=None):
         id_package_discount = self.kwargs.get('id_package_discount')
@@ -124,11 +132,12 @@ class PackageDiscountPackageListView(ListView):
     context_object_name = 'package_discount_package'
 
 
-class PackageDiscountPackageCreateView(CreateView):
+class PackageDiscountPackageCreateView(PermissionRequiredMixin, CreateView):
     model = PackageDiscountPackage
     form_class = PackageDiscountPackageForm
     template_name = 'package_discount_package_form.html'
     success_url = reverse_lazy('packages:package_discount_package_list')
+    permission_required = 'packages.add_packagediscountpackage'
 
     def form_valid(self, form):
         form.instance.id_package = form.cleaned_data["id_package"]
@@ -137,11 +146,12 @@ class PackageDiscountPackageCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PackageDiscountPackageUpdateView(UpdateView):
+class PackageDiscountPackageUpdateView(PermissionRequiredMixin, UpdateView):
     model = PackageDiscountPackage
     form_class = PackageDiscountPackageForm
     template_name = 'package_discount_package_form.html'
     success_url = reverse_lazy('packages:package_discount_package_list')
+    permission_required = 'packages.change_packagediscountpackage'
 
     def get_object(self):
         id = self.kwargs.get('id_package_discount_package')
@@ -154,10 +164,11 @@ class PackageDiscountPackageUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class PackageDiscountPackageDeleteView(DeleteView):
+class PackageDiscountPackageDeleteView(PermissionRequiredMixin, DeleteView):
     model = PackageDiscountPackage
     template_name = 'package_discount_package_delete.html'
     success_url = reverse_lazy('packages:package_discount_package_list')
+    permission_required = 'packages.delete_packagediscountpackage'
 
     def get_object(self, queryset=None):
         id_package_discount_package = self.kwargs.get('id_package_discount_package')
@@ -166,17 +177,19 @@ class PackageDiscountPackageDeleteView(DeleteView):
 
 # Let's create views for InvoicePackage
 
-class InvoicePackageListView(ListView):
+class InvoicePackageListView(PermissionRequiredMixin, ListView):
     model = InvoicePackage
     template_name = 'invoice_package_list.html'
     context_object_name = 'invoice_package'
+    permission_required = 'packages.view_invoicepackage' #this one also needs permissions because not everyone should be hable to see invoices for packages
 
 
-class InvoicePackageCreateView(CreateView):
+class InvoicePackageCreateView(PermissionRequiredMixin, CreateView):
     model = InvoicePackage
     form_class = InvoicePackageForm
     template_name = 'invoice_package_form.html'
     success_url = reverse_lazy('packages:invoice_package_list')
+    permission_required = 'packages.add_invoicepackage'
 
     def form_valid(self, form):
         form.id_customer = form.cleaned_data["id_customer"]
@@ -186,11 +199,12 @@ class InvoicePackageCreateView(CreateView):
         return super().form_valid(form)
 
 
-class InvoicePackageUpdateView(UpdateView):
+class InvoicePackageUpdateView(PermissionRequiredMixin, UpdateView):
     model = InvoicePackage
     form_class = InvoicePackageForm
     template_name = 'invoice_package_form.html'
     success_url = reverse_lazy('packages:invoice_package_list')
+    permission_required = 'packages.change_invoicepackage'
 
     def get_object(self):
         id = self.kwargs.get('id_invoice_package')
@@ -204,10 +218,11 @@ class InvoicePackageUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class InvoicePackageDeleteView(DeleteView):
+class InvoicePackageDeleteView(PermissionRequiredMixin, DeleteView):
     model = InvoicePackage
     template_name = 'invoice_package_confirm_delete.html'
     success_url = reverse_lazy('packages:invoice_package_list')
+    permission_required = 'packages.delete_invoicepackage'
 
     def get_object(self, queryset=None):
         id_invoice_package = self.kwargs.get('id_invoice_package')
