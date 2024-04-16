@@ -1,10 +1,29 @@
 {% extends 'model_page.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
   <h2>{% if object %}Edit{% else %}Add{% endif %} Service</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+
+  <h2>Services Types</h2>
+  <table>
+    <thead>
+      <tr>
+      <th>id</th>
+      <th>service name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in service_types %}
+      <tr>
+        <td>{{ s.id_service_type }}</td>
+        <td>{{ s.service_name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

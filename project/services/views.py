@@ -58,6 +58,11 @@ class ServiceCreateView(CreateView):
     template_name = 'service_form.html'
     success_url = reverse_lazy('services:service_list')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['service_types'] = ServiceType.objects.all()
+        return context
+
 
 class ServiceUpdateView(UpdateView):
     model = Service
