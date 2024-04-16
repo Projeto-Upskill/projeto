@@ -1,17 +1,22 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Address, PostalCode, City
-from .forms import CustomerForm, AddressForm, RegistrationForm
+from .forms import CustomerForm, AddressForm, RegistrationForm, UserCustomerRegistrationForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth import login
 from .permissions import *
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 create_group = create_customers_group()
 
-class CustomerCreateView(CreateView):
+class CustomerCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'customer_create.html'
     form_class = CustomerForm
     success_url = reverse_lazy('administrator:menu_customers')
+    permission_required = 'customers.add_customer'
+
 
     def form_valid(self, form):
         form.name = form.cleaned_data["name"]
@@ -23,16 +28,18 @@ class CustomerCreateView(CreateView):
         return super().form_valid(form)
 
 
-class CustomerListView(ListView):
+class CustomerListView(PermissionRequiredMixin, ListView):
     template_name = 'customer_list.html'
     model = Customer
     context_object_name = 'customer_list'
+    permission_required = 'customers.view_customer'
 
 
-class CustomerUpdateView(UpdateView):
+class CustomerUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'customer_create.html'
     form_class = CustomerForm
     success_url = reverse_lazy("administrator:menu_customers")
+    permission_required = 'customers.change_customer'
 
     def get_object(self):
         id_customer = self.kwargs.get("id_customer")
@@ -48,9 +55,10 @@ class CustomerUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class CustomerDeleteView(DeleteView):
+class CustomerDeleteView(PermissionRequiredMixin, DeleteView):
     model = Customer
     template_name = 'customer_confirm_delete.html'
+    permission_required = 'customers.delete_customer'
 
     def get_object(self):
         id_customer = self.kwargs.get("id_customer")
@@ -60,10 +68,11 @@ class CustomerDeleteView(DeleteView):
         return reverse_lazy("administrator:menu_customers")
 
 
-class AddressCreateView(CreateView):
+class AddressCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'address_create.html'
     form_class = AddressForm
     success_url = reverse_lazy("administrator:menu_customers")
+    permission_required = 'customers.add_address'
 
     def form_valid(self, form):
         form.street = form.cleaned_data["street"]
@@ -81,16 +90,18 @@ class AddressCreateView(CreateView):
         return context
 
 
-class AddressListView(ListView):
+class AddressListView(PermissionRequiredMixin, ListView):
     template_name = 'address_list.html'
     model = Address
     context_object_name = 'address_list'
+    permission_required = 'customers.view_address'
 
 
-class AddressUpdateView(UpdateView):
+class AddressUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'address_create.html'
     form_class = AddressForm
     success_url = reverse_lazy("customers:address_list")
+    permission_required = 'customers.change_address'
 
     def get_object(self):
         id_address = self.kwargs.get("id_address")
@@ -112,9 +123,10 @@ class AddressUpdateView(UpdateView):
         return context
 
 
-class AddressDeleteView(DeleteView):
-    template_name = 'address_confirm_delete.html'
+class AddressDeleteView(PermissionRequiredMixin, DeleteView):
     model = Address
+    template_name = 'address_confirm_delete.html'
+    permission_required = 'customers.delete_address'
 
     def get_object(self, queryset=None):
         id_address = self.kwargs.get("id_address")
@@ -124,9 +136,10 @@ class AddressDeleteView(DeleteView):
         return reverse_lazy("customers:address_list")
 
 
-class RegistrationView(CreateView):
+class RegistrationView(PermissionRequiredMixin, CreateView):
     form_class = RegistrationForm
     template_name = 'registration.html'
+    permission_required = 'customers.add_customer'
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -149,16 +162,18 @@ class RegistrationView(CreateView):
         return reverse_lazy("administrator:menu_customers")
 
 
-class RegistrationListView(ListView):
+class RegistrationListView(PermissionRequiredMixin, ListView):
     template_name = 'registration_list.html'
     model = Address
     context_object_name = 'register_list'
+    permission_required = 'customers.view_address'
 
 
-class RegistrationUpdateView(UpdateView):
+class RegistrationUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'registration.html'
     form_class = RegistrationForm
     success_url = reverse_lazy("administrator:menu_customers")
+    #i didnt add permisions since im not sure what this function is for - guilherme
     pk_url_kwarg = "id_address"
 
     def get_object_id_address(self):
@@ -246,9 +261,6 @@ def update_customer_data(request):
 #     promotions = Promotion.objects.all()
 #     return render(request, 'clientes/available_promotions.html', {'promotions': promotions})
 
-from django.contrib.auth import login
-from django.shortcuts import redirect, render
-from .forms import UserCustomerRegistrationForm
 def register_customer(request):
     if request.method == 'POST':
         form = UserCustomerRegistrationForm(request.POST)
