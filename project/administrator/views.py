@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User, Group
+from django.db.models import Q
 from braces.views import GroupRequiredMixin
 from project.views import *
 from .permissions import *
@@ -47,6 +48,19 @@ class AdministratorListView(ListView):
     model = Administrator
     template_name = 'administrator_list.html'
     context_object_name = 'administrator_list'
+
+    def get_queryset(self):
+        first_name = self.request.GET.get('first_name')
+        last_name = self.request.GET.get('last_name')
+
+        queryset = super().get_queryset()
+
+        if first_name:
+            queryset = queryset.filter(Q(first_name__icontains=first_name))
+        if last_name:
+            queryset = queryset.filter(Q(last_name__icontains=last_name))
+
+        return queryset.order_by('first_name')
 
 
 class AdministratorUpdateView(UpdateView):
