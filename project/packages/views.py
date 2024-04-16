@@ -126,10 +126,12 @@ class PackageDiscountDeleteView(PermissionRequiredMixin, DeleteView):
 # Let's create views for PackageDiscountPackage
 
 
-class PackageDiscountPackageListView(ListView):
+class PackageDiscountPackageListView(PermissionRequiredMixin, ListView):
     model = PackageDiscountPackage
     template_name = 'package_discount_package_list.html'
     context_object_name = 'package_discount_package'
+    permission_required = 'packages.view_packagediscountpackage'
+
 
 
 class PackageDiscountPackageCreateView(PermissionRequiredMixin, CreateView):
