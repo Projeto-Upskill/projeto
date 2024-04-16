@@ -16,7 +16,7 @@ def submit_login(request):
         if user is not None:
             print(f'user: {user}')
             app_login(request, user)
-            return redirect('administrator:administrator_index')
+            return render(request, 'index.html')
         else:
             print('error. User is none')
             messages.error(request, "Login incorrect, try again!")
