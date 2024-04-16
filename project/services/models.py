@@ -13,6 +13,9 @@ class ServiceType(models.Model):
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
+    def __str__(self):
+        return f"{self.id_service_type} {self.service_name}"
+
 
 class Service(models.Model):
     id_service = models.AutoField(primary_key=True, null=False, verbose_name='id service')

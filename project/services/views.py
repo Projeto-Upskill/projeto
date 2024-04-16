@@ -63,6 +63,11 @@ class ServiceCreateView(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy('services:service_list')
     permission_required = 'services.add_service'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['service_types'] = ServiceType.objects.all()
+        return context
+
 
 class ServiceUpdateView(PermissionRequiredMixin, UpdateView):
     model = Service
