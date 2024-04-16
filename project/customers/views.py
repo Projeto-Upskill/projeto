@@ -4,7 +4,9 @@ from .models import Customer, Address, PostalCode, City
 from .forms import CustomerForm, AddressForm, RegistrationForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from .permissions import *
 
+create_group = create_customers_group()
 
 class CustomerCreateView(CreateView):
     template_name = 'customer_create.html'

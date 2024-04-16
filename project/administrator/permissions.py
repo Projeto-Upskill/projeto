@@ -6,8 +6,7 @@ from django.dispatch import receiver
 @receiver(post_migrate)
 def create_operators_group(**kwargs):
     administrator_group, created = Group.objects.get_or_create(name='administrator_group')
-
-    administrator_group_permissions = [
+    permissions = [
         Permission.objects.get(codename='add_user'),
         Permission.objects.get(codename='view_user'),
         Permission.objects.get(codename='change_user'),
@@ -70,7 +69,7 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='delete_invoicepackage')
     ]
 
-    for p in administrator_group_permissions:
-        administrator_group.administrator_group_permissions.add(p)
+    for p in permissions:
+        administrator_group.permissions.add(p)
 
     return administrator_group
