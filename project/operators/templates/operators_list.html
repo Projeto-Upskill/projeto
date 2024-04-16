@@ -2,19 +2,40 @@
 {% block content %}
   <h1>Operators List</h1>
   {% if operators_list %}
-    <ul>
-      {% for admin in operators_list %}
-      <a href="{% url 'operators:operator_update' admin.id_operator %}">
-        <li>
-          name: {{ admin.name }};
-          email: {{ admin.email }};
-          birth date: {{ admin.birth_date }};
-          active: {{ admin.active }};
-        </li>
-      </a>
-      <a href="{% url 'operators:operator_delete' admin.id_operator %}">Delete</a>
+
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for operador in operators_list %}
+      <tr>
+        <td>{{ operador.first_name }}</td>
+        <td>{{ operador.email }}</td>
+        <td>...</td>
+      </tr>
       {% endfor %}
-    </ul>
+    </tbody>
+  </table>
+
+
+<!--    <ul>-->
+<!--      {% for admin in operators_list %}-->
+<!--      <a href="{% url 'operators:operator_update' admin.id_operator %}">-->
+<!--        <li>-->
+<!--          name: {{ admin.name }};-->
+<!--          email: {{ admin.email }};-->
+<!--          birth date: {{ admin.birth_date }};-->
+<!--          active: {{ admin.active }};-->
+<!--        </li>-->
+<!--      </a>-->
+<!--      <a href="{% url 'operators:operator_delete' admin.id_operator %}">Delete</a>-->
+<!--      {% endfor %}-->
+<!--    </ul>-->
   {% else %}
     <li>No registrations yet.</li>
   {% endif %}
