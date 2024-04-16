@@ -9,6 +9,10 @@ from packages.models import Package, PackageDiscount
 from services.models import Service, ServiceDiscount
 from packages.forms import PackageForm, PackageDiscountForm
 from services.forms import ServiceForm, ServiceDiscountForm
+from .permissions import *
+
+
+create_group = create_operators_group()
 
 
 class OperatorsCreateView(CreateView):
