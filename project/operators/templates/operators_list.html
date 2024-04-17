@@ -6,7 +6,7 @@
       {% for admin in operators_list %}
       <a href="{% url 'operators:operator_update' admin.id_operator %}">
         <li>
-          name: {{ admin.name }};
+          name: {{ admin.first_name }} {{ admin.last_name }};
           email: {{ admin.email }};
           birth date: {{ admin.birth_date }};
           active: {{ admin.active }};
