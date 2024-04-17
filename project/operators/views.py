@@ -13,7 +13,7 @@ from .permissions import *
 from django.contrib.auth.models import User, Group
 
 
-create_group = create_operators_group()
+operators_permissions_group = Group.objects.get(name="operator_group")
 
 
 class OperatorsCreateView(CreateView):
@@ -41,6 +41,8 @@ class OperatorsCreateView(CreateView):
         operator = Operators.objects.create(user=user, first_name=first_name, last_name=last_name,
                                             email=email, birth_date=birth_date, admission_date=admission_date,
                                             active=active)
+
+        operator.user.groups.add(operators_permissions_group)
 
         return redirect("administrator:administrator_index")
 
