@@ -19,23 +19,30 @@ class ServiceType(models.Model):
 
 class Service(models.Model):
     id_service = models.AutoField(primary_key=True, null=False, verbose_name='id service')
-    id_service_type = models.ForeignKey(ServiceType, on_delete=models.PROTECT, null=False, verbose_name='id service type')
+    id_service_type = models.ForeignKey(ServiceType, on_delete=models.PROTECT, null=False,
+                                        verbose_name='id service type')
     active = models.BooleanField(default=True, null=False)
-    service_initial_price = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name='service initial price') #services must have a price before discount
+    service_initial_price = models.DecimalField(max_digits=10, decimal_places=2, null=False,
+                                                verbose_name='service initial price')  # services must have a price before discount
+
     class Meta:
         db_table = 'service'
 
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
+    def __str__(self):
+        return f"{self.id_service} {self.id_service_type} {self.active} {self.service_initial_price}"
+
 
 class ServiceDiscount(models.Model):
     id_service_discount = models.AutoField(primary_key=True, null=False, verbose_name='id service discount')
     discount_rate = models.DecimalField(max_digits=4, decimal_places=2, null=False, verbose_name='discount rate')
     active = models.BooleanField(default=True, null=False, verbose_name='active')
-    id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=True, verbose_name='id service') #This field is null to allow for discount creation before a service id being specified...
+    id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=True,
+                                   verbose_name='id service')  # This field is null to allow for discount creation before a service id being specified...
 
-    #Saves automatically in the intermediary table so we dont have to do that manually
+    # Saves automatically in the intermediary table so we dont have to do that manually
     def save(self, *args, **kwargs):
         is_new = self._state.adding
         super(ServiceDiscount, self).save(*args, **kwargs)
@@ -48,11 +55,16 @@ class ServiceDiscount(models.Model):
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
+    def __str__(self):
+        return f"{self.id_service_discount} {self.discount_rate} {self.active} {self.id_service}"
+
 
 class ServiceDiscountService(models.Model):
-    id_service_discount_service = models.AutoField(primary_key=True, null=False, verbose_name='id service discount service')
+    id_service_discount_service = models.AutoField(primary_key=True, null=False,
+                                                   verbose_name='id service discount service')
     id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=False, verbose_name='id service')
-    id_service_discount = models.ForeignKey(ServiceDiscount, on_delete=models.PROTECT, null=False, verbose_name='id service discount')
+    id_service_discount = models.ForeignKey(ServiceDiscount, on_delete=models.PROTECT, null=False,
+                                            verbose_name='id service discount')
 
     class Meta:
         db_table = 'service_discount_service'
@@ -60,12 +72,17 @@ class ServiceDiscountService(models.Model):
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
+    def __str__(self):
+        return f"{self.id_service_discount_service} {self.id_service} {self.id_service_discount}"
+
+
 class InvoiceService(models.Model):
     id_invoice_service = models.AutoField(primary_key=True, null=False, verbose_name='id invoice service')
-    id_customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT, null=True)  # This field can be null so we are hable to create an invoice before the client is registred
+    id_customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT,
+                                    null=True)  # This field can be null so we are hable to create an invoice before the client is registred
     id_service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='id service')
-    final_service_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name='final service price')
-
+    final_service_price = models.DecimalField(max_digits=10, decimal_places=2, null=True,
+                                              verbose_name='final service price')
 
     def save(self, *args, **kwargs):
         if self.id_service_id:
@@ -81,6 +98,8 @@ class InvoiceService(models.Model):
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
+    def __str__(self):
+        return f"{self.id_invoice_service} {self.id_customer} {self.id_service} {self.final_service_price}"
 
     def save(self, *args, **kwargs):
         service_initial_price = self.id_service.service_initial_price if self.id_service.service_initial_price else 0

@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
     id_customer = models.AutoField(primary_key=True)
@@ -18,9 +17,8 @@ class Customer(models.Model):
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
-
-
-
+    def __str__(self):
+        return f"{self.id_customer} {self.name} {self.tax_number} {self.email} {self.birth_date} {self.active}"
 
 
 class PostalCode(models.Model):
@@ -33,6 +31,9 @@ class PostalCode(models.Model):
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
+    def __str__(self):
+        return f"{self.id_postal_code} {self.postal_code}"
+
 
 class City(models.Model):
     id_city = models.AutoField(primary_key=True)
@@ -43,6 +44,9 @@ class City(models.Model):
 
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+    def __str__(self):
+        return f"{self.id_city} {self.name_city}"
 
 
 class Address(models.Model):
@@ -58,3 +62,6 @@ class Address(models.Model):
 
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+    def __str__(self):
+        return f"{self.id_address} {self.street} {self.door_number} {self.city} {self.postal_code} {self.customer}"

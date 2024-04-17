@@ -18,6 +18,9 @@ class Operators(models.Model):
 	def __repr__(self):
 		return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
+	def __str__(self):
+		return f"{self.id_operator} {self.first_name} {self.last_name} {self.email} {self.birth_date} {self.admission_date} {self.active}"
+
 	def save(self, *args, **kwargs):
 		if not self.user.id:
 			self.user.set_password(self.user.password)
