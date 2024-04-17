@@ -39,5 +39,5 @@ urlpatterns = [
     #path('available/packages/', views.view_available_packages, name='view_available_packages'),
     # path('available/unique_services/', views.view_available_unique_services, name='view_available_unique_services'),
     # path('available/promotions/', views.view_available_promotions, name='view_available_promotions'),
-    path('register/', register_customer, name='register_customer')
+    path('register/', register_customer, name='register_customer'),
 ]
