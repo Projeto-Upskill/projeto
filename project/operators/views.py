@@ -10,6 +10,7 @@ from services.models import Service, ServiceDiscount
 from packages.forms import PackageForm, PackageDiscountForm
 from services.forms import ServiceForm, ServiceDiscountForm
 from .permissions import *
+from django.contrib.auth.models import User, Group
 
 
 create_group = create_operators_group()
@@ -34,6 +35,8 @@ class OperatorsCreateView(CreateView):
         user.is_active = active
 
         user.save()
+        operator_group, created = Group.objects.get_or_create(name='operator_group')
+        operator_group.user_set.add(user)
 
         operator = Operators.objects.create(user=user, first_name=first_name, last_name=last_name,
                                             email=email, birth_date=birth_date, admission_date=admission_date,
