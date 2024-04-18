@@ -21,20 +21,6 @@ class Customer(models.Model):
         return f"{self.id_customer} {self.name} {self.tax_number} {self.email} {self.birth_date} {self.active}"
 
 
-class PostalCode(models.Model):
-    id_postal_code = models.AutoField(primary_key=True)
-    postal_code = models.CharField(max_length=100)
-
-    class Meta:
-        db_table = 'postal_code'
-
-    def __repr__(self):
-        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
-
-    def __str__(self):
-        return f"{self.id_postal_code} {self.postal_code}"
-
-
 class City(models.Model):
     id_city = models.AutoField(primary_key=True)
     name_city = models.CharField(max_length=255)
@@ -48,6 +34,20 @@ class City(models.Model):
     def __str__(self):
         return f"{self.id_city} {self.name_city}"
 
+
+class PostalCode(models.Model):
+    id_postal_code = models.AutoField(primary_key=True)
+    postal_code = models.CharField(max_length=100)
+    city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='postal_codes')
+
+    class Meta:
+        db_table = 'postal_code'
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+    def __str__(self):
+        return f"{self.id_postal_code} {self.postal_code}"
 
 class Address(models.Model):
     id_address = models.AutoField(primary_key=True)
