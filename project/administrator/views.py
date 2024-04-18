@@ -14,11 +14,14 @@ admin = Administrator()
 administrator_group_permissions = Group.objects.get(name='administrator_group')
 
 
-class AdministratorCreateView(CreateView, PermissionRequiredMixin):
+class AdministratorCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     template_name = 'administrator_create.html'
     form_class = AdministratorForm
     permission_required = "project.add_administrator"
     success_url = reverse_lazy("project:system_admin")
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         first_name = form.cleaned_data["first_name"]
@@ -44,11 +47,14 @@ class AdministratorCreateView(CreateView, PermissionRequiredMixin):
         return redirect("system_admin")
 
 
-class AdministratorListView(ListView, PermissionRequiredMixin, LoginRequiredMixin):
+class AdministratorListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Administrator
     template_name = 'administrator_list.html'
     permission_required = "project.view_administrator"
     context_object_name = 'administrator_list'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_queryset(self):
         first_name = self.request.GET.get('first_name')
@@ -64,11 +70,14 @@ class AdministratorListView(ListView, PermissionRequiredMixin, LoginRequiredMixi
         return queryset.order_by('first_name')
 
 
-class AdministratorUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
+class AdministratorUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'administrator_create.html'
     form_class = AdministratorForm
     permission_required = "project.change_administrator"
     success_url = reverse_lazy("administrator:administrator_list")
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_administrator = self.kwargs.get('id_administrator')
@@ -84,10 +93,13 @@ class AdministratorUpdateView(UpdateView, PermissionRequiredMixin, LoginRequired
         return super().form_valid(form)
 
 
-class AdministratorDeleteView(DeleteView, PermissionRequiredMixin, LoginRequiredMixin):
+class AdministratorDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Administrator
     template_name = 'administrator_confirm_delete.html'
     permission_required = "project.delete_administrator"
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_administrator = self.kwargs.get('id_administrator')
@@ -97,73 +109,49 @@ class AdministratorDeleteView(DeleteView, PermissionRequiredMixin, LoginRequired
         return reverse_lazy('administrator:administrator_list')
 
 
-class AdministratorIndex(TemplateView, PermissionRequiredMixin, LoginRequiredMixin):
+class AdministratorIndex(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'index_administrator.html'
     permission_required = "administrator.view_user"
 
-    def success_url(self):
-        user = self.request.user
-        if user.has_perm("administrator.view_user"):
-            return reverse_lazy("administrator:index_administrator")
-        else:
-            return reverse_lazy("project:forbidden")
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class MenuOperators(TemplateView, PermissionRequiredMixin, LoginRequiredMixin):
+class MenuOperators(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'operators.html'
     permission_required = "administrator.view_user"
 
-    def success_url(self):
-        user = self.request.user
-        if user.has_perm("administrator.view_user"):
-            return reverse_lazy("administrator:menu_operators")
-        else:
-            return reverse_lazy("project:forbidden")
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class MenuCustomers(TemplateView, PermissionRequiredMixin, LoginRequiredMixin):
+class MenuCustomers(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'customers.html'
     permission_required = "administrator.view_user"
 
-    def success_url(self):
-        user = self.request.user
-        if user.has_perm("administrator.view_user"):
-            return reverse_lazy("administrator:menu_customers")
-        else:
-            return reverse_lazy("project:forbidden")
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class MenuPackages(TemplateView, PermissionRequiredMixin, LoginRequiredMixin):
+class MenuPackages(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'packages.html'
     permission_required = "administrator.view_user"
 
-    def success_url(self):
-        user = self.request.user
-        if user.has_perm("administrator.view_user"):
-            return reverse_lazy("administrator:menu_packages")
-        else:
-            return reverse_lazy("project:forbidden")
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class MenuDiscounts(TemplateView, PermissionRequiredMixin, LoginRequiredMixin):
+class MenuDiscounts(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'discounts.html'
     permission_required = "administrator.view_user"
 
-    def success_url(self):
-        user = self.request.user
-        if user.has_perm("administrator.view_user"):
-            return reverse_lazy("administrator:menu_discounts")
-        else:
-            return reverse_lazy("project:forbidden")
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class MenuServices(TemplateView, PermissionRequiredMixin, LoginRequiredMixin):
+class MenuServices(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'services.html'
     permission_required = "administrator.view_user"
 
-    def success_url(self):
-        user = self.request.user
-        if user.has_perm("administrator.view_user"):
-            return reverse_lazy("administrator:menu_services")
-        else:
-            return reverse_lazy("project:forbidden")
+    def handle_no_permission(self):
+        return redirect("forbidden")

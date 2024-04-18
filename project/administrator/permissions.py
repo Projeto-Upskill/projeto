@@ -67,7 +67,7 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='add_invoicepackage'),
         Permission.objects.get(codename='change_invoicepackage'),
         Permission.objects.get(codename='view_invoicepackage'),
-        Permission.objects.get(codename='delete_invoicepackage')
+        Permission.objects.get(codename='delete_invoicepackage'),
     ]
 
     for p in permissions:

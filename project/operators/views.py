@@ -4,7 +4,7 @@ from .forms import OperatorsForm
 from .models import Operators
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from packages.models import Package, PackageDiscount
 from services.models import Service, ServiceDiscount
 from packages.forms import PackageForm, PackageDiscountForm
@@ -18,9 +18,10 @@ operators_permissions_group = Group.objects.get(name="operator_group")
 
 
 
-class OperatorsCreateView(PermissionRequiredMixin, CreateView):
+class OperatorsCreateView(CreateView, PermissionRequiredMixin, LoginRequiredMixin):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
+    permission_required = "administrator.add_operators"
     success_url = reverse_lazy('administrator:administrator_index')
     permission_required = 'operators.add_operator'
 
@@ -50,16 +51,19 @@ class OperatorsCreateView(PermissionRequiredMixin, CreateView):
         return redirect("administrator:administrator_index")
 
 
-class OperatorsListView(PermissionRequiredMixin, ListView):
+class OperatorsListView(ListView, PermissionRequiredMixin, LoginRequiredMixin):
     model = Operators
     template_name = 'operators_list.html'
+    permission_required = "administrator.view_operators"
     context_object_name = 'operators_list'
     permission_required = 'operators.view_operator'
 
 
-class OperatorsUpdateView(PermissionRequiredMixin, UpdateView):
+
+class OperatorsUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
+    permission_required = 'administrator.change_operators'
     success_url = reverse_lazy("operators:operator_list")
     permission_required = 'operators.change_operator'
 
@@ -78,10 +82,11 @@ class OperatorsUpdateView(PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class OperatorsDeleteView(PermissionRequiredMixin, DeleteView):
+
+class OperatorsDeleteView(DeleteView, PermissionRequiredMixin, LoginRequiredMixin):
     model = Operators
     template_name = 'operators_confirm_delete.html'
-    permission_required = 'operators.delete_operator'
+    permission_required = "administrator.delete_operators"
 
     def get_object(self, queryset=None):
         id_operator = self.kwargs.get('id_operator')
