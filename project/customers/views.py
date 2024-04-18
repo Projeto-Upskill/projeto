@@ -6,17 +6,19 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from .permissions import *
-from django.contrib.auth.mixins import PermissionRequiredMixin
-
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 create_group = create_customers_group()
 
-class CustomerCreateView(PermissionRequiredMixin, CreateView):
+
+class CustomerCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'customer_create.html'
     form_class = CustomerForm
     success_url = reverse_lazy('administrator:menu_customers')
     permission_required = 'customers.add_customer'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.name = form.cleaned_data["name"]
@@ -28,18 +30,24 @@ class CustomerCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class CustomerListView(PermissionRequiredMixin, ListView):
+class CustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'customer_list.html'
     model = Customer
     context_object_name = 'customer_list'
     permission_required = 'customers.view_customer'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
-class CustomerUpdateView(PermissionRequiredMixin, UpdateView):
+
+class CustomerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'customer_create.html'
     form_class = CustomerForm
     success_url = reverse_lazy("administrator:menu_customers")
     permission_required = 'customers.change_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_customer = self.kwargs.get("id_customer")
@@ -55,10 +63,13 @@ class CustomerUpdateView(PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class CustomerDeleteView(PermissionRequiredMixin, DeleteView):
+class CustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Customer
     template_name = 'customer_confirm_delete.html'
     permission_required = 'customers.delete_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_customer = self.kwargs.get("id_customer")
@@ -68,11 +79,14 @@ class CustomerDeleteView(PermissionRequiredMixin, DeleteView):
         return reverse_lazy("administrator:menu_customers")
 
 
-class AddressCreateView(PermissionRequiredMixin, CreateView):
+class AddressCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'address_create.html'
     form_class = AddressForm
     success_url = reverse_lazy("administrator:menu_customers")
     permission_required = 'customers.add_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.street = form.cleaned_data["street"]
@@ -90,18 +104,24 @@ class AddressCreateView(PermissionRequiredMixin, CreateView):
         return context
 
 
-class AddressListView(PermissionRequiredMixin, ListView):
+class AddressListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'address_list.html'
     model = Address
     context_object_name = 'address_list'
     permission_required = 'customers.view_address'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
-class AddressUpdateView(PermissionRequiredMixin, UpdateView):
+
+class AddressUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'address_create.html'
     form_class = AddressForm
     success_url = reverse_lazy("customers:address_list")
     permission_required = 'customers.change_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_address = self.kwargs.get("id_address")
@@ -123,10 +143,13 @@ class AddressUpdateView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class AddressDeleteView(PermissionRequiredMixin, DeleteView):
+class AddressDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Address
     template_name = 'address_confirm_delete.html'
     permission_required = 'customers.delete_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_address = self.kwargs.get("id_address")
@@ -136,10 +159,13 @@ class AddressDeleteView(PermissionRequiredMixin, DeleteView):
         return reverse_lazy("customers:address_list")
 
 
-class RegistrationView(PermissionRequiredMixin, CreateView):
+class RegistrationView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = RegistrationForm
     template_name = 'registration.html'
     permission_required = 'customers.add_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -162,19 +188,25 @@ class RegistrationView(PermissionRequiredMixin, CreateView):
         return reverse_lazy("administrator:menu_customers")
 
 
-class RegistrationListView(PermissionRequiredMixin, ListView):
+class RegistrationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'registration_list.html'
     model = Address
     context_object_name = 'register_list'
     permission_required = 'customers.view_address'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
-class RegistrationUpdateView(PermissionRequiredMixin, UpdateView):
+
+class RegistrationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'registration.html'
     form_class = RegistrationForm
     success_url = reverse_lazy("administrator:menu_customers")
-    #i didnt add permisions since im not sure what this function is for - guilherme
+    # i didnt add permisions since im not sure what this function is for - guilherme
     pk_url_kwarg = "id_address"
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object_id_address(self):
         id_address = self.kwargs.get("id_address")
@@ -248,6 +280,7 @@ def update_customer_data(request):
     else:
         form = CustomerForm(instance=customer)
     return render(request, 'customers/update_customer_data.html', {'form': form})
+
 
 # def view_available_packages(request):
 #     packages = Package.objects.all()
