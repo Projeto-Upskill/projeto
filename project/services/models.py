@@ -5,7 +5,28 @@ from django.db import models
 # On Django, by default, all fields are obligatory
 class ServiceType(models.Model):
     id_service_type = models.AutoField(primary_key=True, null=False, verbose_name='id service type')
-    service_name = models.CharField(max_length=150, null=False, verbose_name='service name')
+    service_comercial_name = models.CharField(max_length=150, null=False, verbose_name='service comercial name') #EX: super premium mobile data, gold plan tv, etc...
+
+    #tv
+    channel_count = models.CharField(max_length=150, null=True, blank=True, verbose_name='channel count')
+    tv_type = models.CharField(max_length=150, null=True, blank=True, verbose_name='tv type') #cable, sattelite, etc...
+
+    #telephone
+    #nothing needed I guesss cause it's always unlimited?
+
+    #phone plans
+    phone_minute_limit = models.CharField(max_length=150, null=True, blank=True,
+                                          verbose_name='phone minute limit')  # 300 minutes, 500 minutes
+    phone_sms_limit = models.CharField(max_length=150, null=True, blank=True,
+                                       verbose_name='phone sms limit')  # 100 sms, unlimited sms, etc...
+    mobile_data_type = models.CharField(max_length=150, null=True, blank=True,
+                                        verbose_name='mobile data type')  # 4G, 5G, etc...
+    mobile_data_limit_gb = models.CharField(max_length=150, null=True, blank=True, verbose_name='mobile data limit gb')
+
+    #internet plans
+    internet_speed = models.CharField(max_length=150, null=True, blank=True, verbose_name='internet speed')
+    internet_type = models.CharField(max_length=150, null=True, blank=True, verbose_name='internet type') #Fiber, cable, etc
+
 
     class Meta:
         db_table = 'service_type'
@@ -14,7 +35,7 @@ class ServiceType(models.Model):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
     def __str__(self):
-        return f"{self.id_service_type} {self.service_name}"
+        return f"{self.id_service_type} {self.service_comercial_name}"
 
 
 class Service(models.Model):

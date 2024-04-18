@@ -8,10 +8,10 @@ def create_superadmin_group(**kwargs):
     superadmin_group, created = Group.objects.get_or_create(name='superadmin_group')
 
     permissions = [
-        Permission.objects.get(codename="add_administrator"),
-        Permission.objects.get(codename="change_administrator"),
-        Permission.objects.get(codename="delete_administrator"),
-        Permission.objects.get(codename="view_administrator"),
+       Permission.objects.get(codename="add_administrator"),
+       Permission.objects.get(codename="change_administrator"),
+       Permission.objects.get(codename="delete_administrator"),
+       Permission.objects.get(codename="view_administrator"),
     ]
 
     for p in permissions:

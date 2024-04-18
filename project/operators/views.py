@@ -11,9 +11,11 @@ from packages.forms import PackageForm, PackageDiscountForm
 from services.forms import ServiceForm, ServiceDiscountForm
 from .permissions import *
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 operators_permissions_group = Group.objects.get(name="operator_group")
+
 
 
 class OperatorsCreateView(CreateView, PermissionRequiredMixin, LoginRequiredMixin):
@@ -21,6 +23,7 @@ class OperatorsCreateView(CreateView, PermissionRequiredMixin, LoginRequiredMixi
     form_class = OperatorsForm
     permission_required = "administrator.add_operators"
     success_url = reverse_lazy('administrator:administrator_index')
+    permission_required = 'operators.add_operator'
 
     def form_valid(self, form):
         first_name = form.cleaned_data["first_name"]
@@ -53,6 +56,8 @@ class OperatorsListView(ListView, PermissionRequiredMixin, LoginRequiredMixin):
     template_name = 'operators_list.html'
     permission_required = "administrator.view_operators"
     context_object_name = 'operators_list'
+    permission_required = 'operators.view_operator'
+
 
 
 class OperatorsUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
@@ -60,6 +65,7 @@ class OperatorsUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixi
     form_class = OperatorsForm
     permission_required = 'administrator.change_operators'
     success_url = reverse_lazy("operators:operator_list")
+    permission_required = 'operators.change_operator'
 
     def get_object(self):
         id_operator = self.kwargs.get('id_operator')
@@ -76,6 +82,7 @@ class OperatorsUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixi
         return super().form_valid(form)
 
 
+
 class OperatorsDeleteView(DeleteView, PermissionRequiredMixin, LoginRequiredMixin):
     model = Operators
     template_name = 'operators_confirm_delete.html'
@@ -89,29 +96,32 @@ class OperatorsDeleteView(DeleteView, PermissionRequiredMixin, LoginRequiredMixi
         return reverse_lazy('operators:operator_list')
 
 
-class OperatorsIndex(TemplateView):
+class OperatorsIndex(PermissionRequiredMixin, TemplateView):
     template_name = 'index_operators.html'
+    permission_required = 'operators.view_operator'
 
 
-class MenuCustomers(TemplateView):
+class MenuCustomers(PermissionRequiredMixin, TemplateView):
     template_name = 'menu_customers.html'
+    permission_required = 'operators.view_menucustomers'
 
-
-class MenuPackages(TemplateView):
+class MenuPackages(PermissionRequiredMixin, TemplateView):
     template_name = 'menu_packages.html'
+    permission_required = 'operators.view_menupackages'
 
-
-class MenuDiscounts(TemplateView):
+class MenuDiscounts(PermissionRequiredMixin, TemplateView):
     template_name = 'menu_discounts.html'
+    permission_required = 'operators.view_menudiscounts'
 
 
 # Views operators packages and services
 
-class AssignPackageView(View):
+class AssignPackageView(PermissionRequiredMixin, View):
     template_name = 'assign_package.html'
     form_class = PackageForm
     model = Package
     success_url = reverse_lazy('operators_list')
+    permission_required = 'packages.add_package'
 
     def form_valid(self, form):
         # Atribuir um pacote comercial a um cliente
@@ -125,11 +135,12 @@ class AssignPackageView(View):
         return render(request, self.template_name, {'form': form})
 
 
-class AssignPackageDiscountView(View):
+class AssignPackageDiscountView(PermissionRequiredMixin, View):
     template_name = 'assign_package_discount.html'
     form_class = PackageDiscountForm
     model = PackageDiscount
     success_url = reverse_lazy('operators_list')
+    permission_required = 'packages.add_packagediscount'
 
     def form_valid(self, form):
         # Atribuir uma promoção a um pacote comercial
@@ -143,23 +154,25 @@ class AssignPackageDiscountView(View):
         return render(request, self.template_name, {'form': form})
 
 
-class OperatorsPackageListView(ListView):
+class OperatorsPackageListView(PermissionRequiredMixin, ListView):
     model = Package
     template_name = 'operators_package_list.html'
     context_object_name = 'package_list'
+    permission_required = 'packages.view_package'
 
 
-class OperatorsPackageDiscountListView(ListView):
+class OperatorsPackageDiscountListView(PermissionRequiredMixin, ListView):
     model = PackageDiscount
     template_name = 'operators_package_discount_list.html'
     context_object_name = 'package_discount_list'
+    permission_required = 'packages.view_packagediscount'
 
-
-class AssignServiceView(View):
+class AssignServiceView(PermissionRequiredMixin, View):
     template_name = 'assign_service.html'
     form_class = ServiceForm
     model = Service
     success_url = reverse_lazy('operators_list')
+    permission_required = 'services.add_service'
 
     def form_valid(self, form):
         # Atribuir um serviço a um cliente
@@ -173,11 +186,12 @@ class AssignServiceView(View):
         return render(request, self.template_name, {'form': form})
 
 
-class AssignServiceDiscountView(View):
+class AssignServiceDiscountView(PermissionRequiredMixin, View):
     template_name = 'assign_service_discount.html'
     form_class = ServiceDiscountForm
     model = ServiceDiscount
     success_url = reverse_lazy('operators_list')
+    permission_required = 'services.add_servicediscount'
 
     def form_valid(self, form):
         # Atribuir uma promoção a um serviço
@@ -191,13 +205,15 @@ class AssignServiceDiscountView(View):
         return render(request, self.template_name, {'form': form})
 
 
-class OperatorsServiceListView(ListView):
+class OperatorsServiceListView(PermissionRequiredMixin, ListView):
     model = Service
     template_name = 'operators_service_list.html'
     context_object_name = 'service_list'
+    permission_required = 'services.view_service'
 
 
-class OperatorsServiceDiscountListView(ListView):
+class OperatorsServiceDiscountListView(PermissionRequiredMixin, ListView):
     model = ServiceDiscount
     template_name = 'operators_service_discount_list.html'
     context_object_name = 'service_discount_list'
+    permission_required = 'services.view_servicediscount'

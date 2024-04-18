@@ -3,7 +3,11 @@ from .models import ServiceType, Service, ServiceDiscount, ServiceDiscountServic
 
 @admin.register(ServiceType)
 class ServiceTypeAdmin(admin.ModelAdmin):
-    list_display = ['id_service_type', 'service_name']
+    list_display = [
+        'id_service_type', 'service_comercial_name', 'channel_count', 'tv_type',
+        'phone_minute_limit', 'phone_sms_limit', 'mobile_data_type',
+        'mobile_data_limit_gb', 'internet_speed', 'internet_type'
+    ]
 
 
 @admin.register(Service)

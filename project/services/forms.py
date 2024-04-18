@@ -4,12 +4,32 @@ from .models import ServiceType, Service, ServiceDiscount, ServiceDiscountServic
 class ServiceTypeForm(forms.ModelForm):
     class Meta:
         model = ServiceType
-        fields = ['service_name']
+        fields = [
+            'service_comercial_name', 'channel_count', 'tv_type',
+            'phone_minute_limit', 'phone_sms_limit', 'mobile_data_type',
+            'mobile_data_limit_gb', 'internet_speed', 'internet_type'
+        ]
         labels = {
-            'service_name': 'Service Name',
+            'service_comercial_name': 'Commercial Service Name',
+            'channel_count': 'Channel Count',
+            'tv_type': 'TV Type',
+            'phone_minute_limit': 'Phone Minutes Limit',
+            'phone_sms_limit': 'Phone SMS Limit',
+            'mobile_data_type': 'Mobile Data Type',
+            'mobile_data_limit_gb': 'Mobile Data Limit (GB)',
+            'internet_speed': 'Internet Speed',
+            'internet_type': 'Internet Type',
         }
         widgets = {
-            'service_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'service_comercial_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'channel_count': forms.TextInput(attrs={'class': 'form-control'}),
+            'tv_type': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_minute_limit': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_sms_limit': forms.TextInput(attrs={'class': 'form-control'}),
+            'mobile_data_type': forms.TextInput(attrs={'class': 'form-control'}),
+            'mobile_data_limit_gb': forms.TextInput(attrs={'class': 'form-control'}),
+            'internet_speed': forms.TextInput(attrs={'class': 'form-control'}),
+            'internet_type': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 
