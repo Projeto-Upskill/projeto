@@ -53,7 +53,7 @@ class Service(models.Model):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
     def __str__(self):
-        return f"{self.id_service} {self.id_service_type} {self.active} {self.service_initial_price}"
+        return self.id_service_type.service_comercial_name
 
 
 class ServiceDiscount(models.Model):
