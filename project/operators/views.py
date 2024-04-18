@@ -4,7 +4,7 @@ from .forms import OperatorsForm
 from .models import Operators
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from packages.models import Package, PackageDiscount
 from services.models import Service, ServiceDiscount
 from packages.forms import PackageForm, PackageDiscountForm
@@ -16,9 +16,10 @@ from django.contrib.auth.models import User, Group
 operators_permissions_group = Group.objects.get(name="operator_group")
 
 
-class OperatorsCreateView(CreateView):
+class OperatorsCreateView(CreateView, PermissionRequiredMixin, LoginRequiredMixin):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
+    permission_required = "administrator.add_operators"
     success_url = reverse_lazy('administrator:administrator_index')
 
     def form_valid(self, form):
@@ -47,15 +48,17 @@ class OperatorsCreateView(CreateView):
         return redirect("administrator:administrator_index")
 
 
-class OperatorsListView(ListView):
+class OperatorsListView(ListView, PermissionRequiredMixin, LoginRequiredMixin):
     model = Operators
     template_name = 'operators_list.html'
+    permission_required = "administrator.view_operators"
     context_object_name = 'operators_list'
 
 
-class OperatorsUpdateView(UpdateView):
+class OperatorsUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
+    permission_required = 'administrator.change_operators'
     success_url = reverse_lazy("operators:operator_list")
 
     def get_object(self):
@@ -73,9 +76,10 @@ class OperatorsUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class OperatorsDeleteView(DeleteView):
+class OperatorsDeleteView(DeleteView, PermissionRequiredMixin, LoginRequiredMixin):
     model = Operators
     template_name = 'operators_confirm_delete.html'
+    permission_required = "administrator.delete_operators"
 
     def get_object(self, queryset=None):
         id_operator = self.kwargs.get('id_operator')
