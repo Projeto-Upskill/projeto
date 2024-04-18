@@ -17,6 +17,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 operators_permissions_group = Group.objects.get(name="operator_group")
 
 
+
 class OperatorsCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
