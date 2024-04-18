@@ -10,15 +10,19 @@ class PackageForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['name'].required = True
         self.fields['active'].required = True
-    
+
     class Meta:
         model = Package
         fields = (
             'name',
             'active',
-
+            'service1',
+            'service2',
+            'service3',
+            'service4',
         )
-        
+
+
 class PackageDiscountForm(forms.ModelForm):
     discount_rate = forms.DecimalField(max_digits=4, decimal_places=2)
     active = forms.BooleanField()
