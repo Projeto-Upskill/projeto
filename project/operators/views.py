@@ -13,17 +13,18 @@ from .permissions import *
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
-
 operators_permissions_group = Group.objects.get(name="operator_group")
 
 
-
-class OperatorsCreateView(CreateView, PermissionRequiredMixin, LoginRequiredMixin):
+class OperatorsCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
     permission_required = "administrator.add_operators"
     success_url = reverse_lazy('administrator:administrator_index')
     permission_required = 'operators.add_operator'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         first_name = form.cleaned_data["first_name"]
@@ -51,21 +52,26 @@ class OperatorsCreateView(CreateView, PermissionRequiredMixin, LoginRequiredMixi
         return redirect("administrator:administrator_index")
 
 
-class OperatorsListView(ListView, PermissionRequiredMixin, LoginRequiredMixin):
+class OperatorsListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Operators
     template_name = 'operators_list.html'
     permission_required = "administrator.view_operators"
     context_object_name = 'operators_list'
     permission_required = 'operators.view_operator'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class OperatorsUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
+class OperatorsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
     permission_required = 'administrator.change_operators'
     success_url = reverse_lazy("operators:operator_list")
     permission_required = 'operators.change_operator'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_operator = self.kwargs.get('id_operator')
@@ -82,11 +88,13 @@ class OperatorsUpdateView(UpdateView, PermissionRequiredMixin, LoginRequiredMixi
         return super().form_valid(form)
 
 
-
-class OperatorsDeleteView(DeleteView, PermissionRequiredMixin, LoginRequiredMixin):
+class OperatorsDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Operators
     template_name = 'operators_confirm_delete.html'
     permission_required = "administrator.delete_operators"
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_operator = self.kwargs.get('id_operator')
@@ -96,32 +104,47 @@ class OperatorsDeleteView(DeleteView, PermissionRequiredMixin, LoginRequiredMixi
         return reverse_lazy('operators:operator_list')
 
 
-class OperatorsIndex(PermissionRequiredMixin, TemplateView):
+class OperatorsIndex(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'index_operators.html'
     permission_required = 'operators.view_operator'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
-class MenuCustomers(PermissionRequiredMixin, TemplateView):
+
+class MenuCustomers(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'menu_customers.html'
     permission_required = 'operators.view_menucustomers'
 
-class MenuPackages(PermissionRequiredMixin, TemplateView):
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+
+class MenuPackages(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'menu_packages.html'
     permission_required = 'operators.view_menupackages'
 
-class MenuDiscounts(PermissionRequiredMixin, TemplateView):
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+
+class MenuDiscounts(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'menu_discounts.html'
     permission_required = 'operators.view_menudiscounts'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
-# Views operators packages and services
 
-class AssignPackageView(PermissionRequiredMixin, View):
+class AssignPackageView(LoginRequiredMixin, PermissionRequiredMixin, View):
     template_name = 'assign_package.html'
     form_class = PackageForm
     model = Package
     success_url = reverse_lazy('operators_list')
     permission_required = 'packages.add_package'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         # Atribuir um pacote comercial a um cliente
@@ -135,12 +158,15 @@ class AssignPackageView(PermissionRequiredMixin, View):
         return render(request, self.template_name, {'form': form})
 
 
-class AssignPackageDiscountView(PermissionRequiredMixin, View):
+class AssignPackageDiscountView(LoginRequiredMixin, PermissionRequiredMixin, View):
     template_name = 'assign_package_discount.html'
     form_class = PackageDiscountForm
     model = PackageDiscount
     success_url = reverse_lazy('operators_list')
     permission_required = 'packages.add_packagediscount'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         # Atribuir uma promoção a um pacote comercial
@@ -154,25 +180,35 @@ class AssignPackageDiscountView(PermissionRequiredMixin, View):
         return render(request, self.template_name, {'form': form})
 
 
-class OperatorsPackageListView(PermissionRequiredMixin, ListView):
+class OperatorsPackageListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Package
     template_name = 'operators_package_list.html'
     context_object_name = 'package_list'
     permission_required = 'packages.view_package'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
-class OperatorsPackageDiscountListView(PermissionRequiredMixin, ListView):
+
+class OperatorsPackageDiscountListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = PackageDiscount
     template_name = 'operators_package_discount_list.html'
     context_object_name = 'package_discount_list'
     permission_required = 'packages.view_packagediscount'
 
-class AssignServiceView(PermissionRequiredMixin, View):
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+
+class AssignServiceView(LoginRequiredMixin, PermissionRequiredMixin, View):
     template_name = 'assign_service.html'
     form_class = ServiceForm
     model = Service
     success_url = reverse_lazy('operators_list')
     permission_required = 'services.add_service'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         # Atribuir um serviço a um cliente
@@ -186,12 +222,15 @@ class AssignServiceView(PermissionRequiredMixin, View):
         return render(request, self.template_name, {'form': form})
 
 
-class AssignServiceDiscountView(PermissionRequiredMixin, View):
+class AssignServiceDiscountView(LoginRequiredMixin, PermissionRequiredMixin, View):
     template_name = 'assign_service_discount.html'
     form_class = ServiceDiscountForm
     model = ServiceDiscount
     success_url = reverse_lazy('operators_list')
     permission_required = 'services.add_servicediscount'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         # Atribuir uma promoção a um serviço
@@ -205,15 +244,21 @@ class AssignServiceDiscountView(PermissionRequiredMixin, View):
         return render(request, self.template_name, {'form': form})
 
 
-class OperatorsServiceListView(PermissionRequiredMixin, ListView):
+class OperatorsServiceListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Service
     template_name = 'operators_service_list.html'
     context_object_name = 'service_list'
     permission_required = 'services.view_service'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
-class OperatorsServiceDiscountListView(PermissionRequiredMixin, ListView):
+
+class OperatorsServiceDiscountListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = ServiceDiscount
     template_name = 'operators_service_discount_list.html'
     context_object_name = 'service_discount_list'
     permission_required = 'services.view_servicediscount'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
