@@ -23,6 +23,7 @@ def create_operators_group(**kwargs):
 
         #O Operador pode visualizar todas as promoções de um cliente.
        # Permission.objects.get(codename='view_clientpromotion'), #nope
+        # this will be done with invoicepackage and invoiceservice
 
         # O Operador pode visualizar a lista de promoções disponíveis.
         Permission.objects.get(codename='view_packagediscount'), #ok
