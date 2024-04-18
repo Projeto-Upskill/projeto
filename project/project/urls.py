@@ -22,6 +22,7 @@ app_name = 'project'
 
 urlpatterns = [
     path("login", views.login, name='login'),
+    path("accounts/login/", views.login, name="login_redirect"),
     path("login/submit", views.submit_login, name='submit_login'),
     path("logout", views.logout, name='logout'),
     path("", views.index,  name='index'),
