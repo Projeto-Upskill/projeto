@@ -1,6 +1,48 @@
 from django.contrib.auth.models import Group, Permission
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
+from django.contrib.contenttypes.models import ContentType
+from .models import Administrator
+
+
+def create_permissions(codename, name, content_type):
+    new_permission = Permission.objects.create(
+        codename=codename,
+        name=name,
+        content_type=content_type
+    )
+    return new_permission
+
+
+# menu_operators_permission = create_permissions(
+#     codename='view_menu_operators',
+#     name='can view menu operators',
+#     content_type=ContentType.objects.get_for_model(Administrator)
+# )
+#
+# menu_customers_permission = create_permissions(
+#     codename='view_menu_customers',
+#     name='can view menu customers',
+#     content_type=ContentType.objects.get_for_model(Administrator)
+# )
+#
+# menu_packages_permission = create_permissions(
+#     codename='view_menu_packages',
+#     name='can view menu packages',
+#     content_type=ContentType.objects.get_for_model(Administrator)
+# )
+#
+# menu_discounts_permission = create_permissions(
+#     codename='view_menu_discounts',
+#     name='can view menu discounts',
+#     content_type=ContentType.objects.get_for_model(Administrator)
+# )
+#
+# menu_services_permission = create_permissions(
+#     codename='view_menu_services',
+#     name='can view menu services',
+#     content_type=ContentType.objects.get_for_model(Administrator)
+# )
 
 
 @receiver(post_migrate)
@@ -68,6 +110,12 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='change_invoicepackage'),
         Permission.objects.get(codename='view_invoicepackage'),
         Permission.objects.get(codename='delete_invoicepackage'),
+        Permission.objects.get(codename='view_administrator_index'),
+        Permission.objects.get(codename='view_menu_operators'),
+        Permission.objects.get(codename='view_menu_customers'),
+        Permission.objects.get(codename='view_menu_packages'),
+        Permission.objects.get(codename='view_menu_discounts'),
+        Permission.objects.get(codename='view_menu_services')
     ]
 
     for p in permissions:

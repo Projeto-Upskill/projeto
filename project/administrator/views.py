@@ -111,7 +111,7 @@ class AdministratorDeleteView(PermissionRequiredMixin, LoginRequiredMixin, Delet
 
 class AdministratorIndex(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'index_administrator.html'
-    permission_required = "administrator.view_user"
+    permission_required = "administrator.view_administrator_index"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -119,7 +119,7 @@ class AdministratorIndex(PermissionRequiredMixin, LoginRequiredMixin, TemplateVi
 
 class MenuOperators(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'operators.html'
-    permission_required = "administrator.view_user"
+    permission_required = "administrator.view_menu_operators"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -127,7 +127,7 @@ class MenuOperators(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
 
 class MenuCustomers(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'customers.html'
-    permission_required = "administrator.view_user"
+    permission_required = "administrator.view_menu_customers"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -135,7 +135,7 @@ class MenuCustomers(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
 
 class MenuPackages(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'packages.html'
-    permission_required = "administrator.view_user"
+    permission_required = "administrator.view_menu_packages"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -143,7 +143,7 @@ class MenuPackages(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
 
 class MenuDiscounts(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'discounts.html'
-    permission_required = "administrator.view_user"
+    permission_required = "administrator.view_menu_discounts"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -151,7 +151,7 @@ class MenuDiscounts(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
 
 class MenuServices(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'services.html'
-    permission_required = "administrator.view_user"
+    permission_required = "administrator.view_menu_services"
 
     def handle_no_permission(self):
         return redirect("forbidden")
