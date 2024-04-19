@@ -24,6 +24,7 @@ class OperatorsCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateVie
     success_url = reverse_lazy('administrator:administrator_index')
     permission_required = "operators.add_operators"
 
+
     def handle_no_permission(self):
         return redirect("forbidden")
 
@@ -59,6 +60,7 @@ class OperatorsListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     context_object_name = 'operators_list'
     permission_required = "operators.view_operators"
 
+
     def handle_no_permission(self):
         return redirect("forbidden")
 
@@ -68,6 +70,7 @@ class OperatorsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateVie
     form_class = OperatorsForm
     success_url = reverse_lazy("operators:operator_list")
     permission_required = 'operators.change_operators'
+
 
     def handle_no_permission(self):
         return redirect("forbidden")
