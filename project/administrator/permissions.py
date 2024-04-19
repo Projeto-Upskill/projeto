@@ -15,6 +15,12 @@ def create_permissions(codename, name, content_type):
 
 
 # menu_operators_permission = create_permissions(
+#     codename='view_administrator_index',
+#     name='can view administrator index',
+#     content_type=ContentType.objects.get_for_model(Administrator)
+# )
+#
+# menu_operators_permission = create_permissions(
 #     codename='view_menu_operators',
 #     name='can view menu operators',
 #     content_type=ContentType.objects.get_for_model(Administrator)

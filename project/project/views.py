@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as app_login, logout as app_logout
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import Group
@@ -43,12 +44,14 @@ def logout(request):
     return redirect('login')
 
 
-def index(request):
-    return render(request, 'index.html')
-
-
+@permission_required('project.view_administrator')
+@login_required
 def system_administrator(request):
     return render(request, 'system_admin.html')
+
+
+def index(request):
+    return render(request, 'index.html')
 
 
 def about(request):

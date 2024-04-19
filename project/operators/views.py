@@ -4,24 +4,25 @@ from .forms import OperatorsForm
 from .models import Operators
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from packages.models import Package, PackageDiscount
 from services.models import Service, ServiceDiscount
 from packages.forms import PackageForm, PackageDiscountForm
 from services.forms import ServiceForm, ServiceDiscountForm
 from .permissions import *
+from administrator.permissions import *
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 operators_permissions_group = Group.objects.get(name="operator_group")
+administrator_permissions = Group.objects.get(name="administrator_group")
 
 
 class OperatorsCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
-    permission_required = "administrator.add_operators"
     success_url = reverse_lazy('administrator:administrator_index')
-    permission_required = 'operators.add_operator'
+    permission_required = "operators.add_operators"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -55,9 +56,8 @@ class OperatorsCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateVie
 class OperatorsListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Operators
     template_name = 'operators_list.html'
-    permission_required = "administrator.view_operators"
     context_object_name = 'operators_list'
-    permission_required = 'operators.view_operator'
+    permission_required = "operators.view_operators"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -66,9 +66,8 @@ class OperatorsListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 class OperatorsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'operators_create.html'
     form_class = OperatorsForm
-    permission_required = 'administrator.change_operators'
     success_url = reverse_lazy("operators:operator_list")
-    permission_required = 'operators.change_operator'
+    permission_required = 'operators.change_operators'
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -91,7 +90,7 @@ class OperatorsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateVie
 class OperatorsDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Operators
     template_name = 'operators_confirm_delete.html'
-    permission_required = "administrator.delete_operators"
+    permission_required = "operators.delete_operators"
 
     def handle_no_permission(self):
         return redirect("forbidden")
