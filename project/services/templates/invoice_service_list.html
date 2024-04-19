@@ -2,8 +2,8 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Service Types</h2>
-  {% if perms.app_label.can_do_something %}
+  <h2>Invoices for Services</h2>
+  {% if perms.services.add_invoiceservice %}
     <a href="{% url 'services:invoice_service_create' %}">Add New Invoice Service</a>
   {% endif %}
   <ul>
@@ -14,8 +14,10 @@
         tax number: {{ i.id_customer.tax_number }}
         service: {{ i.id_service.id_service_type.service_name }}
         price: {{ i.final_service_price }}
-        {% if perms.app_label.can_do_something %}
+        {% if perms.services.change_invoiceservice %}
           <a href="{% url 'services:invoice_service_update' i.id_invoice_service %}">Edit</a>
+        {% endif %}
+        {% if perms.services.delete_invoiceservice %}
           <a href="{% url 'services:invoice_service_delete' i.id_invoice_service %}">Delete</a>
         {% endif %}
       </li>

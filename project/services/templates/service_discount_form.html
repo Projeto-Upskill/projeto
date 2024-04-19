@@ -1,11 +1,11 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>{% if object %}Edit{% else %}Add{% endif %} Service Promotion</h2>
+  <h2>{% if object %}Edit{% else %}Add{% endif %} Service Discount</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    {% if perms.app_label.can_do_something %}
+    {% if perms.services.add_servicediscount %}
       <button type="submit">Submit</button>
     {% endif %}
   </form>

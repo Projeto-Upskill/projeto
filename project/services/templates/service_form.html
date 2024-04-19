@@ -6,7 +6,7 @@
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    {% if perms.app_label.can_do_something %}
+    {% if perms.services.add_service %}
       <button type="submit" class="btn btn-primary">Submit</button>
     {% endif %}
   </form>

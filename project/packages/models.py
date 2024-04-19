@@ -1,4 +1,6 @@
 from django.db import models
+from decimal import Decimal
+
 
 
 class Package(models.Model):
@@ -76,8 +78,10 @@ class InvoicePackage(models.Model):
         if self.id_package_id:
             package_initial_price = self.id_package.package_initial_price
             discount = self.id_package.discounts.filter(active=True).first()
-            discount_rate = discount.discount_rate if discount else 0
-            self.final_package_price = package_initial_price * (1 - discount_rate / 100)
+            # had to change this next part or else sometimes the division would result in a float which can't be used to make calculation along decimals
+            discount_rate = Decimal(discount.discount_rate if discount else 0)
+            discount_factor = Decimal('1.00') - discount_rate / Decimal('100')
+            self.final_package_price = package_initial_price * discount_factor
         super(InvoicePackage, self).save(*args, **kwargs)
 
     class Meta:

@@ -2,8 +2,10 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Package</h2>
-  <a href="{% url 'packages:invoice_package_create' %}">Add New Invoice Package</a>
+  <h2>Invoices for Packages</h2>
+  {% if perms.packages.add_invoicepackage %}
+    <a href="{% url 'packages:invoice_package_create' %}">Add New Invoice Package</a>
+  {% endif %}
   <ul>
     {% for invoice_package in invoice_package %}
       <li>
@@ -12,8 +14,12 @@
         customer name: {{ invoice_package.id_customer.name }} -
         package: {{ invoice_package.id_package.name }} -
         final price: {{ invoice_package.final_package_price }}
-        <a href="{% url 'packages:invoice_package_update' invoice_package.id_invoice_package %}">Edit</a>
-        <a href="{% url 'packages:invoice_package_delete' invoice_package.id_invoice_package %}">Delete</a>
+        {% if perms.packages.change_invoicepackage %}
+          <a href="{% url 'packages:invoice_package_update' invoice_package.id_invoice_package %}">Edit</a>
+        {% endif %}
+        {% if perms.packages.delete_invoicepackage %}
+          <a href="{% url 'packages:invoice_package_delete' invoice_package.id_invoice_package %}">Delete</a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

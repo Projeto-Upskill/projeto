@@ -5,6 +5,8 @@
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'packages:package_list' %}">Cancel</a>
-    <button type="submit">Delete</button>
+    {% if perms.packages.delete_package %}
+      <button type="submit">Delete</button>
+    {% endif %}
   </form>
 {% endblock %}

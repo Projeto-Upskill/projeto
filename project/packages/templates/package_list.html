@@ -2,13 +2,19 @@
 
 {% block content %}
   <h2>Packages</h2>
-  <a href="{% url 'packages:package_create' %}">Add New Package</a>
+  {% if perms.packages.add_package %}
+    <a href="{% url 'packages:package_create' %}">Add New Package</a>
+  {% endif %}
   <ul>
     {% for package in package %}
       <li>
         {{ package.id_package }} : {{ package.name }}
-        <a href="{% url 'packages:package_update' package.id_package %}">Edit</a>
-        <a href="{% url 'packages:package_delete' package.id_package %}">Delete</a>
+        {% if perms.packages.change_package %}
+          <a href="{% url 'packages:package_update' package.id_package %}">Edit</a>
+        {% endif %}
+        {% if perms.packages.delete_package %}
+          <a href="{% url 'packages:package_delete' package.id_package %}">Delete</a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

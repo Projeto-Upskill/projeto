@@ -5,7 +5,7 @@
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'services:service_promotion_list' %}">Cancel</a>
-    {% if perms.app_label.can_do_something %}
+    {% if perms.services.delete_servicediscount %}
       <button type="submit">Delete</button>
     {% endif %}
   </form>

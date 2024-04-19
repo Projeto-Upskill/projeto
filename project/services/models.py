@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 
 
 # Create your models here.
@@ -108,8 +109,10 @@ class InvoiceService(models.Model):
     def save(self, *args, **kwargs):
         if self.id_service_id:
             discount = ServiceDiscount.objects.filter(id_service=self.id_service, active=True).first()
-            discount_rate = discount.discount_rate if discount else 0
-            self.final_service_price = self.id_service.service_initial_price * (1 - discount_rate / 100)
+            # had to change this next part or else sometimes the division would result in a float which can't be used to make calculation along decimals
+            discount_rate = Decimal(discount.discount_rate if discount else 0)
+            discount_factor = Decimal('1.00') - discount_rate / Decimal('100')
+            self.final_service_price = self.id_service.service_initial_price * discount_factor
 
         super(InvoiceService, self).save(*args, **kwargs)
 

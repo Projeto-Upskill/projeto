@@ -6,6 +6,8 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Submit</button>
+    {% if perms.packages.add_invoicepackage %}
+      <button type="submit">Submit</button>
+    {% endif %}
   </form>
 {% endblock %}

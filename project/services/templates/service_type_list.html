@@ -3,15 +3,17 @@
 
 {% block content %}
   <h2>Service Types</h2>
-  {% if perms.app_label.can_do_something %}
+  {% if perms.services.add_servicetype %}
     <a href="{% url 'services:service_type_create' %}">Add New Service Type</a>
   {% endif %}
   <ul>
     {% for service_type in service_types %}
       <li>
         {{ service_type.service_name }}
-        {% if perms.app_label.can_do_something %}
+        {% if perms.services.change_servicetype %}
           <a href="{% url 'services:service_type_update' service_type.id_service_type %}">Edit</a>
+        {% endif %}
+        {% if perms.services.delete_servicetype %}
           <a href="{% url 'services:service_type_delete' service_type.id_service_type %}">Delete</a>
         {% endif %}
       </li>
