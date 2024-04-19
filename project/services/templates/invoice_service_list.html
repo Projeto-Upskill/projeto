@@ -3,7 +3,9 @@
 
 {% block content %}
   <h2>Service Types</h2>
-  <a href="{% url 'services:invoice_service_create' %}">Add New Invoice Service</a>
+  {% if perms.app_label.can_do_something %}
+    <a href="{% url 'services:invoice_service_create' %}">Add New Invoice Service</a>
+  {% endif %}
   <ul>
     {% for i in invoice_service %}
       <li>
@@ -12,8 +14,10 @@
         tax number: {{ i.id_customer.tax_number }}
         service: {{ i.id_service.id_service_type.service_name }}
         price: {{ i.final_service_price }}
-        <a href="{% url 'services:invoice_service_update' i.id_invoice_service %}">Edit</a>
-        <a href="{% url 'services:invoice_service_delete' i.id_invoice_service %}">Delete</a>
+        {% if perms.app_label.can_do_something %}
+          <a href="{% url 'services:invoice_service_update' i.id_invoice_service %}">Edit</a>
+          <a href="{% url 'services:invoice_service_delete' i.id_invoice_service %}">Delete</a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>
