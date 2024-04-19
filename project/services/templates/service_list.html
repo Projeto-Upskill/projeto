@@ -2,14 +2,18 @@
 
 {% block content %}
   <h2>Services</h2>
-  <a href="{% url 'services:service_create' %}">Add New Service</a>
+  {% if perms.app_label.can_do_something %}
+    <a href="{% url 'services:service_create' %}">Add New Service</a>
+  {% endif %}
   <ul>
     {% for service in service %}
       <li>
         id: {{ service.id_service }} -
         service name: {{ service.id_service_type.service_name }}
-        <a href="{% url 'services:service_update' service.id_service %}">Edit</a>
-        <a href="{% url 'services:service_delete' service.id_service %}">Delete</a>
+        {% if perms.app_label.can_do_something %}
+          <a href="{% url 'services:service_update' service.id_service %}">Edit</a>
+          <a href="{% url 'services:service_delete' service.id_service %}">Delete</a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

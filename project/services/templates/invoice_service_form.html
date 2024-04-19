@@ -6,6 +6,8 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Submit</button>
+    {% if perms.app_label.can_do_something %}
+      <button type="submit">Submit</button>
+    {% endif %}
   </form>
 {% endblock %}
