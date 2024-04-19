@@ -22,5 +22,4 @@ def create_customers_group(**kwargs):
     for p in permissions:
         customer_group.permissions.add(p)
 
-
     return customer_group

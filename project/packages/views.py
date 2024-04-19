@@ -3,8 +3,8 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, T
 from django.urls import reverse_lazy
 from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage
 from .forms import PackageForm, PackageDiscountForm, PackageDiscountPackageForm, InvoicePackageForm
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 
 # Let's create views for Package
@@ -15,12 +15,15 @@ class PackageListView(ListView):
     context_object_name = 'package'
 
 
-class PackageCreateView(PermissionRequiredMixin, CreateView):
+class PackageCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = Package
     form_class = PackageForm
     template_name = 'package_form.html'
     success_url = reverse_lazy('packages:package_list')
     permission_required = 'packages.add_package'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.instance.name = form.cleaned_data["name"]
@@ -29,12 +32,15 @@ class PackageCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PackageUpdateView(PermissionRequiredMixin, UpdateView):
+class PackageUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Package
     form_class = PackageForm
     template_name = 'package_form.html'
     success_url = reverse_lazy('packages:package_list')
     permission_required = 'packages.change_package'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_package = self.kwargs.get('id_package')
@@ -47,11 +53,14 @@ class PackageUpdateView(PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class PackageDeleteView(PermissionRequiredMixin, DeleteView):
+class PackageDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Package
     template_name = 'package_confirm_delete.html'
     success_url = reverse_lazy('packages:package_list')
     permission_required = 'packages.delete_package'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_package = self.kwargs.get('id_package')
@@ -74,13 +83,15 @@ class PackageDiscountListView(ListView):
     context_object_name = 'package_discount'
 
 
-
-class PackageDiscountCreateView(PermissionRequiredMixin, CreateView):
+class PackageDiscountCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = PackageDiscount
     form_class = PackageDiscountForm
     template_name = 'package_discount_form.html'
     success_url = reverse_lazy('packages:package_discount_list')
     permission_required = 'packages.add_packagediscount'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.instance.discount_rate = form.cleaned_data["discount_rate"]
@@ -90,12 +101,15 @@ class PackageDiscountCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PackageDiscountUpdateView(PermissionRequiredMixin, UpdateView):
+class PackageDiscountUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = PackageDiscount
     form_class = PackageDiscountForm
     template_name = 'package_discount_form.html'
     success_url = reverse_lazy('packages:package_discount_list')
     permission_required = 'packages.change_packagediscount'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id = self.kwargs.get('id_package_discount')
@@ -109,11 +123,14 @@ class PackageDiscountUpdateView(PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class PackageDiscountDeleteView(PermissionRequiredMixin, DeleteView):
+class PackageDiscountDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = PackageDiscount
     template_name = 'package_discount_confirm_delete.html'
     success_url = reverse_lazy('packages:package_discount_list')
     permission_required = 'packages.delete_packagediscount'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_package_discount = self.kwargs.get('id_package_discount')
@@ -126,20 +143,25 @@ class PackageDiscountDeleteView(PermissionRequiredMixin, DeleteView):
 # Let's create views for PackageDiscountPackage
 
 
-class PackageDiscountPackageListView(PermissionRequiredMixin, ListView):
+class PackageDiscountPackageListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = PackageDiscountPackage
     template_name = 'package_discount_package_list.html'
     context_object_name = 'package_discount_package'
     permission_required = 'packages.view_packagediscountpackage'
 
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class PackageDiscountPackageCreateView(PermissionRequiredMixin, CreateView):
+class PackageDiscountPackageCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = PackageDiscountPackage
     form_class = PackageDiscountPackageForm
     template_name = 'package_discount_package_form.html'
     success_url = reverse_lazy('packages:package_discount_package_list')
     permission_required = 'packages.add_packagediscountpackage'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.instance.id_package = form.cleaned_data["id_package"]
@@ -148,12 +170,15 @@ class PackageDiscountPackageCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PackageDiscountPackageUpdateView(PermissionRequiredMixin, UpdateView):
+class PackageDiscountPackageUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = PackageDiscountPackage
     form_class = PackageDiscountPackageForm
     template_name = 'package_discount_package_form.html'
     success_url = reverse_lazy('packages:package_discount_package_list')
     permission_required = 'packages.change_packagediscountpackage'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id = self.kwargs.get('id_package_discount_package')
@@ -166,11 +191,14 @@ class PackageDiscountPackageUpdateView(PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class PackageDiscountPackageDeleteView(PermissionRequiredMixin, DeleteView):
+class PackageDiscountPackageDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = PackageDiscountPackage
     template_name = 'package_discount_package_delete.html'
     success_url = reverse_lazy('packages:package_discount_package_list')
     permission_required = 'packages.delete_packagediscountpackage'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_package_discount_package = self.kwargs.get('id_package_discount_package')
@@ -179,19 +207,25 @@ class PackageDiscountPackageDeleteView(PermissionRequiredMixin, DeleteView):
 
 # Let's create views for InvoicePackage
 
-class InvoicePackageListView(PermissionRequiredMixin, ListView):
+class InvoicePackageListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = InvoicePackage
     template_name = 'invoice_package_list.html'
     context_object_name = 'invoice_package'
-    permission_required = 'packages.view_invoicepackage' #this one also needs permissions because not everyone should be hable to see invoices for packages
+    permission_required = 'packages.view_invoicepackage'  # this one also needs permissions because not everyone should be hable to see invoices for packages
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class InvoicePackageCreateView(PermissionRequiredMixin, CreateView):
+class InvoicePackageCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = InvoicePackage
     form_class = InvoicePackageForm
     template_name = 'invoice_package_form.html'
     success_url = reverse_lazy('packages:invoice_package_list')
     permission_required = 'packages.add_invoicepackage'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.id_customer = form.cleaned_data["id_customer"]
@@ -201,12 +235,15 @@ class InvoicePackageCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class InvoicePackageUpdateView(PermissionRequiredMixin, UpdateView):
+class InvoicePackageUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = InvoicePackage
     form_class = InvoicePackageForm
     template_name = 'invoice_package_form.html'
     success_url = reverse_lazy('packages:invoice_package_list')
     permission_required = 'packages.change_invoicepackage'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id = self.kwargs.get('id_invoice_package')
@@ -220,11 +257,14 @@ class InvoicePackageUpdateView(PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class InvoicePackageDeleteView(PermissionRequiredMixin, DeleteView):
+class InvoicePackageDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = InvoicePackage
     template_name = 'invoice_package_confirm_delete.html'
     success_url = reverse_lazy('packages:invoice_package_list')
     permission_required = 'packages.delete_invoicepackage'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_invoice_package = self.kwargs.get('id_invoice_package')
