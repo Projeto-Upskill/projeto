@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login as app_login, logout as app_
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import Group
+from django.contrib.sessions.models import Session
 from django.contrib.auth import get_user_model
 from .permissions import *
 
@@ -25,6 +25,9 @@ def submit_login(request):
         if user is not None:
             print(f'user: {user}')
             app_login(request, user)
+            request.session['id'] = user.id
+            request.session['username'] = username
+            print(Session.session_data)
             return render(request, 'index.html')
         else:
             print('error. User is none')
@@ -41,6 +44,7 @@ def check_login(request):
 
 def logout(request):
     app_logout(request)
+    request.session.delete()
     return redirect('login')
 
 
