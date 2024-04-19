@@ -2,7 +2,7 @@
 
 {% block content %}
   <h2>Services</h2>
-  {% if perms.app_label.can_do_something %}
+  {% if perms.services.add_servicediscountservice %}
     <a href="{% url 'services:service_discount_service_create' %}">Add New Service Discount Service</a>
   {% endif %}
   <ul>
@@ -11,8 +11,10 @@
         id: {{ i.id_service_discount_service }} -
         service name: {{ i.id_service.id_service_type.service_name }} -
         discount rate: {{ i.id_service_discount.discount_rate }}
-      {% if perms.app_label.can_do_something %}
+      {% if perms.services.change_servicediscountservice %}
         <a href="{% url 'services:service_discount_service_update' i.id_service_discount_service %}">Edit</a>
+      {% endif %}
+      {% if perms.services.delete_servicediscountservice %}
         <a href="{% url 'services:service_discount_service_delete' i.id_service_discount_service %}">Delete</a>
       {% endif %}
       </li>

@@ -9,6 +9,8 @@
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'packages:package_discount_list' %}">Cancel</a>
-    <button type="submit">Delete</button>
+    {% if perms.packages.delete_packagediscount %}
+        <button type="submit">Delete</button>
+    {% endif %}
   </form>
 {% endblock %}
