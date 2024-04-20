@@ -1,9 +1,11 @@
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import ServiceType, Service, ServiceDiscount, ServiceDiscountService, InvoiceService
+from .models import ServiceType, Service, ServiceDiscount, ServiceDiscountService, InvoiceService, ServiceCustomer
 from .forms import ServiceTypeForm, ServiceForm, ServiceDiscountForm, ServiceDiscountServiceForm, InvoiceServiceForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.db.models import Q
+from customers.models import Customer
 
 
 class ServiceTypeListView(ListView):
@@ -197,6 +199,21 @@ class ServiceDiscountServiceDeleteView(PermissionRequiredMixin, LoginRequiredMix
     def get_object(self):
         id = self.kwargs.get('id_service_discount_service')
         return get_object_or_404(ServiceDiscountService, id_service_discount_service=id)
+
+
+class ServiceCustomerListView(ListView):
+    model = ServiceCustomer
+    template_name = 'service_client_list.html'
+    context_object_name = 'service_customer'
+
+    def get_queryset(self):
+        service = self.request.GET.get('id_service')
+        user = self.request.user
+        if service:
+            object_list = self.model.objects.filter(Q(service__incontains=service), user_id=user)
+        else:
+            object_list = self.model.objects.filter(user_id=user)
+        return object_list
 
 
 class InvoiceServiceListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
