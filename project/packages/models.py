@@ -1,6 +1,6 @@
 from django.db import models
 from decimal import Decimal
-
+from django.contrib.auth.models import User
 
 
 class Package(models.Model):
@@ -65,6 +65,22 @@ class PackageDiscountPackage(models.Model):
 
     def __str__(self):
         return f"{self.id_package_discount_package} {self.id_package} {self.id_package_discount}"
+
+
+class PackageCustomer(models.Model):
+    id_package_customer = models.AutoField(primary_key=True, verbose_name='id package customer')
+    package = models.ForeignKey(Package, on_delete=models.PROTECT, verbose_name='package')
+    customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT, verbose_name='customer')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='user')
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+    def __str__(self):
+        return f"{self.package.name} {self.customer}"
+
+    class Meta:
+        db_table = 'package_customer'
 
 
 class InvoicePackage(models.Model):
