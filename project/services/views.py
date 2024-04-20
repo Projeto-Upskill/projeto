@@ -201,10 +201,14 @@ class ServiceDiscountServiceDeleteView(PermissionRequiredMixin, LoginRequiredMix
         return get_object_or_404(ServiceDiscountService, id_service_discount_service=id)
 
 
-class ServiceCustomerListView(ListView):
+class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = ServiceCustomer
     template_name = 'service_client_list.html'
     context_object_name = 'service_customer'
+    permission_required = 'services.view_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_queryset(self):
         service = self.request.GET.get('id_service')
