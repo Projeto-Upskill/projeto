@@ -1,0 +1,14 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+    <form method="get">
+        <label for="service">service:</label>
+        <input type="text" id="service" name="service">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    <ul>
+    {% for i in service_customer %}
+        <li>{{ i.id_service.id_service_type.service_comercial_name }} {{ i.id_customer_id }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from decimal import Decimal
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -96,6 +97,19 @@ class ServiceDiscountService(models.Model):
 
     def __str__(self):
         return f"{self.id_service_discount_service} {self.id_service} {self.id_service_discount}"
+
+
+class ServiceCustomer(models.Model):
+    id_service_customer = models.AutoField(primary_key=True, verbose_name="id service customer")
+    id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=False, verbose_name="service")
+    id_customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT, verbose_name="customer")
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='user')
+
+    def __repr__(self):
+        return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
+
+    def __str__(self):
+        return f"{self.id_service.id_service_type.service_comercial_name} {self.id_customer}"
 
 
 class InvoiceService(models.Model):

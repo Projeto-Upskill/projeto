@@ -5,6 +5,7 @@ from .views import ServiceListView, ServiceCreateView, ServiceUpdateView, Servic
 from .views import ServiceDiscountListView, ServiceDiscountCreateView, ServiceDiscountUpdateView, ServiceDiscountDeleteView
 from .views import ServiceDiscountServiceListView, ServiceDiscountServiceCreateView, ServiceDiscountServiceUpdateView, ServiceDiscountServiceDeleteView
 from .views import InvoiceServiceListView, InvoiceServiceCreateView, InvoiceServiceDeleteView, InvoiceServiceUpdateView
+from .views import ServiceCustomerListView
 
 app_name = 'services'
 
@@ -34,4 +35,5 @@ urlpatterns = [
     path('invoice-service/new/', InvoiceServiceCreateView.as_view(), name='invoice_service_create'), #create
     path('invoice-service/<int:id_invoice_service>/edit/', InvoiceServiceUpdateView.as_view(), name='invoice_service_update'), #update
     path('invoice-service/<int:id_invoice_service>/delete/', InvoiceServiceDeleteView.as_view(), name='invoice_service_delete'), #delete
+    path("service_customer", ServiceCustomerListView.as_view(), name="service_customer")
 ]
