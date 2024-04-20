@@ -20,17 +20,13 @@ def submit_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        print(f"username: {username}, password: {password}")
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            print(f'user: {user}')
             app_login(request, user)
             request.session['id'] = user.id
             request.session['username'] = username
-            print(Session.session_data)
             return render(request, 'index.html')
         else:
-            print('error. User is none')
             messages.error(request, "Login incorrect, try again!")
     return redirect("login")
 

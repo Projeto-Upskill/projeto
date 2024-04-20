@@ -42,11 +42,11 @@ INSTALLED_APPS = [
     'services',
     'administrator',
     'project',
+    'packages',
     'customers',
     "crispy_forms",
     "crispy_bootstrap5",
-    'bootstrap5',
-    'packages'
+    'bootstrap5'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
