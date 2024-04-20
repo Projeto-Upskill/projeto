@@ -1,5 +1,6 @@
 from django import forms
-from .models import ServiceType, Service, ServiceDiscount, ServiceDiscountService, InvoiceService
+from .models import ServiceType, Service, ServiceDiscount, ServiceDiscountService, InvoiceService, ServiceCustomer
+
 
 class ServiceTypeForm(forms.ModelForm):
     class Meta:
@@ -75,3 +76,14 @@ class InvoiceServiceForm(forms.ModelForm):
             'id_customer': 'Customer ID',
             'id_service': 'Service ID',
         }
+
+
+class CustomerServiceForm(forms.ModelForm):
+    class Meta:
+        model = ServiceCustomer
+        fields = [
+            'id_service_customer',
+            'id_service',
+            'id_customer',
+            'user'
+        ]
