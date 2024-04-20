@@ -25,7 +25,7 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='delete_servicediscount'), #ok
 
         #O Operador pode visualizar todas as promoções de um cliente.
-       # Permission.objects.get(codename='view_clientpromotion'), #nope
+        #Permission.objects.get(codename='view_clientpromotion'), #nope
 
         # O Operador pode visualizar a lista de promoções disponíveis.
         Permission.objects.get(codename='view_packagediscount'), #ok
