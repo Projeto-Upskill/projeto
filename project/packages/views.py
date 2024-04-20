@@ -206,10 +206,14 @@ class PackageDiscountPackageDeleteView(PermissionRequiredMixin, LoginRequiredMix
         return get_object_or_404(PackageDiscountPackage, id_package_discount_package=id_package_discount_package)
 
 
-class PackageCustomerListView(ListView):
+class PackageCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = PackageCustomer
     template_name = 'package_customer_list.html'
     context_object_name = 'package_customer'
+    permission_required = 'packages.view_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_queryset(self):
         package = self.request.GET.get('id_package.name')

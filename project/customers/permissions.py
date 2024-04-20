@@ -15,7 +15,9 @@ def create_customers_group(**kwargs):
         Permission.objects.get(codename='view_address'),
         Permission.objects.get(codename='view_package'),
         Permission.objects.get(codename='view_packagediscount'),
-        Permission.objects.get(codename='view_invoicepackage')
+        Permission.objects.get(codename='view_invoicepackage'),
+        Permission.objects.get(codename='view_servicecustomer'),
+        Permission.objects.get(codename='view_packagecustomer')
     ]
     # this next line is to delete all permissions if some are added that we dont want
     # customer_group.permissions.clear()
