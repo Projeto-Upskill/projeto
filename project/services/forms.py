@@ -48,13 +48,12 @@ class ServiceForm(forms.ModelForm):
 class ServiceDiscountForm(forms.ModelForm):
     class Meta:
         model = ServiceDiscount
-        fields = ['id_service_discount', 'discount_rate', 'active']
+        fields = ['discount_rate', 'active', 'id_service']
         labels = {
-            'id_service_discount': 'Service Discount',
             'discount_rate': 'Discount Rate',
             'active': 'Active',
+            'id_service': 'Service',
         }
-
 
 class ServiceDiscountServiceForm(forms.ModelForm):
     class Meta:

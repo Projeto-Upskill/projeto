@@ -2,11 +2,11 @@
 
 {% block content %}
   <h2>{% if object %}Edit{% else %}Add{% endif %} Service Discount</h2>
-  <form method="post">
+  <form method="post" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
     {% if perms.services.add_servicediscount %}
-      <button type="submit">Submit</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
     {% endif %}
   </form>
 {% endblock %}

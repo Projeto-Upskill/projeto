@@ -1,22 +1,63 @@
 {% extends 'model_page.html' %}
+{% load static %}
 
 {% block content %}
-  <h2>Services</h2>
-  {% if perms.services.add_service %}
-    <a href="{% url 'services:service_create' %}">Add New Service</a>
-  {% endif %}
-  <ul>
-    {% for service in service %}
-      <li>
-        id: {{ service.id_service }} -
-        service name: {{ service.id_service_type.service_name }}
-        {% if perms.services.change_service %}
-          <a href="{% url 'services:service_update' service.id_service %}">Edit</a>
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Services</h2>
+    {% if perms.services.add_service %}
+      <a href="{% url 'services:service_create' %}" class="btn btn-primary">Add New Service</a>
+    {% endif %}
+  </div>
+
+  <table class="table table-dark table-hover table-responsive">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Service Name</th>
+        <th>Channel Count</th>
+        <th>TV Type</th>
+        <th>Minute Limit</th>
+        <th>SMS Limit</th>
+        <th>Mobile Data Type</th>
+        <th>Mobile Data Limit GB</th>
+        <th>Internet Speed</th>
+        <th>Internet Type</th>
+        <th>Initial Price</th>
+        <th>Active</th>
+        {% if perms.services.change_service or perms.services.delete_service %}
+        <th>Actions</th>
         {% endif %}
-        {% if perms.services.delete_service %}
-          <a href="{% url 'services:service_delete' service.id_service %}">Delete</a>
+      </tr>
+    </thead>
+    <tbody>
+      {% for service in service %}
+      <tr>
+        <td>{{ service.id_service }}</td>
+        <td>{{ service.id_service_type.service_comercial_name }}</td>
+        <td>{{ service.id_service_type.channel_count }}</td>
+        <td>{{ service.id_service_type.tv_type }}</td>
+        <td>{{ service.id_service_type.phone_minute_limit }}</td>
+        <td>{{ service.id_service_type.phone_sms_limit }}</td>
+        <td>{{ service.id_service_type.mobile_data_type }}</td>
+        <td>{{ service.id_service_type.mobile_data_limit_gb }}</td>
+        <td>{{ service.id_service_type.internet_speed }}</td>
+        <td>{{ service.id_service_type.internet_type }}</td>
+        <td>{{ service.service_initial_price }}</td>
+        <td>{{ service.active }}</td>
+        {% if perms.services.change_service or perms.services.delete_service %}
+        <td>
+          {% if perms.services.change_service %}
+            <a href="{% url 'services:service_update' service.id_service %}" class="btn btn-sm btn-secondary">Edit</a>
+          {% endif %}
+          {% if perms.services.delete_service %}
+            <a href="{% url 'services:service_delete' service.id_service %}" class="btn btn-sm btn-danger">Delete</a>
+          {% endif %}
+        </td>
         {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
