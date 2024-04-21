@@ -66,20 +66,17 @@ class PackageDiscountPackageForm(forms.ModelForm):
 class InvoicePackageForm(forms.ModelForm):
     id_customer = forms.ModelChoiceField(queryset=Customer.objects.all())  
     id_package = forms.ModelChoiceField(queryset=Package.objects.all())
-    final_package_price = forms.DecimalField(max_digits=10, decimal_places=2)
-            
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['id_customer'].required = True
         self.fields['id_package'].required = True 
-        self.fields['final_package_price'].required = True 
-    
+
     class Meta:
         model = InvoicePackage
-        fields = ['id_invoice_package', 'id_customer', 'id_package', 'final_package_price']
+        fields = ['id_invoice_package', 'id_customer', 'id_package']
         labels = {
             'id_invoice_package': 'Invoice_Package_ID',
             'id_customer': 'Customer_ID',
             'id_package': 'Package_ID',
-            'final_package_price': 'Final_Package_Price',
         }
