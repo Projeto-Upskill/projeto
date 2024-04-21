@@ -1,24 +1,47 @@
 {% extends 'model_page.html' %}
+{% load static %}
 
 {% block content %}
-  <h2>Services Discounts</h2>
-  {% if perms.services.add_servicediscount %}
-    <a href="{% url 'services:service_discount_create' %}">Add New Service Discount</a>
-  {% endif %}
-  <ul>
-    {% for i in service_discount %}
-      <li>
-        {{ i.id_service_discount }} -
-        {{ i.discount_rate }} -
-        {{ i.active }} -
-        {{ i.id_service.id_service_type.service_name }}
-        {% if perms.services.change_servicediscount %}
-          <a href="{% url 'services:service_discount_update' i.id_service_discount %}">Edit</a>
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Service Discounts</h2>
+    {% if perms.services.add_servicediscount %}
+      <a href="{% url 'services:service_discount_create' %}" class="btn btn-primary">Add New Service Discount</a>
+    {% endif %}
+  </div>
+
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th>ID Discount</th>
+        <th>Discount Rate (%)</th>
+        <th>Active</th>
+        <th>Service Name</th>
+        {% if perms.services.change_servicediscount or perms.services.delete_servicediscount %}
+        <th>Actions</th>
         {% endif %}
-        {% if perms.services.delete_servicediscount %}
-          <a href="{% url 'services:service_discount_delete' i.id_service_discount %}">Delete</a>
+      </tr>
+    </thead>
+    <tbody>
+      {% for discount in service_discount %}
+      <tr>
+        <td>{{ discount.id_service_discount }}</td>
+        <td>{{ discount.discount_rate }}</td>
+        <td>{{ discount.active }}</td>
+        <td>{{ discount.id_service.id_service_type.service_comercial_name }}</td>
+        {% if perms.services.change_servicediscount or perms.services.delete_servicediscount %}
+        <td>
+          {% if perms.services.change_servicediscount %}
+            <a href="{% url 'services:service_discount_update' discount.id_service_discount %}" class="btn btn-sm btn-secondary">Edit</a>
+          {% endif %}
+          {% if perms.services.delete_servicediscount %}
+            <a href="{% url 'services:service_discount_delete' discount.id_service_discount %}" class="btn btn-sm btn-danger">Delete</a>
+          {% endif %}
+        </td>
         {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

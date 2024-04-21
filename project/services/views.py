@@ -121,6 +121,14 @@ class ServiceDiscountCreateView(PermissionRequiredMixin, LoginRequiredMixin, Cre
     def handle_no_permission(self):
         return redirect("forbidden")
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+        # Check if the ServiceDiscount has a related Service and create ServiceDiscountService
+        if self.object.id_service:
+            ServiceDiscountService.objects.create(id_service=self.object.id_service, id_service_discount=self.object)
+        return super(ServiceDiscountCreateView, self).form_valid(form)
+
 
 class ServiceDiscountUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = ServiceDiscount

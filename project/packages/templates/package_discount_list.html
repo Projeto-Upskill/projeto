@@ -1,25 +1,49 @@
 {% extends 'model_page.html' %}
+{% load static %}
 
 {% block content %}
-  <h2>Packages Discounts</h2>
-  {% if perms.packages.add_packagediscount %}
-    <a href="{% url 'packages:package_discount_create' %}">Add New Package Discount</a>
-  {% endif %}
-  <ul>
-    {% for package_discount in package_discount %}
-      <li>
-        id discount: {{ package_discount.id_package_discount }} -
-        discount rate: {{ package_discount.discount_rate }} -
-        active: {{ package_discount.active }} -
-        related to the package: id: {{ package_discount.id_package.id_package }} -
-        name: {{ package_discount.id_package.name }}
-        {% if perms.packages.change_packagediscount %}
-          <a href="{% url 'packages:package_discount_update' package_discount.id_package_discount %}">Edit</a>
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Package Discounts</h2>
+    {% if perms.packages.add_packagediscount %}
+      <a href="{% url 'packages:package_discount_create' %}" class="btn btn-primary">Add New Package Discount</a>
+    {% endif %}
+  </div>
+
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th>ID Discount</th>
+        <th>Discount Rate (%)</th>
+        <th>Active</th>
+        <th>Package Name</th>
+        {% if perms.packages.change_packagediscount or perms.packages.delete_packagediscount %}
+        <th>Actions</th>
         {% endif %}
-        {% if perms.packages.delete_packagediscount %}
-          <a href="{% url 'packages:package_discount_delete' package_discount.id_package_discount %}">Delete</a>
+      </tr>
+    </thead>
+    <tbody>
+      {% for package_discount in package_discount %}
+      <tr>
+        <td>{{ package_discount.id_package_discount }}</td>
+        <td>{{ package_discount.discount_rate }}</td>
+        <td>{{ package_discount.active }}</td>
+        <td>{{ package_discount.id_package.name }}</td>
+        {% if perms.packages.change_packagediscount or perms.packages.delete_packagediscount %}
+        <td>
+          {% if perms.packages.change_packagediscount %}
+            <a href="{% url 'packages:package_discount_update' package_discount.id_package_discount %}" class="btn btn-sm btn-secondary">Edit</a>
+          {% endif %}
+          {% if perms.packages.delete_packagediscount %}
+            <a href="{% url 'packages:package_discount_delete' package_discount.id_package_discount %}" class="btn btn-sm btn-danger">Delete</a>
+          {% endif %}
+        </td>
+        {% else %}
+        <td class="d-none"></td>
         {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
