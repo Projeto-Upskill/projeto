@@ -225,26 +225,38 @@ class PackageCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
         return object_list
 
 
-class PackageCustomerCreateView(CreateView):
+class PackageCustomerCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'package_customer_create.html'
     form_class = CustomerPackageForm
     success_url = reverse_lazy("administrator:menu_packages")
+    permission_required = 'packages.add_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class PackageCustomerUpdateView(UpdateView):
+class PackageCustomerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'package_customer_create.html'
     model = PackageCustomer
     form_class = CustomerPackageForm
     success_url = reverse_lazy("administrator:menu_packages")
+    permission_required = 'packages.change_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_package_customer = self.kwargs.get("id_package_customer")
         return get_object_or_404(PackageCustomer, id_package_customer=id_package_customer)
 
 
-class PackageCustomerDeleteView(DeleteView):
+class PackageCustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = PackageCustomer
     template_name = 'package_customer_confirm_delete.html'
+    permission_required = 'packages.delete_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_package_customer = self.kwargs.get("id_package_customer")
