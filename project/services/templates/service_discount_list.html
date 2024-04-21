@@ -1,7 +1,7 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Services</h2>
+  <h2>Services Discounts</h2>
   {% if perms.services.add_servicediscount %}
     <a href="{% url 'services:service_discount_create' %}">Add New Service Discount</a>
   {% endif %}
