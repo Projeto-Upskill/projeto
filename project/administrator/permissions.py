@@ -116,12 +116,12 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='change_invoicepackage'),
         Permission.objects.get(codename='view_invoicepackage'),
         Permission.objects.get(codename='delete_invoicepackage'),
-        Permission.objects.get(codename='view_administrator_index'),
-        Permission.objects.get(codename='view_menu_operators'),
-        Permission.objects.get(codename='view_menu_customers'),
-        Permission.objects.get(codename='view_menu_packages'),
-        Permission.objects.get(codename='view_menu_discounts'),
-        Permission.objects.get(codename='view_menu_services')
+        #Permission.objects.get(codename='view_administrator_index'),
+        #Permission.objects.get(codename='view_menu_operators'),
+        #Permission.objects.get(codename='view_menu_customers'),
+        #Permission.objects.get(codename='view_menu_packages'),
+        #Permission.objects.get(codename='view_menu_discounts'),
+        #Permission.objects.get(codename='view_menu_services')
     ]
 
     for p in permissions:
