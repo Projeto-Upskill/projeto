@@ -219,6 +219,18 @@ class ServiceCustomerUpdateView(UpdateView):
         return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
 
 
+class ServiceCustomerDeleteView(DeleteView):
+    model = ServiceCustomer
+    template_name = 'customer_service_confirm_delete.html'
+
+    def get_object(self, queryset=None):
+        id_service_customer = self.kwargs.get("id_service_customer")
+        return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
+
+    def get_success_url(self):
+        return reverse_lazy('administrator:menu_services')
+
+
 class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = ServiceCustomer
     template_name = 'service_client_list.html'
