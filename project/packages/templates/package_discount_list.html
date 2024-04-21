@@ -1,7 +1,7 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Packages</h2>
+  <h2>Packages Discounts</h2>
   {% if perms.packages.add_packagediscount %}
     <a href="{% url 'packages:package_discount_create' %}">Add New Package Discount</a>
   {% endif %}

@@ -130,6 +130,10 @@ footer {
   padding: 20px;
   color: #000000;
   text-align: center;
+<<<<<<< HEAD
+  margin: 10px;
+=======
+>>>>>>> 2086b8d7b25989ec0e52e823ec108110869a8ac0
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
@@ -169,7 +173,6 @@ footer {
   z-index: 2;
 }
 
-/* Responsive behavior */
 @media (max-width: 768px) {
   .discounts {
     flex-direction: column;
