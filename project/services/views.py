@@ -208,6 +208,17 @@ class ServiceCustomerCreateView(CreateView):
     success_url = reverse_lazy('administrator:menu_services')
 
 
+class ServiceCustomerUpdateView(UpdateView):
+    model = ServiceCustomer
+    form_class = CustomerServiceForm
+    template_name = 'service_customer_create.html'
+    success_url = reverse_lazy('administrator:menu_services')
+
+    def get_object(self):
+        id_service_customer = self.kwargs.get("id_service_customer")
+        return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
+
+
 class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = ServiceCustomer
     template_name = 'service_client_list.html'
