@@ -1,12 +1,21 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>{% if object %}Edit{% else %}Add{% endif %} Service Discount</h2>
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    {% if perms.services.add_servicediscount %}
-      <button type="submit" class="btn btn-primary">Submit</button>
-    {% endif %}
-  </form>
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>{% if object %}Edit{% else %}Add{% endif %} Service Discount</h2>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <form method="post" novalidate class="w-50">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="text-center">
+        {% if perms.services.add_servicediscount %}
+          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

@@ -287,9 +287,12 @@ class InvoicePackageCreateView(PermissionRequiredMixin, LoginRequiredMixin, Crea
         return redirect("forbidden")
 
     def form_valid(self, form):
-        form.id_customer = form.cleaned_data["id_customer"]
-        form.id_package = form.cleaned_data["id_package"]
-        form.final_package_price = form.cleaned_data["final_package_price"]
+        self.object = form.save(commit=False)
+
+        self.object.id_customer = form.cleaned_data["id_customer"]
+        self.object.id_package = form.cleaned_data["id_package"]
+
+        self.object.save()
 
         return super().form_valid(form)
 

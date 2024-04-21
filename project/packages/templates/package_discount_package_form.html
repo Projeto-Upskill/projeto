@@ -1,12 +1,21 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>{% if object %}Edit{% else %}Add{% endif %} Package Discount Package</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {% if perms.packages.add_packagediscountpackage %}
-      <button type="submit">Submit</button>
-    {% endif %}
-  </form>
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>{% if object %}Edit{% else %}Add{% endif %} Package Discount Package</h2>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <form method="post" class="w-50">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="text-center">
+        {% if perms.packages.add_packagediscountpackage %}
+          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
