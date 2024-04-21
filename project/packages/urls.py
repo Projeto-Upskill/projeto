@@ -3,6 +3,7 @@ from .views import PackageListView, PackageCreateView, PackageUpdateView, Packag
 from .views import PackageDiscountListView, PackageDiscountCreateView, PackageDiscountUpdateView, PackageDiscountDeleteView
 from .views import PackageDiscountPackageListView, PackageDiscountPackageCreateView, PackageDiscountPackageUpdateView, PackageDiscountPackageDeleteView
 from .views import InvoicePackageListView, InvoicePackageCreateView, InvoicePackageDeleteView, InvoicePackageUpdateView
+from .views import PackageCustomerListView
 
 app_name = 'packages'
 
@@ -27,4 +28,5 @@ urlpatterns = [
     path('invoice-package/new/', InvoicePackageCreateView.as_view(), name='invoice_package_create'), #create
     path('invoice-package/<int:id_invoice_package>/edit/', InvoicePackageUpdateView.as_view(), name='invoice_package_update'), #update
     path('invoice-package/<int:id_invoice_package>/delete/', InvoicePackageDeleteView.as_view(), name='invoice_package_delete'), #delete
+    path("package_customer", PackageCustomerListView.as_view(), name="package_customer")
 ]

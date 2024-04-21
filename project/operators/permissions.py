@@ -30,6 +30,8 @@ def create_operators_group(**kwargs):
         # O Operador pode visualizar a lista de promoções disponíveis.
         Permission.objects.get(codename='view_packagediscount'), #ok
         Permission.objects.get(codename='view_servicediscount'),  # ok
+        Permission.objects.get(codename='view_servicecustomer'),
+        Permission.objects.get(codename='view_packagecustomer')
     ]
 
     # this next line is to delete all permissions if some are added that we dont want

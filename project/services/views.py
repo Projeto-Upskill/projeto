@@ -1,7 +1,7 @@
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import ServiceType, Service, ServiceDiscount, ServiceDiscountService, InvoiceService, ServiceCustomer
-from .forms import ServiceTypeForm, ServiceForm, ServiceDiscountForm, ServiceDiscountServiceForm, InvoiceServiceForm
+from .forms import ServiceTypeForm, ServiceForm, ServiceDiscountForm, ServiceDiscountServiceForm, InvoiceServiceForm, CustomerServiceForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db.models import Q
@@ -201,10 +201,21 @@ class ServiceDiscountServiceDeleteView(PermissionRequiredMixin, LoginRequiredMix
         return get_object_or_404(ServiceDiscountService, id_service_discount_service=id)
 
 
-class ServiceCustomerListView(ListView):
+class ServiceCustomerCreateView(CreateView):
+    model = ServiceCustomer
+    form_class = CustomerServiceForm
+    template_name = 'service_customer_create.html'
+    success_url = reverse_lazy('administrator:menu_services')
+
+
+class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = ServiceCustomer
     template_name = 'service_client_list.html'
     context_object_name = 'service_customer'
+    permission_required = 'services.view_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_queryset(self):
         service = self.request.GET.get('id_service')
