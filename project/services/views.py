@@ -209,11 +209,46 @@ class ServiceDiscountServiceDeleteView(PermissionRequiredMixin, LoginRequiredMix
         return get_object_or_404(ServiceDiscountService, id_service_discount_service=id)
 
 
-class ServiceCustomerCreateView(CreateView):
+class ServiceCustomerCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = ServiceCustomer
     form_class = CustomerServiceForm
     template_name = 'service_customer_create.html'
     success_url = reverse_lazy('administrator:menu_services')
+    permission_required = 'services.add_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+
+class ServiceCustomerUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    model = ServiceCustomer
+    form_class = CustomerServiceForm
+    template_name = 'service_customer_create.html'
+    success_url = reverse_lazy('administrator:menu_services')
+    permission_required = 'services.change_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_object(self):
+        id_service_customer = self.kwargs.get("id_service_customer")
+        return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
+
+
+class ServiceCustomerDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = ServiceCustomer
+    template_name = 'customer_service_confirm_delete.html'
+    permission_required = 'services.delete_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_object(self, queryset=None):
+        id_service_customer = self.kwargs.get("id_service_customer")
+        return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
+
+    def get_success_url(self):
+        return reverse_lazy('administrator:menu_services')
 
 
 class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):

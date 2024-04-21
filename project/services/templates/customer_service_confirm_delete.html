@@ -1,0 +1,14 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+  <h2>Are you sure you want to delete "id: {{ object.id_service_customer }} -
+        customer name: {{ object.id_customer.name }} -
+        service: {{ object.id_service.id_service_type.service_comercial_name }}"?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <a href="{% url 'services:invoice_service_list' %}">Cancel</a>
+    {% if perms.services.delete_invoiceservice %}
+        <button type="submit">Delete</button>
+    {% endif %}
+  </form>
+{% endblock %}
