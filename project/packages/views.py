@@ -242,6 +242,18 @@ class PackageCustomerUpdateView(UpdateView):
         return get_object_or_404(PackageCustomer, id_package_customer=id_package_customer)
 
 
+class PackageCustomerDeleteView(DeleteView):
+    model = PackageCustomer
+    template_name = 'package_customer_confirm_delete.html'
+
+    def get_object(self, queryset=None):
+        id_package_customer = self.kwargs.get("id_package_customer")
+        return get_object_or_404(PackageCustomer, id_package_customer=id_package_customer)
+
+    def get_success_url(self):
+        return reverse_lazy("administrator:menu_packages")
+
+
 class InvoicePackageListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = InvoicePackage
     template_name = 'invoice_package_list.html'
