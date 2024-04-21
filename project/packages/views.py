@@ -1,7 +1,8 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
-from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage
+from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage, PackageCustomer
 from .forms import PackageForm, PackageDiscountForm, PackageDiscountPackageForm, InvoicePackageForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
@@ -205,7 +206,24 @@ class PackageDiscountPackageDeleteView(PermissionRequiredMixin, LoginRequiredMix
         return get_object_or_404(PackageDiscountPackage, id_package_discount_package=id_package_discount_package)
 
 
-# Let's create views for InvoicePackage
+class PackageCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = PackageCustomer
+    template_name = 'package_customer_list.html'
+    context_object_name = 'package_customer'
+    permission_required = 'packages.view_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_queryset(self):
+        package = self.request.GET.get('id_package.name')
+        user = self.request.user
+        if package:
+            object_list = self.model.objects.filter(Q(package__incontains=package))
+        else:
+            object_list = self.model.objects.filter(user_id=user)
+        return object_list
+
 
 class InvoicePackageListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = InvoicePackage

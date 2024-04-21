@@ -1,0 +1,17 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+
+  <form method="get">
+    <label for="package">package:</label>
+    <input type="text" id="package" name="package">
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+
+  {% for i in package_customer %}
+  <ul>
+    <li>{{ i.package.name }} {{ i.customer }}</li>
+  </ul>
+  {% endfor %}
+
+{% endblock %}

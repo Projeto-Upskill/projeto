@@ -111,6 +111,9 @@ class ServiceCustomer(models.Model):
     def __str__(self):
         return f"{self.id_service.id_service_type.service_comercial_name} {self.id_customer}"
 
+    class Meta:
+        db_table = 'service_customer'
+
 
 class InvoiceService(models.Model):
     id_invoice_service = models.AutoField(primary_key=True, null=False, verbose_name='id invoice service')
