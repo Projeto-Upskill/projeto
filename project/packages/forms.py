@@ -1,5 +1,5 @@
 from django import forms
-from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage
+from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage, PackageCustomer
 from customers.models import Customer
 
 class PackageForm(forms.ModelForm):
@@ -83,3 +83,14 @@ class InvoicePackageForm(forms.ModelForm):
             'id_package': 'Package_ID',
             'final_package_price': 'Final_Package_Price',
         }
+
+
+class CustomerPackageForm(forms.ModelForm):
+    class Meta:
+        model = PackageCustomer
+        fields = [
+            'id_package_customer',
+            'package',
+            'customer',
+            'user'
+        ]
