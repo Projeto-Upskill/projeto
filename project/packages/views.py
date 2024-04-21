@@ -231,6 +231,17 @@ class PackageCustomerCreateView(CreateView):
     success_url = reverse_lazy("administrator:menu_packages")
 
 
+class PackageCustomerUpdateView(UpdateView):
+    template_name = 'package_customer_create.html'
+    model = PackageCustomer
+    form_class = CustomerPackageForm
+    success_url = reverse_lazy("administrator:menu_packages")
+
+    def get_object(self, queryset=None):
+        id_package_customer = self.kwargs.get("id_package_customer")
+        return get_object_or_404(PackageCustomer, id_package_customer=id_package_customer)
+
+
 class InvoicePackageListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = InvoicePackage
     template_name = 'invoice_package_list.html'
