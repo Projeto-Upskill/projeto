@@ -4,6 +4,7 @@ from .views import PackageDiscountListView, PackageDiscountCreateView, PackageDi
 from .views import PackageDiscountPackageListView, PackageDiscountPackageCreateView, PackageDiscountPackageUpdateView, PackageDiscountPackageDeleteView
 from .views import InvoicePackageListView, InvoicePackageCreateView, InvoicePackageDeleteView, InvoicePackageUpdateView
 from .views import PackageCustomerListView, PackageCustomerCreateView, PackageCustomerUpdateView, PackageCustomerDeleteView
+from . views import PackageCustomerQuery
 
 app_name = 'packages'
 
@@ -31,5 +32,6 @@ urlpatterns = [
     path("package_customer", PackageCustomerListView.as_view(), name="package_customer"),
     path("package_customer/create", PackageCustomerCreateView.as_view(), name="package_customer_create"),
     path("package_customer/<int:id_package_customer>/update", PackageCustomerUpdateView.as_view(), name="package_customer_update"),
-    path("package_customer/<int:id_package_customer>/delete", PackageCustomerDeleteView.as_view(), name="package_customer_delete")
+    path("package_customer/<int:id_package_customer>/delete", PackageCustomerDeleteView.as_view(), name="package_customer_delete"),
+    path("package_query", PackageCustomerQuery.as_view(), name="package_query")
 ]
