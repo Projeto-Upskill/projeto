@@ -31,7 +31,9 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='view_packagediscount'), #ok
         Permission.objects.get(codename='view_servicediscount'),  # ok
         Permission.objects.get(codename='view_servicecustomer'),
-        Permission.objects.get(codename='view_packagecustomer')
+        Permission.objects.get(codename='view_packagecustomer'),
+        Permission.objects.get(codename='query_customer_service'),
+        Permission.objects.get(codename='query_customer_package')
     ]
 
     # this next line is to delete all permissions if some are added that we dont want
