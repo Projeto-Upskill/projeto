@@ -1,50 +1,78 @@
 {% extends 'model_page.html' %}
-
 {% block content %}
 <div class="container mt-5">
-  <h2 class="text-center mb-3">Packages:</h2>
+  <h2 class="text-center mb-3">My Packages</h2>
   <div class="table-responsive">
-    <table class="table table-dark table-hover align-middle">
+    <table class="table table-dark table-hover">
       <thead>
         <tr>
           <th scope="col">Package Name</th>
-          <th scope="col" class="text-end">Initial Price</th>
+          <th scope="col">Active</th>
+          <th scope="col">Initial Price</th>
+          <th scope="col">Service 1</th>
+          <th scope="col">Service 2</th>
+          <th scope="col">Service 3</th>
+          <th scope="col">Service 4</th>
         </tr>
       </thead>
       <tbody>
         {% for pc in packages %}
         <tr>
           <td>{{ pc.package.name }}</td>
-          <td class="text-end">{{ pc.package.package_initial_price }}</td>
+          <td>{{ pc.package.active }}</td>
+          <td>{{ pc.package.package_initial_price }}</td>
+          <td>{{ pc.package.service1 }}</td>
+          <td>{{ pc.package.service2 }}</td>
+          <td>{{ pc.package.service3 }}</td>
+          <td>{{ pc.package.service4 }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
-  <h2 class="text-center mb-3">Services:</h2>
+  <h2 class="text-center mb-3">My Services</h2>
   <div class="table-responsive">
     <table class="table table-dark table-hover align-middle">
       <thead>
         <tr>
           <th scope="col">Service Name</th>
-          <th scope="col" class="text-end">Price</th>
+          <th scope="col">Active</th>
+          <th scope="col">Initial Price</th>
+          <th scope="col">Channel Count</th>
+          <th scope="col">TV Type</th>
+          <th scope="col">Minute Limit</th>
+          <th scope="col">SMS Limit</th>
+          <th scope="col">Mobile Data Type</th>
+          <th scope="col">Mobile Data Limit GB</th>
+          <th scope="col">Internet Speed</th>
+          <th scope="col">Internet Type</th>
         </tr>
       </thead>
       <tbody>
-        {% for sc in services %}
+        {% for service in services %}
         <tr>
-          <td>{{ sc.id_service.id_service_type.service_comercial_name }}</td>
-          <td class="text-end">{{ sc.id_service.service_initial_price }}</td>
+          <td>{{ service.id_service_type.service_comercial_name }}</td>
+          <td>{{ service.active }}</td>
+          <td>{{ service.service_initial_price }}</td>
+          <td>{{ service.id_service_type.channel_count }}</td>
+          <td>{{ service.id_service_type.tv_type }}</td>
+          <td>{{ service.id_service_type.phone_minute_limit }}</td>
+          <td>{{ service.id_service_type.phone_sms_limit }}</td>
+          <td>{{ service.id_service_type.mobile_data_type }}</td>
+          <td>{{ service.id_service_type.mobile_data_limit_gb }}</td>
+          <td>{{ service.id_service_type.internet_speed }}</td>
+          <td>{{ service.id_service_type.internet_type }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
-  <h2 class="text-center mb-3">Invoices for Packages:</h2>
+
+  <h2 class="text-center mb-3">My Package Invoices</h2>
   <div class="table-responsive">
-    <table class="table table-dark table-hover align-middle">
+    <table class="table table-dark table-hover">
       <thead>
         <tr>
           <th scope="col">Package Name</th>
@@ -62,9 +90,9 @@
     </table>
   </div>
 
-  <h2 class="text-center mb-3">Invoices for Services:</h2>
+  <h2 class="text-center mb-3">My Services Invoices</h2>
   <div class="table-responsive">
-    <table class="table table-dark table-hover align-middle">
+    <table class="table table-dark table-hover">
       <thead>
         <tr>
           <th scope="col">Service Name</th>
@@ -76,6 +104,46 @@
         <tr>
           <td>{{ inv.id_service.id_service_type.service_comercial_name }}</td>
           <td class="text-end">{{ inv.final_service_price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="text-center mb-3">My Package Discounts</h2>
+  <div class="table-responsive">
+    <table class="table table-dark table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Package Name</th>
+          <th scope="col" class="text-end">Discount Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for discount in package_discounts %}
+        <tr>
+          <td>{{ discount.id_package.name }}</td>
+          <td class="text-end">{{ discount.discount_rate }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="text-center mb-3">My Service Discounts</h2>
+  <div class="table-responsive">
+    <table class="table table-dark table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Service Name</th>
+          <th scope="col" class="text-end">Discount Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for discount in service_discounts %}
+        <tr>
+          <td>{{ discount.id_service.id_service_type.service_comercial_name }}</td>
+          <td class="text-end">{{ discount.discount_rate }}%</td>
         </tr>
         {% endfor %}
       </tbody>
