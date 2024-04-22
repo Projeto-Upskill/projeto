@@ -2,6 +2,9 @@
 <head>
   <!-- Other head content -->
   <link rel="stylesheet" href="{% static 'global_styles.css' %}">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-auto py-3">
@@ -23,6 +26,31 @@
       {% if request.user.is_authenticated %}
         {% if request.user.customer %}
           <a class="nav-item nav-link navbar-button" href="{% url 'customers:customer_dashboard' %}">My Dashboard</a>
+        {% elif request.user.administrators or request.user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle navbar-button" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              My Menus
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'administrator:menu_operators' %}">Menu Operators</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_customers' %}">Menu Customers</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_packages' %}">Menu Packages</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_services' %}">Menu Services</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_discounts' %}">Menu Discounts</a>
+            </div>
+          </li>
+        {% elif request.user.operators or request.user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle navbar-button" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              My Menus
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'administrator:menu_customers' %}">Menu Customers</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_packages' %}">Menu Packages</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_services' %}">Menu Services</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_discounts' %}">Menu Discounts</a>
+            </div>
+          </li>
         {% endif %}
         <a class="nav-item nav-link navbar-button" href="{% url 'logout' %}">Logout</a>
       {% else %}
