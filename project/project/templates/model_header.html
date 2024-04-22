@@ -20,13 +20,13 @@
       <a class="nav-item nav-link navbar-button" href="{% url 'services:service_list' %}">Services</a>
       <a class="nav-item nav-link navbar-button" href="{% url 'packages:package_list' %}">Packages</a>
       <a class="nav-item nav-link navbar-button" href="{% url 'discounts_main_page' %}">Discounts</a>
-      <a class="nav-item nav-link navbar-button" href="{% url 'customers:register_customer' %}">Registration</a>
       {% if request.user.is_authenticated %}
         {% if request.user.customer %}
           <a class="nav-item nav-link navbar-button" href="{% url 'customers:customer_dashboard' %}">My Dashboard</a>
         {% endif %}
         <a class="nav-item nav-link navbar-button" href="{% url 'logout' %}">Logout</a>
       {% else %}
+        <a class="nav-item nav-link navbar-button" href="{% url 'customers:register_customer' %}">Registration</a>
         <a class="nav-item nav-link navbar-button" href="{% url 'login' %}">Login</a>
       {% endif %}
     </div>

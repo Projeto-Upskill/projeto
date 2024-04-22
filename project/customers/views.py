@@ -7,8 +7,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login
 from .permissions import *
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from packages.models import PackageCustomer, InvoicePackage
-from services.models import ServiceCustomer, InvoiceService
+from packages.models import PackageCustomer, InvoicePackage, PackageDiscount
+from services.models import ServiceCustomer, InvoiceService, ServiceDiscount
 
 
 create_group = create_customers_group()
@@ -324,5 +324,11 @@ class CustomerDashboardView(LoginRequiredMixin, TemplateView):
         # Fetching invoices for packages and services
         context['invoices_packages'] = InvoicePackage.objects.filter(id_customer=customer).select_related('id_package')
         context['invoices_services'] = InvoiceService.objects.filter(id_customer=customer).select_related('id_service')
+
+        # Fetching discounts for packages and services
+        package_ids = context['packages'].values_list('package', flat=True)
+        service_ids = context['services'].values_list('id_service', flat=True)
+        context['package_discounts'] = PackageDiscount.objects.filter(id_package__in=package_ids, active=True)
+        context['service_discounts'] = ServiceDiscount.objects.filter(id_service__in=service_ids, active=True)
 
         return context

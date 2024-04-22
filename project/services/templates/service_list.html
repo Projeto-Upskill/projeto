@@ -15,6 +15,7 @@
       <tr>
         <th>ID</th>
         <th>Service Name</th>
+        <th>Active</th>
         <th>Channel Count</th>
         <th>TV Type</th>
         <th>Minute Limit</th>
@@ -24,7 +25,6 @@
         <th>Internet Speed</th>
         <th>Internet Type</th>
         <th>Initial Price</th>
-        <th>Active</th>
         {% if perms.services.change_service or perms.services.delete_service %}
         <th>Actions</th>
         {% endif %}
@@ -35,6 +35,7 @@
       <tr>
         <td>{{ service.id_service }}</td>
         <td>{{ service.id_service_type.service_comercial_name }}</td>
+        <td>{{ service.active }}</td>
         <td>{{ service.id_service_type.channel_count }}</td>
         <td>{{ service.id_service_type.tv_type }}</td>
         <td>{{ service.id_service_type.phone_minute_limit }}</td>
@@ -44,7 +45,6 @@
         <td>{{ service.id_service_type.internet_speed }}</td>
         <td>{{ service.id_service_type.internet_type }}</td>
         <td>{{ service.service_initial_price }}</td>
-        <td>{{ service.active }}</td>
         {% if perms.services.change_service or perms.services.delete_service %}
         <td>
           {% if perms.services.change_service %}
