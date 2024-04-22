@@ -9,6 +9,7 @@ class PackageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].required = True
+        self.fields['package_initial_price'].required = True
         self.fields['active'].required = True
 
     class Meta:
@@ -16,6 +17,7 @@ class PackageForm(forms.ModelForm):
         fields = (
             'name',
             'active',
+            'package_initial_price',
             'service1',
             'service2',
             'service3',

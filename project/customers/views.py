@@ -2,11 +2,14 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Address, PostalCode, City
 from .forms import CustomerForm, AddressForm, RegistrationForm, UserCustomerRegistrationForm
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from .permissions import *
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from packages.models import PackageCustomer, InvoicePackage
+from services.models import ServiceCustomer, InvoiceService
+
 
 create_group = create_customers_group()
 
@@ -304,3 +307,22 @@ def register_customer(request):
     else:
         form = UserCustomerRegistrationForm()
     return render(request, 'register.html', {'form': form})
+
+#let's create views for dashboard
+class CustomerDashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'customer_dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Accessing the Customer instance associated with the logged-in user
+        customer = Customer.objects.get(user=self.request.user)
+
+        # Fetching packages and services for the customer
+        context['packages'] = PackageCustomer.objects.filter(customer=customer).select_related('package')
+        context['services'] = ServiceCustomer.objects.filter(id_customer=customer).select_related('id_service')
+
+        # Fetching invoices for packages and services
+        context['invoices_packages'] = InvoicePackage.objects.filter(id_customer=customer).select_related('id_package')
+        context['invoices_services'] = InvoiceService.objects.filter(id_customer=customer).select_related('id_service')
+
+        return context

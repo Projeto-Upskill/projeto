@@ -1,0 +1,85 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-3">Packages:</h2>
+  <div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Package Name</th>
+          <th scope="col" class="text-end">Initial Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pc in packages %}
+        <tr>
+          <td>{{ pc.package.name }}</td>
+          <td class="text-end">{{ pc.package.package_initial_price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="text-center mb-3">Services:</h2>
+  <div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Service Name</th>
+          <th scope="col" class="text-end">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sc in services %}
+        <tr>
+          <td>{{ sc.id_service.id_service_type.service_comercial_name }}</td>
+          <td class="text-end">{{ sc.id_service.service_initial_price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="text-center mb-3">Invoices for Packages:</h2>
+  <div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Package Name</th>
+          <th scope="col" class="text-end">Final Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inv in invoices_packages %}
+        <tr>
+          <td>{{ inv.id_package.name }}</td>
+          <td class="text-end">{{ inv.final_package_price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="text-center mb-3">Invoices for Services:</h2>
+  <div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Service Name</th>
+          <th scope="col" class="text-end">Final Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inv in invoices_services %}
+        <tr>
+          <td>{{ inv.id_service.id_service_type.service_comercial_name }}</td>
+          <td class="text-end">{{ inv.final_service_price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
