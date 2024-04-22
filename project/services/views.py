@@ -270,10 +270,14 @@ class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
         return object_list
 
 
-class ServiceCustomerQuery(ListView):
+class ServiceCustomerQuery(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = ServiceCustomer
     template_name = 'service_customer_search.html'
     context_object_name = 'service_customer'
+    permission_required = 'services.query_customer_service'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_queryset(self):
         tax_number = self.request.GET.get('tax_number')

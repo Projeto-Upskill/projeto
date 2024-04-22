@@ -266,10 +266,14 @@ class PackageCustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Del
         return reverse_lazy("administrator:menu_packages")
 
 
-class PackageCustomerQuery(ListView):
+class PackageCustomerQuery(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = PackageCustomer
     template_name = 'package_customer_search.html'
     context_object_name = 'package_customer'
+    permission_required = "services.query_customer_package"
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_queryset(self):
         tax_number = self.request.GET.get('tax_number')
