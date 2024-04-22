@@ -180,4 +180,59 @@ footer {
   }
 }
 
+/* STYLING TO FIX 'MENUS' DROPDOWN UNDERLINING AND COLORING */
+/* a lot of this is just overriding bootstrap top avoida bugs */
+.nav-item .dropdown-toggle.navbar-button::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  background-color: #fff;
+  transition: width 0.3s ease, left 0.3s ease;
+  left: 50%;
+  visibility: hidden;
+}
+
+
+.nav-item .dropdown-toggle.navbar-button:hover::before,
+.nav-item .dropdown-toggle.navbar-button:focus::before {
+  width: 100%;
+  left: 0;
+  visibility: visible;
+}
+
+/* remove boostrap default dropdown arrow */
+.nav-item .dropdown-toggle.navbar-button::after {
+  display: none;
+}
+
+.nav-item .dropdown-toggle[aria-expanded="true"].navbar-button::before {
+  width: 100%;
+  visibility: visible;
+  left: 0;
+}
+
+
+.navbar .nav-item .dropdown-menu {
+    background-color: #4a4a4a !important;
+    color: #FBFAF5 !important;
+}
+
+
+.navbar .nav-item .dropdown-menu .dropdown-item {
+    color: #FBFAF5 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.navbar .nav-item .dropdown-menu .dropdown-item:hover,
+.navbar .nav-item .dropdown-menu .dropdown-item:focus {
+    background-color: #4a4a4a !important;
+    color: #FFFFFF !important;
+}
+
+
+
+
 
