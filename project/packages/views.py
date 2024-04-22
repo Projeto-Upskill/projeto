@@ -266,6 +266,21 @@ class PackageCustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Del
         return reverse_lazy("administrator:menu_packages")
 
 
+class PackageCustomerQuery(ListView):
+    model = PackageCustomer
+    template_name = 'package_customer_list.html'
+    context_object_name = 'package_customer'
+
+    def get_queryset(self):
+        tax_number = self.request.GET.get('tax_number')
+        if tax_number:
+            object_list = PackageCustomer.objects.filter(Q(customer__tax_number=tax_number))
+        else:
+            object_list = PackageCustomer.objects.all()
+
+        return object_list
+
+
 class InvoicePackageListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = InvoicePackage
     template_name = 'invoice_package_list.html'
