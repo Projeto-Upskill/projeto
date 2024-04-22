@@ -268,7 +268,7 @@ class PackageCustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Del
 
 class PackageCustomerQuery(ListView):
     model = PackageCustomer
-    template_name = 'package_customer_list.html'
+    template_name = 'package_customer_search.html'
     context_object_name = 'package_customer'
 
     def get_queryset(self):

@@ -270,6 +270,20 @@ class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
         return object_list
 
 
+class ServiceCustomerQuery(ListView):
+    model = ServiceCustomer
+    template_name = 'service_customer_search.html'
+    context_object_name = 'service_customer'
+
+    def get_queryset(self):
+        tax_number = self.request.GET.get('tax_number')
+        if tax_number:
+            object_list = ServiceCustomer.objects.filter(Q(id_customer__tax_number=tax_number))
+        else:
+            object_list = ServiceCustomer.objects.all()
+        return object_list
+
+
 class InvoiceServiceListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = InvoiceService
     template_name = 'invoice_service_list.html'
