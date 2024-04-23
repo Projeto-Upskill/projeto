@@ -114,17 +114,16 @@ class OperatorsIndex(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         return redirect("forbidden")
 
 
-class MenuCustomers(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
-    template_name = 'menu_customers.html'
-    permission_required = 'operators.view_menucustomers'
+class MenuPackages(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'menu_packages.html'
+    permission_required = 'operators.view_menupackages'
 
     def handle_no_permission(self):
         return redirect("forbidden")
 
-
-class MenuPackages(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
-    template_name = 'menu_packages.html'
-    permission_required = 'operators.view_menupackages'
+class MenuServices(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'menu_services.html'
+    permission_required = 'operators.view_menuservices'
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -264,3 +263,5 @@ class OperatorsServiceDiscountListView(LoginRequiredMixin, PermissionRequiredMix
 
     def handle_no_permission(self):
         return redirect("forbidden")
+
+

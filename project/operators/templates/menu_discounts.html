@@ -2,20 +2,26 @@
 
 {% block content %}
 
-<h2>Manage Clients</h2>
+<h2>Manage Discounts</h2>
 
 <ul>
     <li>
-        <a href="">Add Discount</a>
+        <a href="{% url 'services:service_list' %}">List Package Discounts</a>
     </li>
     <li>
-        <a href="">List Discounts</a>
+        <a href="{% url 'services:service_discount_service_list' %}">Add/Remove Discounts to Package</a>
     </li>
     <li>
-        <a href="">Update Discount</a>
+        <a href="{% url 'services:service_discount_service_create' %}">List Client Package Discount</a>
+    </li>
+        <li>
+        <a href="{% url 'services:service_list' %}">List Service Discounts</a>
     </li>
     <li>
-        <a href="">Delete Discount</a>
+        <a href="{% url 'services:service_discount_service_list' %}">Add/Remove Discounts to Service</a>
+    </li>
+    <li>
+        <a href="{% url 'services:service_discount_service_create' %}">List Client Service Discount</a>
     </li>
 </ul>
 

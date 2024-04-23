@@ -1,0 +1,16 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+
+<h2>Manage Services</h2>
+
+<ul>
+    <li>
+        <a href="{% url 'services:service_list' %}">List Services</a>
+    </li>
+    <li>
+        <a href="{% url 'packages:package_discount_package_create' %}">Add/Remove Services to Customer</a>
+    </li>
+</ul>
+
+{% endblock %}
