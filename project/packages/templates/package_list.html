@@ -1,15 +1,57 @@
 {% extends 'model_page.html' %}
+{% load static %}
 
 {% block content %}
-  <h2>Packages</h2>
-  <a href="{% url 'packages:package_create' %}">Add New Package</a>
-  <ul>
-    {% for package in package %}
-      <li>
-        {{ package.id_package }} : {{ package.name }}
-        <a href="{% url 'packages:package_update' package.id_package %}">Edit</a>
-        <a href="{% url 'packages:package_delete' package.id_package %}">Delete</a>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Packages</h2>
+    {% if perms.packages.add_package %}
+      <a href="{% url 'packages:package_create' %}" class="btn btn-primary">Add New Package</a>
+    {% endif %}
+  </div>
+
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Active</th>
+        <th>Initial Price</th>
+        <th>Service 1</th>
+        <th>Service 2</th>
+        <th>Service 3</th>
+        <th>Service 4</th>
+        {% if perms.packages.change_package or perms.packages.delete_package %}
+        <th>Actions</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for package in package %}
+      <tr>
+        <td>{{ package.id_package }}</td>
+        <td>{{ package.name }}</td>
+        <td>{{ package.active }}</td>
+        <td>{{ package.package_initial_price }}</td>
+        <td>{{ package.service1.id_service_type.service_comercial_name }}</td>
+        <td>{{ package.service2.id_service_type.service_comercial_name }}</td>
+        <td>{{ package.service3.id_service_type.service_comercial_name|default:"N/A" }}</td>
+        <td>{{ package.service4.id_service_type.service_comercial_name|default:"N/A" }}</td>
+        {% if perms.packages.change_package or perms.packages.delete_package %}
+        <td>
+          {% if perms.packages.change_package %}
+            <a href="{% url 'packages:package_update' package.id_package %}" class="btn btn-sm btn-secondary">Edit</a>
+          {% endif %}
+          {% if perms.packages.delete_package %}
+            <a href="{% url 'packages:package_delete' package.id_package %}" class="btn btn-sm btn-danger">Delete</a>
+          {% endif %}
+        </td>
+        {% else %}
+        <td class="d-none"></td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

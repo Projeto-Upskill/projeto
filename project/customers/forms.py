@@ -1,6 +1,7 @@
 from django import forms
 from .models import Customer, Address, PostalCode, City
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+
 
 
 
@@ -110,5 +111,9 @@ class UserCustomerRegistrationForm(forms.ModelForm):
                 postal_code=self.cleaned_data['postal_code'],
                 customer=customer
             )
+
+            # Add user to 'customer_group'
+            customer_group, created = Group.objects.get_or_create(name='customer_group')
+            customer_group.user_set.add(user)
 
         return customer

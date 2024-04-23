@@ -1,10 +1,17 @@
+<!-- services/templates/services/service_type_form.html -->
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>{% if object %}Edit{% else %}Add{% endif %} Service</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">{% if object %}Edit{% else %}Add{% endif %} Service Type</h2>
+    <form method="post" class="d-flex flex-column align-items-center">
+      {% csrf_token %}
+      <div class="form-group w-50">
+        {{ form.as_p }}
+      </div>
+      {% if perms.services.add_servicetype %}
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+      {% endif %}
+    </form>
+  </div>
 {% endblock %}

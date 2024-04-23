@@ -6,6 +6,8 @@
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'services:service_list' %}">Cancel</a>
-    <button type="submit">Delete</button>
+    {% if perms.services.delete_service %}
+      <button type="submit">Delete</button>
+    {% endif %}
   </form>
 {% endblock %}

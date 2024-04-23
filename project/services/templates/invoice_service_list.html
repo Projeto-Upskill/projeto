@@ -1,20 +1,50 @@
-<!-- services/templates/services/service_type_list.html -->
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Service Types</h2>
-  <a href="{% url 'services:invoice_service_create' %}">Add New Invoice Service</a>
-  <ul>
-    {% for i in invoice_service %}
-      <li>
-        id: {{ i.id_invoice_service }} -
-        customer name: {{ i.id_customer.name }}
-        tax number: {{ i.id_customer.tax_number }}
-        service: {{ i.id_service.id_service_type.service_name }}
-        price: {{ i.final_service_price }}
-        <a href="{% url 'services:invoice_service_update' i.id_invoice_service %}">Edit</a>
-        <a href="{% url 'services:invoice_service_delete' i.id_invoice_service %}">Delete</a>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Invoices for Services</h2>
+    {% if perms.services.add_invoiceservice %}
+      <a href="{% url 'services:invoice_service_create' %}" class="btn btn-primary">Add New Invoice Service</a>
+    {% endif %}
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Tax Number</th>
+          <th scope="col">Service</th>
+          <th scope="col" class="text-end">Final Price</th>
+          {% if perms.services.change_invoiceservice or perms.services.delete_invoiceservice %}
+          <th scope="col" class="text-center">Actions</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in invoice_service %}
+        <tr>
+          <td class="text-center">{{ i.id_invoice_service }}</td>
+          <td>{{ i.id_customer.name }}</td>
+          <td>{{ i.id_customer.tax_number }}</td>
+          <td>{{ i.id_service.id_service_type.service_comercial_name }}</td>
+          <td class="text-end">{{ i.final_service_price }}</td>
+          {% if perms.services.change_invoiceservice or perms.services.delete_invoiceservice %}
+          <td class="text-center">
+            {% if perms.services.change_invoiceservice %}
+              <a href="{% url 'services:invoice_service_update' i.id_invoice_service %}" class="btn btn-sm btn-secondary">Edit</a>
+            {% endif %}
+            {% if perms.services.delete_invoiceservice %}
+              <a href="{% url 'services:invoice_service_delete' i.id_invoice_service %}" class="btn btn-sm btn-danger">Delete</a>
+            {% endif %}
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}

@@ -1,11 +1,21 @@
 {% extends "model_page.html" %}
 {% block content %}
+{% load static %}
 
 <body>
-    <h1>Select one to see Discounts</h1>
-    <ul>
-        <li><a href="{% url 'packages:package_list' %}">Package Discounts</a></li>
-        <li><a href="{% url 'services:service_list' %}">Services Discounts</a></li>
-    </ul>
+    <div class="discounts">
+      <div class="card">
+        <img src="{% static 'images/many_services.png' %}" alt="Package Discounts">
+        <div class="card-text-container">
+          <a href="{% url 'packages:package_discount_list' %}">Package Discounts</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="{% static 'images/one_service.png' %}" alt="Services Discounts">
+        <div class="card-text-container">
+          <a href="{% url 'services:service_discount_list' %}">Services Discounts</a>
+        </div>
+      </div>
+    </div>
 </body>
 {% endblock %}

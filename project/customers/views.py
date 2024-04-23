@@ -1,17 +1,27 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Address, PostalCode, City
-from .forms import CustomerForm, AddressForm, RegistrationForm
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from .forms import CustomerForm, AddressForm, RegistrationForm, UserCustomerRegistrationForm
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
+from django.contrib.auth import login
 from .permissions import *
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from packages.models import PackageCustomer, InvoicePackage, PackageDiscount
+from services.models import ServiceCustomer, InvoiceService, ServiceDiscount
+
 
 create_group = create_customers_group()
 
-class CustomerCreateView(CreateView):
+
+class CustomerCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'customer_create.html'
     form_class = CustomerForm
     success_url = reverse_lazy('administrator:menu_customers')
+    permission_required = 'customers.add_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.name = form.cleaned_data["name"]
@@ -23,16 +33,24 @@ class CustomerCreateView(CreateView):
         return super().form_valid(form)
 
 
-class CustomerListView(ListView):
+class CustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'customer_list.html'
     model = Customer
     context_object_name = 'customer_list'
+    permission_required = 'customers.view_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class CustomerUpdateView(UpdateView):
+class CustomerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'customer_create.html'
     form_class = CustomerForm
     success_url = reverse_lazy("administrator:menu_customers")
+    permission_required = 'customers.change_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_customer = self.kwargs.get("id_customer")
@@ -48,9 +66,13 @@ class CustomerUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class CustomerDeleteView(DeleteView):
+class CustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Customer
     template_name = 'customer_confirm_delete.html'
+    permission_required = 'customers.delete_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_customer = self.kwargs.get("id_customer")
@@ -60,10 +82,14 @@ class CustomerDeleteView(DeleteView):
         return reverse_lazy("administrator:menu_customers")
 
 
-class AddressCreateView(CreateView):
+class AddressCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'address_create.html'
     form_class = AddressForm
     success_url = reverse_lazy("administrator:menu_customers")
+    permission_required = 'customers.add_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         form.street = form.cleaned_data["street"]
@@ -81,16 +107,24 @@ class AddressCreateView(CreateView):
         return context
 
 
-class AddressListView(ListView):
+class AddressListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'address_list.html'
     model = Address
     context_object_name = 'address_list'
+    permission_required = 'customers.view_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class AddressUpdateView(UpdateView):
+class AddressUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'address_create.html'
     form_class = AddressForm
     success_url = reverse_lazy("customers:address_list")
+    permission_required = 'customers.change_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self):
         id_address = self.kwargs.get("id_address")
@@ -112,9 +146,13 @@ class AddressUpdateView(UpdateView):
         return context
 
 
-class AddressDeleteView(DeleteView):
-    template_name = 'address_confirm_delete.html'
+class AddressDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Address
+    template_name = 'address_confirm_delete.html'
+    permission_required = 'customers.delete_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object(self, queryset=None):
         id_address = self.kwargs.get("id_address")
@@ -124,9 +162,13 @@ class AddressDeleteView(DeleteView):
         return reverse_lazy("customers:address_list")
 
 
-class RegistrationView(CreateView):
+class RegistrationView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = RegistrationForm
     template_name = 'registration.html'
+    permission_required = 'customers.add_customer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -149,17 +191,25 @@ class RegistrationView(CreateView):
         return reverse_lazy("administrator:menu_customers")
 
 
-class RegistrationListView(ListView):
+class RegistrationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'registration_list.html'
     model = Address
     context_object_name = 'register_list'
+    permission_required = 'customers.view_address'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
 
-class RegistrationUpdateView(UpdateView):
+class RegistrationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'registration.html'
     form_class = RegistrationForm
     success_url = reverse_lazy("administrator:menu_customers")
+    # i didnt add permisions since im not sure what this function is for - guilherme
     pk_url_kwarg = "id_address"
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
 
     def get_object_id_address(self):
         id_address = self.kwargs.get("id_address")
@@ -234,6 +284,7 @@ def update_customer_data(request):
         form = CustomerForm(instance=customer)
     return render(request, 'customers/update_customer_data.html', {'form': form})
 
+
 # def view_available_packages(request):
 #     packages = Package.objects.all()
 #     return render(request, 'clientes/available_packages.html', {'packages': packages})
@@ -246,9 +297,6 @@ def update_customer_data(request):
 #     promotions = Promotion.objects.all()
 #     return render(request, 'clientes/available_promotions.html', {'promotions': promotions})
 
-from django.contrib.auth import login
-from django.shortcuts import redirect, render
-from .forms import UserCustomerRegistrationForm
 def register_customer(request):
     if request.method == 'POST':
         form = UserCustomerRegistrationForm(request.POST)
@@ -259,3 +307,28 @@ def register_customer(request):
     else:
         form = UserCustomerRegistrationForm()
     return render(request, 'register.html', {'form': form})
+
+#let's create views for dashboard
+class CustomerDashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'customer_dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Accessing the Customer instance associated with the logged-in user
+        customer = Customer.objects.get(user=self.request.user)
+
+        # Fetching packages and services for the customer
+        context['packages'] = PackageCustomer.objects.filter(customer=customer).select_related('package')
+        context['services'] = ServiceCustomer.objects.filter(id_customer=customer).select_related('id_service')
+
+        # Fetching invoices for packages and services
+        context['invoices_packages'] = InvoicePackage.objects.filter(id_customer=customer).select_related('id_package')
+        context['invoices_services'] = InvoiceService.objects.filter(id_customer=customer).select_related('id_service')
+
+        # Fetching discounts for packages and services
+        package_ids = context['packages'].values_list('package', flat=True)
+        service_ids = context['services'].values_list('id_service', flat=True)
+        context['package_discounts'] = PackageDiscount.objects.filter(id_package__in=package_ids, active=True)
+        context['service_discounts'] = ServiceDiscount.objects.filter(id_service__in=service_ids, active=True)
+
+        return context

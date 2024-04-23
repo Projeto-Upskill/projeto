@@ -1,7 +1,14 @@
 {% load static %}
+<head>
+  <!-- Other head content -->
+  <link rel="stylesheet" href="{% static 'global_styles.css' %}">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-auto py-3">
-  <a class="navbar-brand">
+  <a class="navbar-brand" href="{% url 'index' %}">
     <img src="{% static 'images/logo.png' %}" alt="NEO telecom" height="100rem">
   </a>
 
@@ -11,14 +18,45 @@
 
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ml-auto">
-      <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
-      <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
-      <a class="nav-item nav-link" href="{% url 'services:service_list' %}">Services</a>
-      <a class="nav-item nav-link" href="{% url 'packages:package_list' %}">Packages</a>
-      <a class="nav-item nav-link" href="{% url 'discounts_main_page' %}">Discounts</a>
-      <a class="nav-item nav-link" href="{% url 'customers:registration' %}">Registration</a>
-      <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-      <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+      <a class="nav-item nav-link navbar-button" href="{% url 'index' %}">Home</a>
+      <a class="nav-item nav-link navbar-button" href="{% url 'about' %}">About</a>
+      <a class="nav-item nav-link navbar-button" href="{% url 'services:service_list' %}">Services</a>
+      <a class="nav-item nav-link navbar-button" href="{% url 'packages:package_list' %}">Packages</a>
+      <a class="nav-item nav-link navbar-button" href="{% url 'discounts_main_page' %}">Discounts</a>
+      {% if request.user.is_authenticated %}
+        {% if request.user.customer %}
+          <a class="nav-item nav-link navbar-button" href="{% url 'customers:customer_dashboard' %}">My Dashboard</a>
+        {% elif request.user.administrators or request.user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle navbar-button" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              My Menus
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'administrator:menu_operators' %}">Menu Operators</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_customers' %}">Menu Customers</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_packages' %}">Menu Packages</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_services' %}">Menu Services</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_discounts' %}">Menu Discounts</a>
+            </div>
+          </li>
+        {% elif request.user.operators or request.user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle navbar-button" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              My Menus
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'administrator:menu_customers' %}">Menu Customers</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_packages' %}">Menu Packages</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_services' %}">Menu Services</a>
+              <a class="dropdown-item" href="{% url 'administrator:menu_discounts' %}">Menu Discounts</a>
+            </div>
+          </li>
+        {% endif %}
+        <a class="nav-item nav-link navbar-button" href="{% url 'logout' %}">Logout</a>
+      {% else %}
+        <a class="nav-item nav-link navbar-button" href="{% url 'customers:register_customer' %}">Registration</a>
+        <a class="nav-item nav-link navbar-button" href="{% url 'login' %}">Login</a>
+      {% endif %}
     </div>
   </div>
 </nav>

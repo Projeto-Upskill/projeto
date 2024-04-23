@@ -2,15 +2,21 @@
 
 {% block content %}
   <h2>Packages</h2>
-  <a href="{% url 'packages:package_discount_package_create' %}">Add New Package Discount Package</a>
+  {% if perms.packages.add_packagediscountpackage %}
+    <a href="{% url 'packages:package_discount_package_create' %}">Add New Package Discount Package</a>
+  {% endif %}
   <ul>
     {% for package_discount_package in package_discount_package %}
       <li>
         id discount:{{ package_discount_package.id_package_discount_package }} -
         package name: {{ package_discount_package.id_package.name }} -
         discount rate: {{ package_discount_package.id_package_discount.discount_rate }}
-        <a href="{% url 'packages:package_discount_package_update' package_discount_package.id_package_discount_package %}">Edit</a>
-        <a href="{% url 'packages:package_discount_package_delete' package_discount_package.id_package_discount_package %}">Delete</a>
+        {% if perms.packages.change_packagediscountpackage %}
+          <a href="{% url 'packages:package_discount_package_update' package_discount_package.id_package_discount_package %}">Edit</a>
+        {% endif %}
+        {% if perms.packages.delete_packagediscountpackage %}
+          <a href="{% url 'packages:package_discount_package_delete' package_discount_package.id_package_discount_package %}">Delete</a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

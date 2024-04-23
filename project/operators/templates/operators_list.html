@@ -2,6 +2,7 @@
 {% block content %}
   <h1>Operators List</h1>
   {% if operators_list %}
+<<<<<<< HEAD
 
   <table class="table table-dark table-striped">
     <thead>
@@ -18,6 +19,19 @@
         <td>{{ operador.email }}</td>
         <td>...</td>
       </tr>
+=======
+    <ul>
+      {% for admin in operators_list %}
+      <a href="{% url 'operators:operator_update' admin.id_operator %}">
+        <li>
+          name: {{ admin.first_name }} {{ admin.last_name }};
+          email: {{ admin.email }};
+          birth date: {{ admin.birth_date }};
+          active: {{ admin.active }};
+        </li>
+      </a>
+      <a href="{% url 'operators:operator_delete' admin.id_operator %}">Delete</a>
+>>>>>>> 6d0c825cfa406b863f0bdaa7cb189e9659c54929
       {% endfor %}
     </tbody>
   </table>
