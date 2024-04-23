@@ -228,7 +228,7 @@ class PackageCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
 class PackageCustomerCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'package_customer_create.html'
     form_class = CustomerPackageForm
-    success_url = reverse_lazy("administrator:menu_packages")
+    success_url = reverse_lazy("packages:package_query")
     permission_required = 'packages.add_packagecustomer'
 
     def handle_no_permission(self):
@@ -239,7 +239,7 @@ class PackageCustomerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upd
     template_name = 'package_customer_create.html'
     model = PackageCustomer
     form_class = CustomerPackageForm
-    success_url = reverse_lazy("administrator:menu_packages")
+    success_url = reverse_lazy("packages:package_query")
     permission_required = 'packages.change_packagecustomer'
 
     def handle_no_permission(self):
@@ -263,7 +263,7 @@ class PackageCustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Del
         return get_object_or_404(PackageCustomer, id_package_customer=id_package_customer)
 
     def get_success_url(self):
-        return reverse_lazy("administrator:menu_packages")
+        return reverse_lazy("packages:package_query")
 
 
 class PackageCustomerQuery(LoginRequiredMixin, PermissionRequiredMixin, ListView):
