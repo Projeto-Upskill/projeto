@@ -42,8 +42,6 @@ class AdministratorCreateView(PermissionRequiredMixin, LoginRequiredMixin, Creat
 
         administrator.user.groups.add(administrator_group_permissions)
 
-        # admin.send_welcome_email(user)
-
         return redirect("system_admin")
 
 
