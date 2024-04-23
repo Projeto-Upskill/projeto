@@ -213,7 +213,7 @@ class ServiceCustomerCreateView(PermissionRequiredMixin, LoginRequiredMixin, Cre
     model = ServiceCustomer
     form_class = CustomerServiceForm
     template_name = 'service_customer_create.html'
-    success_url = reverse_lazy('administrator:menu_services')
+    success_url = reverse_lazy('services:service_query')
     permission_required = 'services.add_servicecustomer'
 
     def handle_no_permission(self):
@@ -224,7 +224,7 @@ class ServiceCustomerUpdateView(PermissionRequiredMixin, LoginRequiredMixin, Upd
     model = ServiceCustomer
     form_class = CustomerServiceForm
     template_name = 'service_customer_create.html'
-    success_url = reverse_lazy('administrator:menu_services')
+    success_url = reverse_lazy('services:service_query')
     permission_required = 'services.change_servicecustomer'
 
     def handle_no_permission(self):
@@ -248,7 +248,7 @@ class ServiceCustomerDeleteView(PermissionRequiredMixin, LoginRequiredMixin, Del
         return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
 
     def get_success_url(self):
-        return reverse_lazy('administrator:menu_services')
+        return reverse_lazy('services:service_query')
 
 
 class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
