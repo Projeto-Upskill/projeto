@@ -209,11 +209,46 @@ class ServiceDiscountServiceDeleteView(PermissionRequiredMixin, LoginRequiredMix
         return get_object_or_404(ServiceDiscountService, id_service_discount_service=id)
 
 
-class ServiceCustomerCreateView(CreateView):
+class ServiceCustomerCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = ServiceCustomer
     form_class = CustomerServiceForm
     template_name = 'service_customer_create.html'
-    success_url = reverse_lazy('administrator:menu_services')
+    success_url = reverse_lazy('services:service_query')
+    permission_required = 'services.add_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+
+class ServiceCustomerUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    model = ServiceCustomer
+    form_class = CustomerServiceForm
+    template_name = 'service_customer_create.html'
+    success_url = reverse_lazy('services:service_query')
+    permission_required = 'services.change_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_object(self):
+        id_service_customer = self.kwargs.get("id_service_customer")
+        return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
+
+
+class ServiceCustomerDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = ServiceCustomer
+    template_name = 'customer_service_confirm_delete.html'
+    permission_required = 'services.delete_servicecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_object(self, queryset=None):
+        id_service_customer = self.kwargs.get("id_service_customer")
+        return get_object_or_404(ServiceCustomer, id_service_customer=id_service_customer)
+
+    def get_success_url(self):
+        return reverse_lazy('services:service_query')
 
 
 class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -232,6 +267,24 @@ class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
             object_list = self.model.objects.filter(Q(service__incontains=service), user_id=user)
         else:
             object_list = self.model.objects.filter(user_id=user)
+        return object_list
+
+
+class ServiceCustomerQuery(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = ServiceCustomer
+    template_name = 'service_customer_search.html'
+    context_object_name = 'service_customer'
+    permission_required = 'services.query_customer_service'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_queryset(self):
+        tax_number = self.request.GET.get('tax_number')
+        if tax_number:
+            object_list = ServiceCustomer.objects.filter(Q(id_customer__tax_number=tax_number))
+        else:
+            object_list = ServiceCustomer.objects.all()
         return object_list
 
 

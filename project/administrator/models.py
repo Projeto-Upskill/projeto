@@ -1,8 +1,5 @@
-import string
-import random
 from django.db import models
 from django.contrib.auth.models import User
-from django.core import mail
 
 
 class Administrator(models.Model):
@@ -35,36 +32,3 @@ class Administrator(models.Model):
             self.user.save(update_fields=['first_name', 'last_name', 'email'])
 
         super().save(*args, **kwargs)
-
-    # @property
-    # def generate_password(self):
-    #     # Generate a random password with uppercase and lowercase letters, numbers, and special characters
-    #     characters = string.ascii_letters + string.digits + string.punctuation
-    #     return ''.join(random.choice(characters) for i in range(12))
-
-    # def send_welcome_email(self, user):
-    #     try:
-    #         if not user.has_usable_password():
-    #             user.set_unusable_password()
-    #             user.password = self.generate_password
-    #             user.save()
-    #         subject = 'Welcome to Our Website!'
-    #         message = f"Dear {user.first_name},\n\nWelcome to our website!\n\nYour username is {user.username}\nYour password is {user.password}\n\nThank you for registering."
-    #         email_from = EMAIL_HOST_USER
-    #         recipient_list = [f'{user.email}', ]
-    #
-    #         connection = mail.get_connection(username=EMAIL_HOST_USER,
-    #                                          password=EMAIL_HOST_PASSWORD,
-    #                                          host=EMAIL_HOST,
-    #                                          port=EMAIL_PORT,
-    #                                          use_tls=EMAIL_USE_TLS)
-    #
-    #         mail.send_mail(subject, message, email_from, recipient_list, connection=connection, fail_silently=False)
-    #         print(f"{user.email} {user.first_name}")
-    #         connection.close()
-    #     except Exception as e:
-    #         print(f"Error sending email: {e}")
-
-    # @property
-    # def generate_username(self):
-    #     return f"{self.last_name}.{self.first_name}"

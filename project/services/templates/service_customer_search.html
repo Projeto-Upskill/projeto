@@ -1,0 +1,18 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+
+  <form method="get">
+    <label for="tax_number">tax number:</label>
+    <input type="text" id="tax_number" name="tax_number">
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+
+  {% for i in service_customer %}
+  <ul>
+    <li>Service: {{ i.id_service.id_service_type.service_comercial_name }} -
+      Customer: {{ i.id_customer.name }} {{ i.id_customer.tax_number }} {{ i.id_customer.email }}</li>
+  </ul>
+  {% endfor %}
+
+{% endblock %}

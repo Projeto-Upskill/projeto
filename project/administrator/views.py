@@ -1,5 +1,5 @@
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
-from .forms import AdministratorForm
+from .forms import AdministratorForm, AdministratorUpdateForm
 from .models import Administrator
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
@@ -42,8 +42,6 @@ class AdministratorCreateView(PermissionRequiredMixin, LoginRequiredMixin, Creat
 
         administrator.user.groups.add(administrator_group_permissions)
 
-        # admin.send_welcome_email(user)
-
         return redirect("system_admin")
 
 
@@ -72,7 +70,7 @@ class AdministratorListView(LoginRequiredMixin, PermissionRequiredMixin, ListVie
 
 class AdministratorUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'administrator_create.html'
-    form_class = AdministratorForm
+    form_class = AdministratorUpdateForm
     permission_required = "project.change_administrator"
     success_url = reverse_lazy("administrator:administrator_list")
 

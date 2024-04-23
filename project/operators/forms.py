@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Operators
 
 
 class DateInput(forms.DateInput):
@@ -43,4 +44,31 @@ class OperatorsForm(forms.ModelForm):
 
         )
 
-       
+
+class OperatorsUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=500)
+    last_name = forms.CharField(max_length=500)
+    email = forms.EmailField(max_length=300)
+    birth_date = forms.DateField(widget=DateInput())
+    admission_date = forms.DateField(widget=DateInput())
+    active = forms.BooleanField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].required = True
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['birth_date'].required = True
+        self.fields['admission_date'].required = True
+        self.fields['active'].required = True
+
+    class Meta:
+        model = Operators
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'birth_date',
+            'admission_date',
+            'active'
+        )

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView, View
-from .forms import OperatorsForm
+from .forms import OperatorsForm, OperatorsUpdateForm
 from .models import Operators
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -67,10 +67,9 @@ class OperatorsListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 
 class OperatorsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'operators_create.html'
-    form_class = OperatorsForm
+    form_class = OperatorsUpdateForm
     success_url = reverse_lazy("operators:operator_list")
     permission_required = 'operators.change_operators'
-
 
     def handle_no_permission(self):
         return redirect("forbidden")

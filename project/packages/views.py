@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from .models import Package, PackageDiscount, PackageDiscountPackage, InvoicePackage, PackageCustomer
-from .forms import PackageForm, PackageDiscountForm, PackageDiscountPackageForm, InvoicePackageForm
+from .forms import PackageForm, PackageDiscountForm, PackageDiscountPackageForm, InvoicePackageForm, CustomerPackageForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
@@ -222,6 +222,66 @@ class PackageCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
             object_list = self.model.objects.filter(Q(package__incontains=package))
         else:
             object_list = self.model.objects.filter(user_id=user)
+        return object_list
+
+
+class PackageCustomerCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    template_name = 'package_customer_create.html'
+    form_class = CustomerPackageForm
+    success_url = reverse_lazy("packages:package_query")
+    permission_required = 'packages.add_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+
+class PackageCustomerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    template_name = 'package_customer_create.html'
+    model = PackageCustomer
+    form_class = CustomerPackageForm
+    success_url = reverse_lazy("packages:package_query")
+    permission_required = 'packages.change_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_object(self, queryset=None):
+        id_package_customer = self.kwargs.get("id_package_customer")
+        return get_object_or_404(PackageCustomer, id_package_customer=id_package_customer)
+
+
+class PackageCustomerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = PackageCustomer
+    template_name = 'package_customer_confirm_delete.html'
+    permission_required = 'packages.delete_packagecustomer'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_object(self, queryset=None):
+        id_package_customer = self.kwargs.get("id_package_customer")
+        return get_object_or_404(PackageCustomer, id_package_customer=id_package_customer)
+
+    def get_success_url(self):
+        return reverse_lazy("packages:package_query")
+
+
+class PackageCustomerQuery(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = PackageCustomer
+    template_name = 'package_customer_search.html'
+    context_object_name = 'package_customer'
+    permission_required = "services.query_customer_package"
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+    def get_queryset(self):
+        tax_number = self.request.GET.get('tax_number')
+        if tax_number:
+            object_list = PackageCustomer.objects.filter(Q(customer__tax_number=tax_number))
+        else:
+            object_list = PackageCustomer.objects.all()
+
         return object_list
 
 

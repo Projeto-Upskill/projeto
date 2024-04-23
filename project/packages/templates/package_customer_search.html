@@ -3,14 +3,14 @@
 {% block content %}
 
   <form method="get">
-    <label for="tax_number">package:</label>
+    <label for="tax_number">tax number:</label>
     <input type="text" id="tax_number" name="tax_number">
     <button type="submit" class="btn btn-primary">Filter</button>
   </form>
 
   {% for i in package_customer %}
   <ul>
-    <li>{{ i.package.name }} {{ i.customer }}</li>
+    <li>Package: {{ i.package.name }} - Customer: {{ i.customer.name }} {{ i.customer.tax_number }} {{ i.customer.email }}</li>
   </ul>
   {% endfor %}
 
