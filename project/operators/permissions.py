@@ -24,6 +24,11 @@ menu_discounts_permission = create_permissions(
     content_type=ContentType.objects.get_for_model(Operators)
 )
 
+menu_services_permission = create_permissions(
+    codename='view_menuservices',
+    name='operator can view menu services',
+    content_type=ContentType.objects.get_for_model(Operators)
+)
 
 
 @receiver(post_migrate)
@@ -66,11 +71,10 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='change_packagecustomer'),
         Permission.objects.get(codename='view_packagecustomer'),
         Permission.objects.get(codename='delete_packagecustomer'),
-
-
         Permission.objects.get(codename='view_menucustomers'),
         Permission.objects.get(codename='view_menupackages'),
-        Permission.objects.get(codename='view_menudiscounts')
+        Permission.objects.get(codename='view_menudiscounts'),
+        Permission.objects.get(codename='view_menuservices')
 
     ]
 

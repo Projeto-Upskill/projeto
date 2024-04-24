@@ -24,7 +24,6 @@ class OperatorsCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateVie
     success_url = reverse_lazy('administrator:administrator_index')
     permission_required = "operators.add_operators"
 
-
     def handle_no_permission(self):
         return redirect("forbidden")
 
@@ -59,7 +58,6 @@ class OperatorsListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     template_name = 'operators_list.html'
     context_object_name = 'operators_list'
     permission_required = "operators.view_operators"
-
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -105,9 +103,9 @@ class OperatorsDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteVie
         return reverse_lazy('operators:operator_list')
 
 
-class OperatorsIndex(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+class OperatorsIndex(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
     template_name = 'index_operators.html'
-    permission_required = 'operators.view_operator'
+    permission_required = 'operators.view_operators'
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -124,6 +122,14 @@ class MenuCustomers(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
 class MenuPackages(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'menu_packages.html'
     permission_required = 'operators.view_menupackages'
+
+    def handle_no_permission(self):
+        return redirect("forbidden")
+
+
+class MenuServices(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'menu_services.html'
+    permission_required = 'operators.view_menuservices'
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -263,9 +269,3 @@ class OperatorsServiceDiscountListView(LoginRequiredMixin, PermissionRequiredMix
 
     def handle_no_permission(self):
         return redirect("forbidden")
-
-
-
-
-
-    
