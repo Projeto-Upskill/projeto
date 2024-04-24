@@ -6,16 +6,10 @@
 
 <ul>
     <li>
-        <a href="">Add Package</a>
+        <a href="{% url 'packages:package_list' %}">List Packages</a>
     </li>
     <li>
-        <a href="">List Packages</a>
-    </li>
-    <li>
-        <a href="">Update Package</a>
-    </li>
-    <li>
-        <a href="">Delete Package</a>
+        <a href="{% url 'packages:package_discount_package_create' %}">Add/Remove Package to Customer</a>
     </li>
 </ul>
 
