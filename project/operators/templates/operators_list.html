@@ -1,21 +1,35 @@
 {% extends 'model_page.html' %}
 {% block content %}
-  <h1>Operators List</h1>
-  {% if operators_list %}
-    <ul>
-      {% for admin in operators_list %}
-      <a href="{% url 'operators:operator_update' admin.id_operator %}">
-        <li>
-          name: {{ admin.first_name }} {{ admin.last_name }};
-          email: {{ admin.email }};
-          birth date: {{ admin.birth_date }};
-          active: {{ admin.active }};
-        </li>
-      </a>
-      <a href="{% url 'operators:operator_delete' admin.id_operator %}">Delete</a>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <li>No registrations yet.</li>
-  {% endif %}
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Operators List</h2>
+  </div>
+
+  <table class="table table-dark table-hover">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Birth Date</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      <tbody>
+        {% for admin in operators_list %}
+        <tr>
+          <td>{{ admin.id_operator }}</td>
+          <td>{{ admin.first_name }} {{ admin.last_name }}</td>
+          <td>{{ admin.email }}</td>
+          <td>{{ admin.birth_date }}</td>
+          <td>{{ admin.active }}</td>
+          <td>
+            <a href="{% url 'operators:operator_update' admin.id_operator %}" class="btn btn-sm btn-secondary">Edit</a>
+            <a href="{% url 'operators:operator_delete' admin.id_operator %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
 {% endblock %}

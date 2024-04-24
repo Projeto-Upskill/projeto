@@ -338,9 +338,18 @@ class CustomerUpdateView(LoginRequiredMixin, UpdateView):
     model = Customer
     form_class = CustomerUpdateForm
     template_name = 'customer_update_form.html'
-    # You can set success_url to customer dashboard or any other page you prefer
     success_url = reverse_lazy('customers:customer_dashboard')
 
     def get_object(self, queryset=None):
-        # Ensure the user can only update their own profile
         return get_object_or_404(Customer, user=self.request.user)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        customer = self.get_object()
+        address = customer.address_set.first()  # Assuming one customer has one address
+        if address:
+            initial['street'] = address.street
+            initial['door_number'] = address.door_number
+            initial['city'] = address.city
+            initial['postal_code'] = address.postal_code
+        return initial

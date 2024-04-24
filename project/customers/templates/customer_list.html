@@ -1,23 +1,40 @@
 {% extends 'model_page.html' %}
 {% block content %}
-  <h1>Customers List</h1>
-  {% if customer_list %}
-    <ul>
-      {% for i in customer_list %}
-      <a href="{% url 'customers:customer_update' i.id_customer %}">
-        <li>
-          id: {{ i.id_customer }};
-          tax_number: {{ i.tax_number }};
-          name: {{ i.name }};
-          email: {{ i.email }};
-          birth date: {{ i.birth_date }};
-          active: {{ i.active }}
-        </li>
-      </a>
-      <a href="{% url 'customers:customer_delete' i.id_customer %}">Delete</a>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <li>No registrations yet.</li>
-  {% endif %}
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Customers List</h2>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tax Number</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Birth Date</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customer_list %}
+        <tr>
+          <td>{{ customer.id_customer }}</td>
+          <td>{{ customer.tax_number }}</td>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.email }}</td>
+          <td>{{ customer.birth_date }}</td>
+          <td>{{ customer.active }}</td>
+          <td>
+            <a href="{% url 'customers:customer_update' customer.id_customer %}" class="btn btn-sm btn-secondary">Edit</a>
+            <a href="{% url 'customers:customer_delete' customer.id_customer %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
