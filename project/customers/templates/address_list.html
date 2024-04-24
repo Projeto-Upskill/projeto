@@ -1,23 +1,40 @@
 {% extends 'model_page.html' %}
 {% block content %}
-  <h1>Address List</h1>
-  {% if address_list %}
-    <ul>
-      {% for i in address_list %}
-      <a href="{% url 'customers:address_update' i.id_address %}">
-        <li>
-          id: {{ i.id_address }};
-          street: {{ i.street }};
-          door number: {{ i.door_number }};
-          city: {{ i.city.name_city }};
-          postal code: {{ i.postal_code.postal_code }};
-          customer: {{ i.customer.id_customer }}; {{ i.customer.name }}
-        </li>
-      </a>
-      <a href="{% url 'customers:address_delete' i.id_address %}">Delete</a>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <li>No registrations yet.</li>
-  {% endif %}
+<div class="container mt-5">
+  <div class="text-center mb-3">
+    <h2>Address List</h2>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Street</th>
+          <th>Door Number</th>
+          <th>City</th>
+          <th>Postal Code</th>
+          <th>Customer (ID; Name)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for address in address_list %}
+        <tr>
+          <td>{{ address.id_address }}</td>
+          <td>{{ address.street }}</td>
+          <td>{{ address.door_number }}</td>
+          <td>{{ address.city.name_city }}</td>
+          <td>{{ address.postal_code.postal_code }}</td>
+          <td>{{ address.customer.id_customer }}; {{ address.customer.name }}</td>
+          <td>
+            <a href="{% url 'customers:address_update' address.id_address %}" class="btn btn-sm btn-secondary">Edit</a>
+            <a href="{% url 'customers:address_delete' address.id_address %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
