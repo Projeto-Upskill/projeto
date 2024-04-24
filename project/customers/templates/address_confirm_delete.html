@@ -1,7 +1,7 @@
 {% extends 'model_page.html' %}
 {% block content %}
   <h1>Delete Address</h1>
-  <p>Are you sure you want to delete "{{ object.id_address }}" - "{{ object.street }} - {{ object.door_number }}"?</p>
+  <p>Are you sure you want to delete this address??</p>
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes, Delete</button>
