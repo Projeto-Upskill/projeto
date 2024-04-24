@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from django.contrib.contenttypes.models import ContentType
 from .models import Administrator
 from services.models import ServiceCustomer
+from packages.models import PackageCustomer
 
 
 def create_permissions(codename, name, content_type):
@@ -15,7 +16,7 @@ def create_permissions(codename, name, content_type):
     return new_permission
 
 
-menu_operators_permission = create_permissions(
+menu_administrator_permission = create_permissions(
     codename='view_administrator_index',
     name='can view administrator index',
     content_type=ContentType.objects.get_for_model(Administrator)
@@ -60,7 +61,7 @@ service_customer_query = create_permissions(
 package_customer_query = create_permissions(
     codename='query_customer_package',
     name='can query package customer',
-    content_type=ContentType.objects.get_for_model(ServiceCustomer)
+    content_type=ContentType.objects.get_for_model(PackageCustomer)
 )
 
 
