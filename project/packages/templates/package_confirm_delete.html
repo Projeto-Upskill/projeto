@@ -1,7 +1,7 @@
 {% extends 'model_page.html' %}
 
 {% block content %}
-  <h2>Are you sure you want to delete "{{ object.package_name }}"?</h2>
+  <h2>Are you sure you want to delete this package?</h2>
   <form method="post">
     {% csrf_token %}
     <a href="{% url 'packages:package_list' %}">Cancel</a>
