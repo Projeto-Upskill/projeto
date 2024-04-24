@@ -263,3 +263,4 @@ class OperatorsServiceDiscountListView(LoginRequiredMixin, PermissionRequiredMix
 
     def handle_no_permission(self):
         return redirect("forbidden")
+    
