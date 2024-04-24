@@ -1,5 +1,8 @@
 {% extends 'model_page.html' %}
 {% block content %}
+
+<a href="{% url 'customers:customer_update' %}" class="btn btn-primary">Update My Profile</a>
+
 <div class="container mt-5">
   <h2 class="text-center mb-3">My Packages</h2>
   <div class="table-responsive">

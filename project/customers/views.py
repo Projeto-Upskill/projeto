@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Address, PostalCode, City
-from .forms import CustomerForm, AddressForm, RegistrationForm, UserCustomerRegistrationForm
+from .forms import CustomerForm, AddressForm, RegistrationForm, UserCustomerRegistrationForm, CustomerUpdateForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
@@ -332,3 +332,15 @@ class CustomerDashboardView(LoginRequiredMixin, TemplateView):
         context['service_discounts'] = ServiceDiscount.objects.filter(id_service__in=service_ids, active=True)
 
         return context
+
+
+class CustomerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Customer
+    form_class = CustomerUpdateForm
+    template_name = 'customer_update_form.html'
+    # You can set success_url to customer dashboard or any other page you prefer
+    success_url = reverse_lazy('customers:customer_dashboard')
+
+    def get_object(self, queryset=None):
+        # Ensure the user can only update their own profile
+        return get_object_or_404(Customer, user=self.request.user)
