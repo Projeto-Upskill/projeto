@@ -129,7 +129,7 @@ class MenuPackages(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         return redirect("forbidden")
 
 
-class MenuDiscounts(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+class MenuDiscounts(LoginRequiredMixin, TemplateView):
     template_name = 'menu_discounts.html'
     permission_required = 'operators.view_menudiscounts'
 
@@ -263,3 +263,9 @@ class OperatorsServiceDiscountListView(LoginRequiredMixin, PermissionRequiredMix
 
     def handle_no_permission(self):
         return redirect("forbidden")
+
+
+
+
+
+    
