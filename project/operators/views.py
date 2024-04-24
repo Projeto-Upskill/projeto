@@ -111,14 +111,6 @@ class OperatorsIndex(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
         return redirect("forbidden")
 
 
-class MenuCustomers(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
-    template_name = 'menu_customers.html'
-    permission_required = 'operators.view_menucustomers'
-
-    def handle_no_permission(self):
-        return redirect("forbidden")
-
-
 class MenuPackages(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'menu_packages.html'
     permission_required = 'operators.view_menupackages'

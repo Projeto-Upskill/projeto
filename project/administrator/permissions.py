@@ -145,7 +145,7 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='view_packagecustomer'),
         Permission.objects.get(codename='delete_packagecustomer'),
         Permission.objects.get(codename='query_customer_service'),
-        Permission.objects.get(codename='query_customer_package')
+        #Permission.objects.get(codename='query_customer_package')
     ]
 
     for p in permissions:

@@ -62,7 +62,7 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='view_servicecustomer'),
         Permission.objects.get(codename='view_packagecustomer'),
         Permission.objects.get(codename='query_customer_service'),
-        Permission.objects.get(codename='query_customer_package'),
+        #Permission.objects.get(codename='query_customer_package'),
         Permission.objects.get(codename='add_servicecustomer'),
         Permission.objects.get(codename='change_servicecustomer'),
         Permission.objects.get(codename='view_servicecustomer'),
