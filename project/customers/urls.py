@@ -14,7 +14,9 @@ from .views import (CustomerCreateView,
                     view_customer_unique_service,
                     update_customer_data,
                     register_customer,
-                    CustomerDashboardView)
+                    CustomerDashboardView,
+                    CustomerUpdateView,
+                    )
 
 
 
@@ -42,4 +44,5 @@ urlpatterns = [
     # path('available/promotions/', views.view_available_promotions, name='view_available_promotions'),
     path('register/', register_customer, name='register_customer'),
     path('dashboard/', CustomerDashboardView.as_view(), name='customer_dashboard'),
+    path('profile/update/', CustomerUpdateView.as_view(), name='customer_update'),
 ]

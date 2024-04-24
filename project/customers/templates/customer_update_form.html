@@ -1,0 +1,45 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+
+    <h2>Update Profile</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="form-group">
+        {{ form.name.label_tag }} {{ form.name }}
+      </div>
+
+      <div class="form-group">
+        {{ form.tax_number.label_tag }} {{ form.tax_number }}
+      </div>
+
+      <div class="form-group">
+        {{ form.birth_date.label_tag }} {{ form.birth_date }}
+      </div>
+
+      <div class="form-group">
+        {{ form.active.label_tag }} {{ form.active }}
+      </div>
+
+      <div class="form-group">
+        {{ form.street.label_tag }} {{ form.street }}
+      </div>
+
+      <div class="form-group">
+        {{ form.door_number.label_tag }} {{ form.door_number }}
+      </div>
+
+      <div class="form-group">
+        {{ form.city.label_tag }} {{ form.city }}
+      </div>
+
+      <div class="form-group">
+        {{ form.postal_code.label_tag }} {{ form.postal_code }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Update</button>
+      <a href="{% url 'customers:customer_dashboard' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}
