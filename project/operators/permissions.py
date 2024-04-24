@@ -29,6 +29,7 @@ menu_discounts_permission = create_permissions(
 @receiver(post_migrate)
 def create_operators_group(**kwargs):
     operator_group, created = Group.objects.get_or_create(name='operator_group')
+
     permissions = [
         # O Operador pode atribuir e remover um pacote comercial a um cliente
         # this is invoiceservices and invoice packages
@@ -66,9 +67,11 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='view_packagecustomer'),
         Permission.objects.get(codename='delete_packagecustomer'),
 
+
         Permission.objects.get(codename='view_menucustomers'),
         Permission.objects.get(codename='view_menupackages'),
         Permission.objects.get(codename='view_menudiscounts')
+
     ]
 
     # this next line is to delete all permissions if some are added that we dont want

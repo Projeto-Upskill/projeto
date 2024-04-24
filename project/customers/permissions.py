@@ -6,6 +6,7 @@ from django.dispatch import receiver
 @receiver(post_migrate)
 def create_customers_group(**kwargs):
     customer_group, created = Group.objects.get_or_create(name='customer_group')
+
     permissions = [
         Permission.objects.get(codename='view_service'),
         Permission.objects.get(codename='view_servicediscount'),
