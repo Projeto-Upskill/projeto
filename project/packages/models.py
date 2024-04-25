@@ -70,7 +70,7 @@ class PackageDiscountPackage(models.Model):
 class PackageCustomer(models.Model):
     id_package_customer = models.AutoField(primary_key=True, verbose_name='id package customer')
     package = models.ForeignKey(Package, on_delete=models.PROTECT, verbose_name='package')
-    customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT, verbose_name='customer')
+    customer = models.ForeignKey('customers.Customer', on_delete=models.CASCADE, verbose_name='customer')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='user')
 
     def __repr__(self):
@@ -85,7 +85,7 @@ class PackageCustomer(models.Model):
 
 class InvoicePackage(models.Model):
     id_invoice_package = models.AutoField(primary_key=True, null=False, verbose_name='id_invoice_package')
-    id_customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT, null=True)
+    id_customer = models.ForeignKey('customers.Customer', on_delete=models.CASCADE, null=True)
     id_package = models.ForeignKey('Package', on_delete=models.PROTECT, verbose_name='id_package')
     final_package_price = models.DecimalField(max_digits=10, decimal_places=2, null=False,
                                               verbose_name='final_package_price')

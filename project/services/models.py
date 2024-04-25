@@ -102,8 +102,8 @@ class ServiceDiscountService(models.Model):
 class ServiceCustomer(models.Model):
     id_service_customer = models.AutoField(primary_key=True, verbose_name="id service customer")
     id_service = models.ForeignKey(Service, on_delete=models.PROTECT, null=False, verbose_name="service")
-    id_customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT, verbose_name="customer")
-    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='user')
+    id_customer = models.ForeignKey('customers.Customer', on_delete=models.CASCADE, verbose_name="customer")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='user')
 
     def __repr__(self):
         return f"{', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
@@ -117,7 +117,7 @@ class ServiceCustomer(models.Model):
 
 class InvoiceService(models.Model):
     id_invoice_service = models.AutoField(primary_key=True, null=False, verbose_name='id invoice service')
-    id_customer = models.ForeignKey('customers.Customer', on_delete=models.PROTECT,
+    id_customer = models.ForeignKey('customers.Customer', on_delete=models.CASCADE,
                                     null=True)  # This field can be null so we are hable to create an invoice before the client is registred
     id_service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name='id service')
     final_service_price = models.DecimalField(max_digits=10, decimal_places=2, null=True,
