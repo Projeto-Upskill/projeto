@@ -4,11 +4,11 @@ from django.dispatch import receiver
 from django.contrib.contenttypes.models import ContentType
 from .models import Administrator
 from services.models import ServiceCustomer
-from packages.models import PackageCustomer
+from packages.models import PackageCustomer, PackageDiscount, PackageDiscountPackage
 
 
 def create_permissions(codename, name, content_type):
-    new_permission = Permission.objects.get_or_create(
+    new_permission, created = Permission.objects.get_or_create(
         codename=codename,
         name=name,
         content_type=content_type
@@ -62,6 +62,13 @@ package_customer_query = create_permissions(
     codename='query_customer_package',
     name='can query package customer',
     content_type=ContentType.objects.get_for_model(PackageCustomer)
+)
+
+add_package_discount = create_permissions(
+    codename='add_packagediscount',
+    name='can add package discount',
+    content_type=ContentType.objects.
+    get_for_model(PackageDiscount)
 )
 
 
@@ -145,7 +152,7 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='view_packagecustomer'),
         Permission.objects.get(codename='delete_packagecustomer'),
         Permission.objects.get(codename='query_customer_service'),
-        #Permission.objects.get(codename='query_customer_package')
+        Permission.objects.get(codename='query_customer_package')
     ]
 
     for p in permissions:

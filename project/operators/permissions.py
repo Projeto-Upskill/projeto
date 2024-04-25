@@ -4,32 +4,26 @@ from django.dispatch import receiver
 from django.contrib.contenttypes.models import ContentType
 from administrator.permissions import *
 from .models import Operators
+from services.models import *
 
 
-menu_customers_permission = create_permissions(
-    codename='view_menucustomers',
-    name='operator can view menu customer',
-    content_type=ContentType.objects.get_for_model(Operators)
-)
-
-menu_packages_permission = create_permissions(
+operators_menu_packages_permission = create_permissions(
     codename='view_menupackages',
     name='operator can view menu packages',
     content_type=ContentType.objects.get_for_model(Operators)
 )
 
-menu_discounts_permission = create_permissions(
+operators_menu_discounts_permission = create_permissions(
     codename='view_menudiscounts',
     name='operator can view menu discounts',
     content_type=ContentType.objects.get_for_model(Operators)
 )
 
-menu_services_permission = create_permissions(
+operators_menu_services_permission = create_permissions(
     codename='view_menuservices',
     name='operator can view menu services',
     content_type=ContentType.objects.get_for_model(Operators)
 )
-
 
 @receiver(post_migrate)
 def create_operators_group(**kwargs):
@@ -62,7 +56,7 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='view_servicecustomer'),
         Permission.objects.get(codename='view_packagecustomer'),
         Permission.objects.get(codename='query_customer_service'),
-        #Permission.objects.get(codename='query_customer_package'),
+        Permission.objects.get(codename='query_customer_package'),
         Permission.objects.get(codename='add_servicecustomer'),
         Permission.objects.get(codename='change_servicecustomer'),
         Permission.objects.get(codename='view_servicecustomer'),
@@ -74,8 +68,10 @@ def create_operators_group(**kwargs):
         Permission.objects.get(codename='view_menucustomers'),
         Permission.objects.get(codename='view_menupackages'),
         Permission.objects.get(codename='view_menudiscounts'),
-        Permission.objects.get(codename='view_menuservices')
-
+        Permission.objects.get(codename='view_menuservices'),
+        Permission.objects.get(codename='query_customer_package'),
+        Permission.objects.get(codename='query_customer_service'),
+        Permission.objects.get(codename='view_servicediscountservice'),
     ]
 
     # this next line is to delete all permissions if some are added that we dont want

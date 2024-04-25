@@ -1,0 +1,39 @@
+{% extends 'model_page.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <h2 class="mb-4">Client Package Discounts</h2>
+  <form method="get" class="mb-4">
+    <div class="form-group">
+      <label for="tax_number">Client Tax Number:</label>
+      <input type="text" id="tax_number" name="tax_number" placeholder="Enter client tax number" value="{{ tax_number }}" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+  <div class="row justify-content-center">
+    {% for client_package in client_package_discounts %}
+      <div class="col-12 col-md-8">
+        <div class="card mb-3 mx-auto">
+          <div class="card-body">
+            <h5 class="card-title">Client: {{ client_package.customer.name }} - Tax Number: {{ client_package.customer.tax_number }}</h5>
+            <ul class="list-group list-group-flush">
+              {% for discount in client_package.package.discounts.all %}
+                <li class="list-group-item">{{ discount.discount_rate }}% off on {{ discount.id_package.name }}</li>
+              {% empty %}
+                <li class="list-group-item">No discounts available.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info text-center">No clients found with discounts.</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

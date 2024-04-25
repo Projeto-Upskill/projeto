@@ -216,12 +216,11 @@ class PackageCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
         return redirect("forbidden")
 
     def get_queryset(self):
-        package = self.request.GET.get('id_package.name')
-        user = self.request.user
-        if package:
-            object_list = self.model.objects.filter(Q(package__incontains=package))
+        tax_number = self.request.GET.get('tax_number')
+        if tax_number:
+            object_list = self.model.objects.filter(customer__tax_number__icontains=tax_number)
         else:
-            object_list = self.model.objects.filter(user_id=user)
+            object_list = self.model.objects.all()
         return object_list
 
 
@@ -270,7 +269,7 @@ class PackageCustomerQuery(LoginRequiredMixin, PermissionRequiredMixin, ListView
     model = PackageCustomer
     template_name = 'package_customer_search.html'
     context_object_name = 'package_customer'
-    permission_required = "services.query_customer_package"
+    permission_required = "packages.query_customer_package"
 
     def handle_no_permission(self):
         return redirect("forbidden")
@@ -354,3 +353,21 @@ class InvoicePackageDeleteView(PermissionRequiredMixin, LoginRequiredMixin, Dele
     def get_object(self):
         id = self.kwargs.get('id_invoice_package')
         return get_object_or_404(InvoicePackage, id_invoice_package=id)
+
+class ClientPackageDiscountListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = PackageCustomer
+    template_name = 'client_package_discount_list.html'
+    context_object_name = 'client_package_discounts'
+    permission_required = 'packages.view_packagecustomer'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        tax_number_query = self.request.GET.get('tax_number')
+        if tax_number_query:
+            queryset = queryset.filter(customer__tax_number__icontains=tax_number_query).distinct()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ClientPackageDiscountListView, self).get_context_data(**kwargs)
+        context['tax_number'] = self.request.GET.get('tax_number', '')
+        return context

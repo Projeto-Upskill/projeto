@@ -261,13 +261,13 @@ class ServiceCustomerListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
         return redirect("forbidden")
 
     def get_queryset(self):
-        service = self.request.GET.get('id_service')
-        user = self.request.user
-        if service:
-            object_list = self.model.objects.filter(Q(service__incontains=service), user_id=user)
+        tax_number_query = self.request.GET.get('tax_number')
+        if tax_number_query:
+            object_list = self.model.objects.filter(customer__tax_number__icontains=tax_number_query)
         else:
-            object_list = self.model.objects.filter(user_id=user)
+            object_list = self.model.objects.all()
         return object_list
+
 
 
 class ServiceCustomerQuery(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -336,3 +336,24 @@ class InvoiceServiceDeleteView(PermissionRequiredMixin, LoginRequiredMixin, Dele
     def get_object(self):
         id = self.kwargs.get('id_invoice_service')
         return get_object_or_404(InvoiceService, id_invoice_service=id)
+
+class ClientServiceDiscountListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = ServiceCustomer
+    template_name = 'client_service_discount_list.html'
+    context_object_name = 'client_service_discounts'
+    permission_required = 'services.view_servicecustomer'
+
+    def get_queryset(self):
+        tax_number_query = self.request.GET.get('tax_number')
+        if tax_number_query:
+            queryset = self.model.objects.filter(
+                id_customer__tax_number__icontains=tax_number_query
+            ).distinct()
+        else:
+            queryset = self.model.objects.all()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ClientServiceDiscountListView, self).get_context_data(**kwargs)
+        context['tax_number'] = self.request.GET.get('tax_number', '')
+        return context

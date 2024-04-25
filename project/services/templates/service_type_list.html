@@ -4,27 +4,26 @@
 <div class="container mt-5">
   <div class="text-center mb-3">
     <h2>Service Types</h2>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col">
-      {% if perms.services.add_servicetype %}
-        <a href="{% url 'services:service_type_create' %}" class="btn btn-primary">Add New Service Type</a>
-      {% endif %}
-    </div>
+    {% if perms.services.add_servicetype %}
+      <a href="{% url 'services:service_type_create' %}" class="btn btn-success my-2">Add New Service Type</a>
+    {% endif %}
   </div>
 
   <div class="list-group">
     {% for service_type in service_types %}
-      <a href="#" class="list-group-item list-group-item-action">
+      <div class="bg-dark text-white list-group-item d-flex justify-content-between align-items-center">
         {{ service_type.service_comercial_name }}
-        {% if perms.services.change_servicetype %}
-          <a href="{% url 'services:service_type_update' service_type.id_service_type %}" class="btn btn-sm btn-secondary ml-2">Edit</a>
-        {% endif %}
-        {% if perms.services.delete_servicetype %}
-          <a href="{% url 'services:service_type_delete' service_type.id_service_type %}" class="btn btn-sm btn-danger ml-2">Delete</a>
-        {% endif %}
-      </a>
+        <div>
+          {% if perms.services.change_servicetype %}
+            <a href="{% url 'services:service_type_update' service_type.id_service_type %}" class="btn btn-outline-secondary btn-sm">Edit</a>
+          {% endif %}
+          {% if perms.services.delete_servicetype %}
+            <a href="{% url 'services:service_type_delete' service_type.id_service_type %}" class="btn btn-outline-danger btn-sm ml-2">Delete</a>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <div class="list-group-item">No service types found.</div>
     {% endfor %}
   </div>
 </div>
