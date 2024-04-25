@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     id_customer = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     tax_number = models.IntegerField()
@@ -55,7 +55,7 @@ class Address(models.Model):
     door_number = models.IntegerField()
     city = models.ForeignKey(City, on_delete=models.PROTECT)
     postal_code = models.ForeignKey(PostalCode, on_delete=models.PROTECT)
-    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'address'
