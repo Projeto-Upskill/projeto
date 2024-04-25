@@ -6,22 +6,16 @@
 
 <ul>
     <li>
-        <a href="{% url 'services:service_list' %}">List Package Discounts</a>
+      <a href="{% url 'packages:package_discount_list' %}">List/Add/Remove Package Discounts</a>
     </li>
     <li>
-        <a href="{% url 'services:service_discount_service_list' %}">Add/Remove Discounts to Package</a>
-    </li>
-    <li>
-        <a href="{% url 'services:service_discount_service_create' %}">List Client Package Discount</a>
+        <a href="{% url 'packages:client_package_discount_list' %}">List Client Package Discount</a>
     </li>
         <li>
-        <a href="{% url 'services:service_list' %}">List Service Discounts</a>
+        <a href="{% url 'services:service_discount_list' %}">List/Add/Remove Service Discounts</a>
     </li>
     <li>
-        <a href="{% url 'services:service_discount_service_list' %}">Add/Remove Discounts to Service</a>
-    </li>
-    <li>
-        <a href="{% url 'services:service_discount_service_create' %}">List Client Service Discount</a>
+        <a href="{% url 'services:client_service_discount_list' %}">List Client Service Discount</a>
     </li>
 </ul>
 

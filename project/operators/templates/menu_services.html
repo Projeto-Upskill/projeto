@@ -9,7 +9,10 @@
         <a href="{% url 'services:service_list' %}">List Services</a>
     </li>
     <li>
-        <a href="{% url 'packages:package_discount_package_create' %}">Add/Remove Services to Customer</a>
+        <a href="{% url 'services:service_customer_create' %}">Add Service to Customer</a>
+    </li>
+    <li>
+        <a href="{% url 'services:service_customer' %}">Delete Service from Customer</a>
     </li>
 </ul>
 
