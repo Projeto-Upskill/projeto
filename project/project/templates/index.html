@@ -1,6 +1,19 @@
 {% extends "model_page.html" %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'global_styles.css' %}">
+</head>
 
 {% block content %}
     <h1>NEO Telecom Main Page</h1>
-    <p>Does this work?</p>
+    <section id="services">
+        <h2>Nossos Serviços</h2>
+        <div class="image-grid">
+            <img src="/static/images/internet-fixa.jpg" alt="Internet Fixa">
+            <img src="/static/images/telemovel.jpg" alt="Telemóvel">
+            <img src="/static/images/tv.jpg" alt="TV">
+            <img src="/static/images/telefone-fixo.jpg" alt="Telefone Fixo">
+        </div>
+    </section>
 {% endblock %}
